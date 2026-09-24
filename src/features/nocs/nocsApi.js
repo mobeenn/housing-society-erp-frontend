@@ -1,0 +1,11 @@
+import apiClient from "@/lib/apiClient";
+export const NOC_TYPES = ["Transfer", "Construction", "Sale", "Mortgage", "Utility", "Clearance", "Possession"];
+export const getNocs = async (params) => (await apiClient.get("/nocs", { params })).data.data;
+export const getNoc = async (id) => (await apiClient.get(`/nocs/${id}`)).data.data;
+export const createNoc = async (data) => (await apiClient.post("/nocs", data)).data.data;
+export const verifyNoc = async (id) => (await apiClient.post(`/nocs/${id}/verify`)).data.data;
+export const clearNocDues = async (id) => (await apiClient.post(`/nocs/${id}/clear-dues`)).data.data;
+export const payNocFee = async (id) => (await apiClient.post(`/nocs/${id}/pay-fee`)).data.data;
+export const approveNoc = async (id) => (await apiClient.post(`/nocs/${id}/approve`)).data.data;
+export const issueNoc = async (id) => (await apiClient.post(`/nocs/${id}/issue`)).data.data;
+export const downloadNocCertificate = async (id) => (await apiClient.get(`/nocs/${id}/certificate.pdf`, { responseType: "blob" })).data;

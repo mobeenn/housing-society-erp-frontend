@@ -1,0 +1,9 @@
+# Feature-based modules will go here
+# Example structure:
+# features/members/
+#   ├── MemberList.jsx
+#   ├── MemberDetails.jsx
+#   ├── hooks/
+#   │   └── useMembersQuery.js
+#   └── api/
+#       └── membersApi.js

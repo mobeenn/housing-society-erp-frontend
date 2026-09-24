@@ -1,0 +1,10 @@
+import apiClient from "@/lib/apiClient";
+export const getConstructionApplications = async (params) => (await apiClient.get("/construction", { params })).data.data;
+export const getConstructionApplication = async (id) => (await apiClient.get(`/construction/${id}`)).data.data;
+export const createConstructionApplication = async (data) => (await apiClient.post("/construction", data)).data.data;
+export const reviewConstruction = async (id) => (await apiClient.post(`/construction/${id}/review`)).data.data;
+export const addInspection = async (id, data) => (await apiClient.post(`/construction/${id}/inspections`, data)).data.data;
+export const updateInspection = async (id, inspectionId, data) => (await apiClient.patch(`/construction/${id}/inspections/${inspectionId}`, data)).data.data;
+export const approveConstruction = async (id) => (await apiClient.post(`/construction/${id}/approve`)).data.data;
+export const rejectConstruction = async (id, remarks) => (await apiClient.post(`/construction/${id}/reject`, { remarks })).data.data;
+export const downloadCompletionCertificate = async (id) => (await apiClient.get(`/construction/${id}/completion-certificate.pdf`, { responseType: "blob" })).data;

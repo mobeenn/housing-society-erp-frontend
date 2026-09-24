@@ -1,0 +1,6 @@
+import { NavLink, Outlet } from "react-router-dom";
+import { CalendarCheck2, History, UserRound } from "lucide-react";
+
+export default function AppointmentsLayout() {
+  return <div className="space-y-5" data-tour="appointments-page"><div><div className="flex items-center gap-2 text-sm text-neutral-500"><UserRound className="h-4 w-4" /> Front Desk</div><h1 className="mt-1 text-2xl font-bold text-neutral-900">Business Visitor Appointments</h1><p className="text-sm text-neutral-500">A front-desk token queue for walk-in business visitors meeting staff.</p></div><div className="flex gap-2 border-b border-neutral-200" data-tour="appointments-nav"><NavLink to="/appointments/today" className={({ isActive }) => `flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium ${isActive ? "border-primary-600 text-primary-700" : "border-transparent text-neutral-500"}`}><CalendarCheck2 className="h-4 w-4" /> Today</NavLink><NavLink to="/appointments/logs" className={({ isActive }) => `flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium ${isActive ? "border-primary-600 text-primary-700" : "border-transparent text-neutral-500"}`}><History className="h-4 w-4" /> Logs</NavLink></div><Outlet /></div>;
+}
