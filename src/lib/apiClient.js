@@ -1,8 +1,12 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 
+const productionApiUrl = "https://housing-society-erp-backend.vercel.app/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  || (import.meta.env.PROD ? productionApiUrl : "/api");
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+  baseURL: apiBaseUrl,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

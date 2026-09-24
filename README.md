@@ -121,8 +121,18 @@ import apiClient from "@/lib/apiClient";
 - Retries the original request with the new token
 - Logs the user out if refresh fails
 
-## Next Steps
+## Vercel Configuration
 
-- Connect the login page to the backend `/api/auth/login` endpoint
-- Build feature modules in `src/features/` (members, plots, invoicing, payments, complaints)
-- Add protected route guards that redirect to `/login` when not authenticated
+The committed `.env.production` points the production build to:
+
+```bash
+VITE_API_BASE_URL=https://housing-society-erp-backend.vercel.app/api
+```
+
+The Axios client sends credentials with refresh-token requests. The backend must
+allow the frontend origin through CORS and issue its refresh cookie with
+`SameSite=None; Secure` because the frontend and backend use different Vercel
+hostnames.
+
+For another Vercel project, set `VITE_API_BASE_URL` in the project's Production,
+Preview, and Development environment variables before rebuilding.
