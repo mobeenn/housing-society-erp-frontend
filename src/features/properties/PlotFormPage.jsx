@@ -115,7 +115,7 @@ export default function PlotFormPage() {
   ];
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">Loading plot...</div>
+      <div className="py-16 text-center text-secondary">Loading plot...</div>
     );
 
   return (
@@ -123,28 +123,28 @@ export default function PlotFormPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/plots")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             {isEdit ? "Edit Plot" : "Add Plot"}
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Capture the plot record and its current allocation.
           </p>
         </div>
       </div>
       <form
         onSubmit={save}
-        className="space-y-6 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        className="space-y-6 rounded-card border border-border bg-surface p-6 shadow-none"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {selectFields.map((field) => (
             <label
               key={field.name}
-              className="text-sm font-medium text-neutral-700"
+              className="text-body font-medium text-primary"
             >
               {field.label} *
               <select
@@ -152,7 +152,7 @@ export default function PlotFormPage() {
                 name={field.name}
                 value={form[field.name]}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="">Select {field.label.toLowerCase()}</option>
                 {field.options.map((option) => (
@@ -164,7 +164,7 @@ export default function PlotFormPage() {
               </select>
             </label>
           ))}
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Size *
             <input
               required
@@ -172,10 +172,10 @@ export default function PlotFormPage() {
               value={form.size}
               onChange={change}
               placeholder="e.g. 5 Marla"
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Price *
             <input
               required
@@ -184,34 +184,34 @@ export default function PlotFormPage() {
               name="price"
               value={form.price}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             File number
             <input
               name="fileNumber"
               value={form.fileNumber}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Location
             <input
               name="location"
               value={form.location}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Current owner
             <select
               name="currentOwner"
               value={form.currentOwner}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">Unassigned</option>
               {refs.members.map((member) => (
@@ -221,14 +221,14 @@ export default function PlotFormPage() {
               ))}
             </select>
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Status
             <select
               name="status"
               value={form.status}
               onChange={change}
               disabled={!isEdit}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {PLOT_STATUSES.map((status) => (
                 <option key={status}>{status}</option>
@@ -236,17 +236,17 @@ export default function PlotFormPage() {
             </select>
           </label>
         </div>
-        <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+        <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button
             type="button"
             onClick={() => navigate("/plots")}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="rounded-control border border-border-strong px-4 py-2 text-body"
           >
             Cancel
           </button>
           <button
             disabled={saving}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
           >
             {saving ? "Saving..." : isEdit ? "Update Plot" : "Create Plot"}
           </button>

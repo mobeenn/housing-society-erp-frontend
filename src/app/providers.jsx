@@ -14,7 +14,15 @@ export default function Providers({ children }) {
           position="top-right"
           toastOptions={{
             duration: 4000,
-            style: { fontSize: "14px" },
+            style: {
+              fontSize: "var(--text-body)",
+              fontFamily: "Inter, sans-serif",
+              color: "var(--color-text-primary)",
+              background: "var(--color-bg-surface-raised)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-card)",
+              boxShadow: "var(--shadow-overlay)",
+            },
           }}
         />
       </TourProvider>

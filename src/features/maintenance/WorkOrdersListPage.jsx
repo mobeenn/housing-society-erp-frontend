@@ -9,10 +9,10 @@ const STATUSES = ["Open", "InProgress", "Completed", "Cancelled"];
 const PRIORITIES = ["Low", "Medium", "High", "Urgent"];
 
 const priorityStyles = {
-  Low: "bg-neutral-100 text-neutral-600",
-  Medium: "bg-warning-100 text-warning-700",
-  High: "bg-danger-100 text-danger-700",
-  Urgent: "bg-danger-600 text-white",
+  Low: "bg-surface-muted text-secondary",
+  Medium: "bg-warning-soft text-warning",
+  High: "bg-danger-soft text-danger",
+  Urgent: "bg-danger text-on-accent",
 };
 
 export default function WorkOrdersListPage() {
@@ -41,7 +41,7 @@ export default function WorkOrdersListPage() {
 
   if (loading) {
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading work orders...
       </div>
     );
@@ -51,8 +51,8 @@ export default function WorkOrdersListPage() {
     <div className="space-y-6" data-tour="maintenance-page">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900" data-tour="maintenance-heading">Work Orders</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary" data-tour="maintenance-heading">Work Orders</h1>
+          <p className="mt-1 text-body text-secondary">
             Maintenance jobs for society assets — raised directly or spawned
             from a complaint.
           </p>
@@ -61,21 +61,21 @@ export default function WorkOrdersListPage() {
           <button
             data-tour="maintenance-assets"
             onClick={() => navigate("/assets")}
-            className="flex items-center gap-2 rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="flex items-center gap-2 rounded-control border border-border-strong px-4 py-2 text-body"
           >
             <Boxes className="h-4 w-4" /> Assets
           </button>
           <button
             data-tour="maintenance-refresh"
             onClick={load}
-            className="flex items-center gap-2 rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="flex items-center gap-2 rounded-control border border-border-strong px-4 py-2 text-body"
           >
             <RefreshCw className="h-4 w-4" /> Refresh
           </button>
           <button
             data-tour="maintenance-new"
             onClick={() => navigate("/maintenance/new")}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Plus className="h-4 w-4" /> New work order
           </button>
@@ -83,7 +83,7 @@ export default function WorkOrdersListPage() {
       </div>
 
       <div className="flex flex-wrap gap-3" data-tour="maintenance-filters">
-        <label className="flex items-center gap-2 text-sm text-neutral-600">
+        <label className="flex items-center gap-2 text-body text-secondary">
           Status
           <select
             value={filters.status}
@@ -93,7 +93,7 @@ export default function WorkOrdersListPage() {
                 status: event.target.value,
               }))
             }
-            className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm"
+            className="rounded-control border border-border-strong px-3 py-1.5 text-body"
           >
             <option value="">All</option>
             {STATUSES.map((status) => (
@@ -101,7 +101,7 @@ export default function WorkOrdersListPage() {
             ))}
           </select>
         </label>
-        <label className="flex items-center gap-2 text-sm text-neutral-600">
+        <label className="flex items-center gap-2 text-body text-secondary">
           Priority
           <select
             value={filters.priority}
@@ -111,7 +111,7 @@ export default function WorkOrdersListPage() {
                 priority: event.target.value,
               }))
             }
-            className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm"
+            className="rounded-control border border-border-strong px-3 py-1.5 text-body"
           >
             <option value="">All</option>
             {PRIORITIES.map((priority) => (
@@ -121,9 +121,9 @@ export default function WorkOrdersListPage() {
         </label>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm" data-tour="maintenance-list">
-        <table className="min-w-full text-left text-sm">
-          <thead className="border-b border-neutral-200 bg-neutral-50 text-xs uppercase tracking-wide text-neutral-500">
+      <div className="overflow-x-auto rounded-card border border-border bg-surface shadow-none" data-tour="maintenance-list">
+        <table className="min-w-full text-left text-body">
+          <thead className="border-b border-border bg-canvas text-small tracking-wide text-secondary">
             <tr>
               <th className="px-4 py-3">Description</th>
               <th className="px-4 py-3">Asset</th>
@@ -134,12 +134,12 @@ export default function WorkOrdersListPage() {
               <th className="px-4 py-3">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-100">
+          <tbody className="divide-y divide-border">
             {workOrders.length === 0 && (
               <tr>
                 <td
                   colSpan={7}
-                  className="px-4 py-8 text-center text-neutral-400"
+                  className="px-4 py-8 text-center text-muted"
                 >
                   No work orders found.
                 </td>
@@ -148,20 +148,20 @@ export default function WorkOrdersListPage() {
             {workOrders.map((workOrder) => (
               <tr
                 key={workOrder._id}
-                className="cursor-pointer hover:bg-primary-50/40"
+                className="cursor-pointer hover:bg-gold-soft/40"
                 onClick={() => navigate(`/maintenance/${workOrder._id}`)}
               >
-                <td className="max-w-xs px-4 py-3 font-medium text-neutral-800">
+                <td className="max-w-xs px-4 py-3 font-medium text-primary">
                   <span className="line-clamp-2">{workOrder.description}</span>
                 </td>
-                <td className="px-4 py-3 text-neutral-600">
+                <td className="px-4 py-3 text-secondary">
                   {workOrder.assetRef ? (
                     <span
                       onClick={(event) => {
                         event.stopPropagation();
                         navigate(`/assets?id=${workOrder.asset}`);
                       }}
-                      className="text-primary-600 hover:underline"
+                      className="text-accent hover:underline"
                     >
                       {workOrder.assetRef.name}
                     </span>
@@ -169,14 +169,14 @@ export default function WorkOrdersListPage() {
                     "—"
                   )}
                 </td>
-                <td className="px-4 py-3 text-neutral-600">
+                <td className="px-4 py-3 text-secondary">
                   {workOrder.relatedComplaintRef ? (
                     <span
                       onClick={(event) => {
                         event.stopPropagation();
                         navigate(`/complaints/${workOrder.relatedComplaint}`);
                       }}
-                      className="text-primary-600 hover:underline"
+                      className="text-accent hover:underline"
                     >
                       {workOrder.relatedComplaintRef.complaintNumber ||
                         workOrder.relatedComplaintRef.category}
@@ -185,19 +185,19 @@ export default function WorkOrdersListPage() {
                     "—"
                   )}
                 </td>
-                <td className="px-4 py-3 text-neutral-600">
+                <td className="px-4 py-3 text-secondary">
                   {workOrder.assignedStaffRef?.name ||
                     workOrder.contractor ||
                     "—"}
                 </td>
                 <td className="px-4 py-3">
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${priorityStyles[workOrder.priority] || priorityStyles.Medium}`}
+                    className={`rounded-full px-2 py-0.5 text-small font-semibold ${priorityStyles[workOrder.priority] || priorityStyles.Medium}`}
                   >
                     {workOrder.priority}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-neutral-600">
+                <td className="px-4 py-3 text-secondary">
                   {workOrder.expectedCompletion
                     ? new Date(
                         workOrder.expectedCompletion,

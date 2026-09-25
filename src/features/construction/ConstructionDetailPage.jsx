@@ -98,7 +98,7 @@ export default function ConstructionDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading construction application...
       </div>
     );
@@ -109,18 +109,18 @@ export default function ConstructionDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/construction")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-neutral-900">
+              <h1 className="text-h1 font-bold text-primary">
                 Construction Application
               </h1>
               <StatusPill status={application.status} />
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {application.applicationType} · {application.memberRef?.name} ·{" "}
               {application.plotRef?.plotNumber}
             </p>
@@ -129,14 +129,14 @@ export default function ConstructionDetailPage() {
         {application.status === "Approved" && (
           <button
             onClick={certificate}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Download className="h-4 w-4" /> Completion certificate
           </button>
         )}
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="construction-detail-workflow">
-        <h2 className="mb-5 font-semibold text-neutral-900">Review stages</h2>
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="construction-detail-workflow">
+        <h2 className="mb-5 font-semibold text-primary">Review stages</h2>
         <ApprovalStageTracker
           stages={[
             {
@@ -168,7 +168,7 @@ export default function ConstructionDetailPage() {
               onClick={() =>
                 action(reviewConstruction, "Application under review")
               }
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Start review
             </button>
@@ -179,7 +179,7 @@ export default function ConstructionDetailPage() {
                 onClick={() =>
                   action(approveConstruction, "Construction approved")
                 }
-                className="rounded-lg bg-success-600 px-4 py-2 text-sm font-medium text-white"
+                className="rounded-control bg-success px-4 py-2 text-body font-medium text-on-accent"
               >
                 Approve
               </button>
@@ -192,7 +192,7 @@ export default function ConstructionDetailPage() {
                       load();
                     });
                 }}
-                className="rounded-lg border border-danger-200 px-4 py-2 text-sm text-danger-700"
+                className="rounded-control border border-danger px-4 py-2 text-body text-danger"
               >
                 Reject
               </button>
@@ -201,23 +201,23 @@ export default function ConstructionDetailPage() {
         </div>
       </section>
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2" data-tour="construction-detail-inspections">
-        <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-4 font-semibold text-neutral-900">Inspections</h2>
+        <div className="rounded-card border border-border bg-surface p-5 shadow-none">
+          <h2 className="mb-4 font-semibold text-primary">Inspections</h2>
           <div className="space-y-3">
             {(application.inspections || []).map((item) => (
-              <div key={item._id} className="rounded-lg bg-neutral-50 p-3">
-                <p className="text-sm font-medium">
+              <div key={item._id} className="rounded-control bg-canvas p-3">
+                <p className="text-body font-medium">
                   {new Date(item.date).toLocaleDateString()} · {item.findings}
                 </p>
                 {item.violations?.length > 0 && (
-                  <ul className="mt-2 list-disc pl-5 text-sm text-danger-700">
+                  <ul className="mt-2 list-disc pl-5 text-body text-danger">
                     {item.violations.map((violation) => (
                       <li key={violation}>{violation}</li>
                     ))}
                   </ul>
                 )}
                 {item.reinspectionRequired && item.reinspectionDate && (
-                  <p className="mt-2 text-xs font-medium text-warning-700">
+                  <p className="mt-2 text-small font-medium text-warning">
                     Re-inspection scheduled:{" "}
                     {new Date(item.reinspectionDate).toLocaleDateString()}
                   </p>
@@ -225,21 +225,21 @@ export default function ConstructionDetailPage() {
                 {item.correctiveActionsRequired || item.reinspectionRequired ? (
                   <button
                     onClick={() => correct(item)}
-                    className="mt-3 rounded-lg bg-success-600 px-3 py-2 text-xs font-medium text-white"
+                    className="mt-3 rounded-control bg-success px-3 py-2 text-small font-medium text-on-accent"
                   >
                     Mark corrective action done
                   </button>
                 ) : (
-                  <p className="mt-2 text-xs text-success-700">Passed</p>
+                  <p className="mt-2 text-small text-success">Passed</p>
                 )}
               </div>
             ))}
           </div>
           <form
             onSubmit={logInspection}
-            className="mt-5 space-y-3 border-t border-neutral-200 pt-5"
+            className="mt-5 space-y-3 border-t border-border pt-5"
           >
-            <h3 className="text-sm font-semibold">
+            <h3 className="text-body font-semibold">
               Log inspection / reinspection
             </h3>
             <textarea
@@ -252,7 +252,7 @@ export default function ConstructionDetailPage() {
                 }))
               }
               placeholder="Findings"
-              className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              className="w-full rounded-control border border-border-strong px-3 py-2 text-body"
             />
             <textarea
               value={inspection.violations}
@@ -263,9 +263,9 @@ export default function ConstructionDetailPage() {
                 }))
               }
               placeholder="Violations, one per line"
-              className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+              className="w-full rounded-control border border-border-strong px-3 py-2 text-body"
             />
-            <label className="flex gap-2 text-sm">
+            <label className="flex gap-2 text-body">
               <input
                 type="checkbox"
                 checked={inspection.correctiveActionsRequired}
@@ -278,7 +278,7 @@ export default function ConstructionDetailPage() {
               />{" "}
               Corrective action required
             </label>
-            <label className="flex gap-2 text-sm">
+            <label className="flex gap-2 text-body">
               <input
                 type="checkbox"
                 checked={inspection.reinspectionRequired}
@@ -292,7 +292,7 @@ export default function ConstructionDetailPage() {
               Reinspection required
             </label>
             {inspection.reinspectionRequired && (
-              <label className="block text-sm">
+              <label className="block text-body">
                 Reinspection date
                 <input
                   type="date"
@@ -303,11 +303,11 @@ export default function ConstructionDetailPage() {
                       reinspectionDate: event.target.value,
                     }))
                   }
-                  className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 text-body"
                 />
               </label>
             )}
-            <button className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white">
+            <button className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent">
               Save inspection
             </button>
           </form>

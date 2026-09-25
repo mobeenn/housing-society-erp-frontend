@@ -51,7 +51,7 @@ export default function PossessionDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading possession...
       </div>
     );
@@ -62,18 +62,18 @@ export default function PossessionDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/possession")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-neutral-900">
+              <h1 className="text-h1 font-bold text-primary">
                 Possession Application
               </h1>
               <StatusPill status={application.status} />
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {application.memberRef?.name} · {application.plotRef?.plotNumber}
             </p>
           </div>
@@ -81,14 +81,14 @@ export default function PossessionDetailPage() {
         {application.status === "Possessed" && (
           <button
             onClick={download}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Download className="h-4 w-4" /> Possession letter
           </button>
         )}
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="possession-detail-workflow">
-        <h2 className="mb-5 font-semibold text-neutral-900">
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="possession-detail-workflow">
+        <h2 className="mb-5 font-semibold text-primary">
           Possession stages
         </h2>
         <ApprovalStageTracker stages={application.approvalStages} />
@@ -96,7 +96,7 @@ export default function PossessionDetailPage() {
           {application.status === "Applied" && (
             <button
               onClick={() => action(verifyPossession, "Possession verified")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Verify eligibility
             </button>
@@ -107,7 +107,7 @@ export default function PossessionDetailPage() {
                 onClick={() =>
                   action(payPossessionCharges, "Possession charges paid")
                 }
-                className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+                className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
               >
                 Pay charges
               </button>
@@ -116,7 +116,7 @@ export default function PossessionDetailPage() {
             application.chargesPaid && (
               <button
                 onClick={() => action(approvePossession, "Possession approved")}
-                className="rounded-lg bg-success-600 px-4 py-2 text-sm font-medium text-white"
+                className="rounded-control bg-success px-4 py-2 text-body font-medium text-on-accent"
               >
                 Approve
               </button>
@@ -124,7 +124,7 @@ export default function PossessionDetailPage() {
           {application.status === "Approved" && (
             <button
               onClick={() => action(issuePossession, "Possession issued")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Issue possession
             </button>
@@ -139,10 +139,10 @@ export default function PossessionDetailPage() {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="rounded-card border border-border bg-surface p-4 shadow-none"
           >
-            <p className="text-xs text-neutral-500">{label}</p>
-            <p className="mt-1 font-semibold text-neutral-900">
+            <p className="text-small text-secondary">{label}</p>
+            <p className="mt-1 font-semibold text-primary">
               {value ? "Yes" : "No"}
             </p>
           </div>

@@ -36,21 +36,21 @@ export default function RefundsPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading refunds...
       </div>
     );
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Refunds</h1>
-        <p className="mt-1 text-sm text-neutral-500">
+        <h1 className="text-h1 font-bold text-primary">Refunds</h1>
+        <p className="mt-1 text-body text-secondary">
           Review and settle refund requests.
         </p>
       </div>
-      <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
+      <div className="overflow-x-auto rounded-card border border-border bg-surface shadow-none">
+        <table className="w-full text-left text-body">
+          <thead className="bg-canvas text-small text-secondary">
             <tr>
               <th className="px-5 py-3">Member</th>
               <th className="px-5 py-3">Amount</th>
@@ -59,7 +59,7 @@ export default function RefundsPage() {
               <th className="px-5 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-200">
+          <tbody className="divide-y divide-border">
             {refunds.map((refund) => (
               <tr key={refund._id}>
                 <td className="px-5 py-3">{refund.member}</td>
@@ -78,7 +78,7 @@ export default function RefundsPage() {
                           onClick={() =>
                             action(approveRefund, refund._id, "Refund approved")
                           }
-                          className="text-success-600"
+                          className="text-success"
                         >
                           Approve
                         </button>}
@@ -86,7 +86,7 @@ export default function RefundsPage() {
                           onClick={() =>
                             action(rejectRefund, refund._id, "Refund rejected")
                           }
-                          className="text-danger-600"
+                          className="text-danger"
                         >
                           Reject
                         </button>}
@@ -97,7 +97,7 @@ export default function RefundsPage() {
                         onClick={() =>
                           action(payRefund, refund._id, "Refund marked paid")
                         }
-                        className="text-primary-600"
+                        className="text-accent"
                       >
                         Mark paid
                       </button>
@@ -109,7 +109,7 @@ export default function RefundsPage() {
           </tbody>
         </table>
         {refunds.length === 0 && (
-          <p className="p-8 text-center text-sm text-neutral-500">
+          <p className="p-8 text-center text-body text-secondary">
             No refunds found.
           </p>
         )}

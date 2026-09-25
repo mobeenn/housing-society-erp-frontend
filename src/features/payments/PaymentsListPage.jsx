@@ -23,7 +23,7 @@ export default function PaymentsListPage() {
       key: "receiptNumber",
       label: "Receipt",
       render: (row) => (
-        <span data-tour="payments-receipt" className="font-mono font-semibold text-primary-700">
+        <span data-tour="payments-receipt" className="font-mono font-semibold text-accent">
           {row.receiptNumber}
         </span>
       ),
@@ -62,14 +62,14 @@ export default function PaymentsListPage() {
           <button
             title="View payment"
             onClick={() => navigate(`/payments/${row._id}`)}
-            className="rounded p-1 text-primary-600 hover:bg-primary-50"
+            className="rounded-control p-1 text-accent hover:bg-gold-soft"
           >
             <Eye className="h-4 w-4" />
           </button>
           <button
             title="Print receipt"
             onClick={() => printReceipt(row)}
-            className="rounded p-1 text-neutral-600 hover:bg-neutral-100"
+            className="rounded-control p-1 text-secondary hover:bg-surface-muted"
           >
             <Printer className="h-4 w-4" />
           </button>
@@ -81,15 +81,15 @@ export default function PaymentsListPage() {
     <div data-tour="payments-page-intro" className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Payments</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">Payments</h1>
+          <p className="mt-1 text-body text-secondary">
             Receipts and installment allocations.
           </p>
         </div>
         <button
           data-tour="payments-record"
           onClick={() => navigate("/payments/new")}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Plus className="h-4 w-4" /> Record payment
         </button>

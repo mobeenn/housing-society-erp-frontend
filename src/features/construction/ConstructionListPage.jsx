@@ -27,8 +27,8 @@ export default function ConstructionListPage() {
     <div className="space-y-6" data-tour="construction-list">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900" data-tour="construction-page">Construction</h1>
-          <p className="mt-1 text-sm text-neutral-500" data-tour="construction-summary">
+          <h1 className="text-h1 font-bold text-primary" data-tour="construction-page">Construction</h1>
+          <p className="mt-1 text-body text-secondary" data-tour="construction-summary">
             Review applications, inspections, corrective actions, and
             certificates.
           </p>
@@ -36,7 +36,7 @@ export default function ConstructionListPage() {
         <button
           data-tour="construction-new"
           onClick={() => navigate("/construction/new")}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Plus className="h-4 w-4" /> New application
         </button>

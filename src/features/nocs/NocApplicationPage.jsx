@@ -59,15 +59,15 @@ export default function NocApplicationPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/nocs")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             NOC Application
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Apply for a clearance certificate and follow its verification
             stages.
           </p>
@@ -76,16 +76,16 @@ export default function NocApplicationPage() {
       <form
         data-tour="nocs-request-form"
         onSubmit={submit}
-        className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        className="space-y-5 rounded-card border border-border bg-surface p-6 shadow-none"
       >
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Member
           <select
             required
             name="member"
             value={form.member}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           >
             <option value="">Select member</option>
             {members.map((member) => (
@@ -95,14 +95,14 @@ export default function NocApplicationPage() {
             ))}
           </select>
         </label>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Plot
           <select
             required
             name="plot"
             value={form.plot}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           >
             <option value="">Select plot</option>
             {plots.map((plot) => (
@@ -113,20 +113,20 @@ export default function NocApplicationPage() {
           </select>
         </label>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             NOC type
             <select
               name="nocType"
               value={form.nocType}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {NOC_TYPES.map((type) => (
                 <option key={type}>{type}</option>
               ))}
             </select>
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Fee amount
             <input
               type="number"
@@ -134,22 +134,22 @@ export default function NocApplicationPage() {
               name="feeAmount"
               value={form.feeAmount}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
         </div>
-        <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+        <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button
             type="button"
             onClick={() => navigate("/nocs")}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="rounded-control border border-border-strong px-4 py-2 text-body"
           >
             Cancel
           </button>
           <button
             data-tour="nocs-submit"
             disabled={saving}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
           >
             {saving ? "Submitting..." : "Submit application"}
           </button>

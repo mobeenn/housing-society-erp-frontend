@@ -275,10 +275,10 @@ export default function GuardRosterPage() {
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-900" data-tour="security-guards-heading">
+          <h1 className="text-h1 font-bold tracking-tight text-primary" data-tour="security-guards-heading">
             Security & Guard Roster
           </h1>
-          <p className="text-sm text-neutral-500">
+          <p className="text-body text-secondary">
             Manage security personnel, weekly duty shifts, and mark daily attendance
           </p>
         </div>
@@ -286,7 +286,7 @@ export default function GuardRosterPage() {
           <button
             data-tour="security-guards-add"
             onClick={() => handleOpenGuardModal()}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700 transition"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent shadow-none hover:bg-accent transition"
           >
             <Plus className="h-4 w-4" />
             Add Guard
@@ -295,13 +295,13 @@ export default function GuardRosterPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-neutral-200" data-tour="security-guards-tabs">
+      <div className="flex border-b border-border" data-tour="security-guards-tabs">
         <button
           onClick={() => setActiveTab("roster")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition ${
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-body font-medium transition-colors duration-base ${
             activeTab === "roster"
-              ? "border-primary-600 text-primary-600"
-              : "border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300"
+              ? "border-accent text-accent"
+              : "border-transparent text-secondary hover:text-primary hover:border-border-strong"
           }`}
         >
           <Calendar className="h-4 w-4" />
@@ -309,10 +309,10 @@ export default function GuardRosterPage() {
         </button>
         <button
           onClick={() => setActiveTab("guards")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition ${
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-body font-medium transition-colors duration-base ${
             activeTab === "guards"
-              ? "border-primary-600 text-primary-600"
-              : "border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300"
+              ? "border-accent text-accent"
+              : "border-transparent text-secondary hover:text-primary hover:border-border-strong"
           }`}
         >
           <Users className="h-4 w-4" />
@@ -325,56 +325,56 @@ export default function GuardRosterPage() {
         <div className="space-y-6">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="rounded-card border border-border bg-surface p-4 shadow-none">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                <div className="flex h-10 w-10 items-center justify-center rounded-control bg-success-soft text-success">
                   <UserCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-neutral-500">Present (Week)</p>
-                  <p className="text-xl font-bold text-neutral-900">
+                  <p className="text-small font-medium text-secondary">Present (Week)</p>
+                  <p className="text-h2 font-bold text-primary">
                     {rosterSummary.Present || 0}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="rounded-card border border-border bg-surface p-4 shadow-none">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                <div className="flex h-10 w-10 items-center justify-center rounded-control bg-danger-soft text-danger">
                   <UserX className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-neutral-500">Absent (Week)</p>
-                  <p className="text-xl font-bold text-neutral-900">
+                  <p className="text-small font-medium text-secondary">Absent (Week)</p>
+                  <p className="text-h2 font-bold text-primary">
                     {rosterSummary.Absent || 0}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="rounded-card border border-border bg-surface p-4 shadow-none">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                <div className="flex h-10 w-10 items-center justify-center rounded-control bg-warning-soft text-warning">
                   <Clock className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-neutral-500">On Leave (Week)</p>
-                  <p className="text-xl font-bold text-neutral-900">
+                  <p className="text-small font-medium text-secondary">On Leave (Week)</p>
+                  <p className="text-h2 font-bold text-primary">
                     {rosterSummary.Leave || 0}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="rounded-card border border-border bg-surface p-4 shadow-none">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
+                <div className="flex h-10 w-10 items-center justify-center rounded-control bg-surface-muted text-secondary">
                   <Shield className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-neutral-500">Total Guards</p>
-                  <p className="text-xl font-bold text-neutral-900">
+                  <p className="text-small font-medium text-secondary">Total Guards</p>
+                  <p className="text-h2 font-bold text-primary">
                     {guards.length}
                   </p>
                 </div>
@@ -383,30 +383,30 @@ export default function GuardRosterPage() {
           </div>
 
           {/* Roster Controls: Week Navigation & Filter */}
-          <div className="flex flex-col gap-4 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between" data-tour="security-guards-roster-controls">
+          <div className="flex flex-col gap-4 rounded-card border border-border bg-surface p-4 shadow-none md:flex-row md:items-center md:justify-between" data-tour="security-guards-roster-controls">
             {/* Week navigation */}
             <div className="flex items-center gap-2">
               <button
                 onClick={prevWeek}
-                className="rounded-lg border border-neutral-200 p-2 text-neutral-600 hover:bg-neutral-50"
+                className="rounded-control border border-border p-2 text-secondary hover:bg-canvas"
                 title="Previous Week"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <button
                 onClick={resetToday}
-                className="rounded-lg border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50"
+                className="rounded-control border border-border px-3 py-1.5 text-small font-medium text-primary hover:bg-canvas"
               >
                 Current Week
               </button>
               <button
                 onClick={nextWeek}
-                className="rounded-lg border border-neutral-200 p-2 text-neutral-600 hover:bg-neutral-50"
+                className="rounded-control border border-border p-2 text-secondary hover:bg-canvas"
                 title="Next Week"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
-              <span className="ml-2 text-sm font-semibold text-neutral-800">
+              <span className="ml-2 text-body font-semibold text-primary">
                 {weekDays[0].month} {weekDays[0].dayNum} – {weekDays[6].month}{" "}
                 {weekDays[6].dayNum}, {currentWeekStart.getFullYear()}
               </span>
@@ -417,7 +417,7 @@ export default function GuardRosterPage() {
               <select
                 value={rosterGuardFilter}
                 onChange={(e) => setRosterGuardFilter(e.target.value)}
-                className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 focus:border-primary-500 focus:outline-none"
+                className="rounded-control border border-border-strong px-3 py-1.5 text-body text-primary focus:border-accent focus:outline-none"
               >
                 <option value="">All Guards</option>
                 {guards.map((g) => (
@@ -430,24 +430,24 @@ export default function GuardRosterPage() {
           </div>
 
           {/* Roster Calendar Table */}
-          <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm" data-tour="security-guards-roster">
-            <table className="w-full border-collapse text-left text-sm">
+          <div className="overflow-x-auto rounded-card border border-border bg-surface shadow-none" data-tour="security-guards-roster">
+            <table className="w-full border-collapse text-left text-body">
               <thead>
-                <tr className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-                  <th className="sticky left-0 z-10 bg-neutral-50 p-3 min-w-[200px] border-r border-neutral-200">
+                <tr className="border-b border-border bg-canvas text-small font-semibold text-secondary">
+                  <th className="sticky left-0 z-10 bg-canvas p-3 min-w-[200px] border-r border-border">
                     Guard & Default Shift
                   </th>
                   {weekDays.map((day) => (
                     <th
                       key={day.dateStr}
-                      className={`p-3 text-center min-w-[140px] border-r border-neutral-200 last:border-r-0 ${
-                        day.isToday ? "bg-primary-50 text-primary-900" : ""
+                      className={`p-3 text-center min-w-[140px] border-r border-border last:border-r-0 ${
+                        day.isToday ? "bg-gold-soft text-accent" : ""
                       }`}
                     >
                       <div className="font-bold">{day.dayName}</div>
                       <div
-                        className={`text-xs ${
-                          day.isToday ? "text-primary-700 font-semibold" : "text-neutral-400"
+                        className={`text-small ${
+                          day.isToday ? "text-accent font-semibold" : "text-muted"
                         }`}
                       >
                         {day.month} {day.dayNum}
@@ -456,16 +456,16 @@ export default function GuardRosterPage() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200">
+              <tbody className="divide-y divide-border">
                 {loadingRoster || loadingGuards ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-neutral-400">
+                    <td colSpan={8} className="p-8 text-center text-muted">
                       Loading duty roster...
                     </td>
                   </tr>
                 ) : guards.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-neutral-400">
+                    <td colSpan={8} className="p-8 text-center text-muted">
                       No guards added yet. Click &quot;Add Guard&quot; to begin.
                     </td>
                   </tr>
@@ -475,14 +475,14 @@ export default function GuardRosterPage() {
                       rosterGuardFilter ? g._id === rosterGuardFilter : true,
                     )
                     .map((guard) => (
-                      <tr key={guard._id} className="hover:bg-neutral-50/50">
+                      <tr key={guard._id} className="hover:bg-canvas/50">
                         {/* Guard Name & Info */}
-                        <td className="sticky left-0 z-10 bg-white p-3 border-r border-neutral-200 shadow-sm">
-                          <div className="font-medium text-neutral-900">
+                        <td className="sticky left-0 z-10 bg-surface p-3 border-r border-border shadow-none">
+                          <div className="font-medium text-primary">
                             {guard.name}
                           </div>
-                          <div className="flex items-center gap-2 text-xs text-neutral-500 mt-0.5">
-                            <span className="rounded bg-neutral-100 px-1.5 py-0.5 font-medium text-neutral-700">
+                          <div className="flex items-center gap-2 text-small text-secondary mt-0.5">
+                            <span className="rounded-control bg-surface-muted px-1.5 py-0.5 font-medium text-primary">
                               {guard.shift}
                             </span>
                             {guard.phone && <span>{guard.phone}</span>}
@@ -499,8 +499,8 @@ export default function GuardRosterPage() {
                           return (
                             <td
                               key={day.dateStr}
-                              className={`p-2.5 text-center border-r border-neutral-200 last:border-r-0 align-top ${
-                                day.isToday ? "bg-primary-50/30" : ""
+                              className={`p-2.5 text-center border-r border-border last:border-r-0 align-top ${
+                                day.isToday ? "bg-gold-soft/30" : ""
                               }`}
                             >
                               <div className="flex flex-col items-center gap-1.5">
@@ -514,12 +514,12 @@ export default function GuardRosterPage() {
                                       shift: currentShift,
                                     })
                                   }
-                                  className={`text-xs px-2 py-0.5 rounded-full font-medium transition ${
+                                  className={`text-small px-2 py-0.5 rounded-full font-medium transition-colors duration-base ${
                                     currentShift === "Morning"
-                                      ? "bg-amber-100 text-amber-800 hover:bg-amber-200"
+                                      ? "bg-warning-soft text-warning hover:bg-warning-soft"
                                       : currentShift === "Evening"
-                                      ? "bg-sky-100 text-sky-800 hover:bg-sky-200"
-                                      : "bg-indigo-100 text-indigo-800 hover:bg-indigo-200"
+                                      ? "bg-info-soft text-info hover:bg-info-soft"
+                                      : "bg-info-soft text-info hover:bg-info-soft"
                                   }`}
                                   title="Click to change shift for this date"
                                 >
@@ -529,22 +529,22 @@ export default function GuardRosterPage() {
                                 {/* Attendance Status Dropdown / Action */}
                                 <div className="mt-1 flex items-center justify-center">
                                   {attendance === "Present" && (
-                                    <span className="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">
+                                    <span className="inline-flex items-center gap-1 rounded-control bg-success-soft px-2 py-0.5 text-small font-semibold text-success">
                                       ✓ Present
                                     </span>
                                   )}
                                   {attendance === "Absent" && (
-                                    <span className="inline-flex items-center gap-1 rounded-md bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-800">
+                                    <span className="inline-flex items-center gap-1 rounded-control bg-danger-soft px-2 py-0.5 text-small font-semibold text-danger">
                                       ✗ Absent
                                     </span>
                                   )}
                                   {attendance === "Leave" && (
-                                    <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                                    <span className="inline-flex items-center gap-1 rounded-control bg-warning-soft px-2 py-0.5 text-small font-semibold text-warning">
                                       ⏱ Leave
                                     </span>
                                   )}
                                   {!attendance && (
-                                    <span className="text-xs text-neutral-400 italic">
+                                    <span className="text-small text-muted italic">
                                       Unmarked
                                     </span>
                                   )}
@@ -560,7 +560,7 @@ export default function GuardRosterPage() {
                                         "Present",
                                       )
                                     }
-                                    className="rounded p-1 text-xs text-emerald-600 hover:bg-emerald-50"
+                                    className="rounded-control p-1 text-small text-success hover:bg-success-soft"
                                     title="Mark Present"
                                   >
                                     P
@@ -573,7 +573,7 @@ export default function GuardRosterPage() {
                                         "Absent",
                                       )
                                     }
-                                    className="rounded p-1 text-xs text-rose-600 hover:bg-rose-50"
+                                    className="rounded-control p-1 text-small text-danger hover:bg-danger-soft"
                                     title="Mark Absent"
                                   >
                                     A
@@ -586,7 +586,7 @@ export default function GuardRosterPage() {
                                         "Leave",
                                       )
                                     }
-                                    className="rounded p-1 text-xs text-amber-600 hover:bg-amber-50"
+                                    className="rounded-control p-1 text-small text-warning hover:bg-warning-soft"
                                     title="Mark Leave"
                                   >
                                     L
@@ -609,15 +609,15 @@ export default function GuardRosterPage() {
       {activeTab === "guards" && (
         <div className="space-y-4">
           {/* Filters */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-card border border-border bg-surface p-4 shadow-none">
             <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-neutral-400" />
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted" />
               <input
                 type="text"
                 value={guardSearch}
                 onChange={(e) => setGuardSearch(e.target.value)}
                 placeholder="Search by name, phone..."
-                className="w-full rounded-lg border border-neutral-300 pl-9 pr-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+                className="w-full rounded-control border border-border-strong pl-9 pr-3 py-1.5 text-body focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -625,7 +625,7 @@ export default function GuardRosterPage() {
               <select
                 value={guardShiftFilter}
                 onChange={(e) => setGuardShiftFilter(e.target.value)}
-                className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 focus:border-primary-500 focus:outline-none"
+                className="rounded-control border border-border-strong px-3 py-1.5 text-body text-primary focus:border-accent focus:outline-none"
               >
                 <option value="">All Shifts</option>
                 {SHIFTS.map((s) => (
@@ -638,7 +638,7 @@ export default function GuardRosterPage() {
               <select
                 value={guardStatusFilter}
                 onChange={(e) => setGuardStatusFilter(e.target.value)}
-                className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 focus:border-primary-500 focus:outline-none"
+                className="rounded-control border border-border-strong px-3 py-1.5 text-body text-primary focus:border-accent focus:outline-none"
               >
                 <option value="">All Statuses</option>
                 {GUARD_STATUSES.map((st) => (
@@ -651,9 +651,9 @@ export default function GuardRosterPage() {
           </div>
 
           {/* Guards Table */}
-          <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+          <div className="overflow-hidden rounded-card border border-border bg-surface shadow-none">
+            <table className="w-full text-left text-body">
+              <thead className="border-b border-border bg-canvas text-small font-semibold text-secondary">
                 <tr>
                   <th className="p-4">Guard Name</th>
                   <th className="p-4">Phone</th>
@@ -664,45 +664,45 @@ export default function GuardRosterPage() {
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200">
+              <tbody className="divide-y divide-border">
                 {loadingGuards ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-neutral-400">
+                    <td colSpan={7} className="p-8 text-center text-muted">
                       Loading guards...
                     </td>
                   </tr>
                 ) : guards.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-neutral-400">
+                    <td colSpan={7} className="p-8 text-center text-muted">
                       No guards found.
                     </td>
                   </tr>
                 ) : (
                   guards.map((guard) => (
-                    <tr key={guard._id} className="hover:bg-neutral-50">
-                      <td className="p-4 font-medium text-neutral-900">
+                    <tr key={guard._id} className="hover:bg-canvas">
+                      <td className="p-4 font-medium text-primary">
                         {guard.name}
                       </td>
-                      <td className="p-4 text-neutral-600">
+                      <td className="p-4 text-secondary">
                         {guard.phone || "—"}
                       </td>
                       <td className="p-4">
                         <span
-                          className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          className={`inline-block rounded-full px-2.5 py-0.5 text-small font-medium ${
                             guard.shift === "Morning"
-                              ? "bg-amber-100 text-amber-800"
+                              ? "bg-warning-soft text-warning"
                               : guard.shift === "Evening"
-                              ? "bg-sky-100 text-sky-800"
-                              : "bg-indigo-100 text-indigo-800"
+                              ? "bg-info-soft text-info"
+                              : "bg-info-soft text-info"
                           }`}
                         >
                           {guard.shift}
                         </span>
                       </td>
-                      <td className="p-4 text-neutral-600">
+                      <td className="p-4 text-secondary">
                         {guard.supervisorRef?.name || "—"}
                       </td>
-                      <td className="p-4 text-neutral-600">
+                      <td className="p-4 text-secondary">
                         {guard.userRef?.email || "No Login"}
                       </td>
                       <td className="p-4">
@@ -711,7 +711,7 @@ export default function GuardRosterPage() {
                       <td className="p-4 text-right">
                         <button
                           onClick={() => handleOpenGuardModal(guard)}
-                          className="text-xs font-medium text-primary-600 hover:text-primary-800"
+                          className="text-small font-medium text-accent hover:text-accent"
                         >
                           Edit
                         </button>
@@ -727,14 +727,14 @@ export default function GuardRosterPage() {
 
       {/* ==================== MODAL: ADD / EDIT GUARD ==================== */}
       {showGuardModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl animate-in fade-in">
-            <h2 className="text-lg font-bold text-neutral-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-md rounded-card bg-surface p-6 shadow-overlay animate-in fade-in">
+            <h2 className="text-h2 font-bold text-primary mb-4">
               {editingGuard ? "Edit Security Guard" : "Add Security Guard"}
             </h2>
             <form onSubmit={handleSaveGuard} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Full Name *
                 </label>
                 <input
@@ -745,12 +745,12 @@ export default function GuardRosterPage() {
                   }
                   required
                   placeholder="e.g. Muhammad Ali"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Phone Number
                 </label>
                 <input
@@ -760,13 +760,13 @@ export default function GuardRosterPage() {
                     setGuardForm({ ...guardForm, phone: e.target.value })
                   }
                   placeholder="e.g. +92 300 1234567"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-neutral-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Default Shift *
                   </label>
                   <select
@@ -774,7 +774,7 @@ export default function GuardRosterPage() {
                     onChange={(e) =>
                       setGuardForm({ ...guardForm, shift: e.target.value })
                     }
-                    className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                   >
                     {SHIFTS.map((s) => (
                       <option key={s} value={s}>
@@ -785,7 +785,7 @@ export default function GuardRosterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Status *
                   </label>
                   <select
@@ -793,7 +793,7 @@ export default function GuardRosterPage() {
                     onChange={(e) =>
                       setGuardForm({ ...guardForm, status: e.target.value })
                     }
-                    className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                   >
                     {GUARD_STATUSES.map((st) => (
                       <option key={st} value={st}>
@@ -805,7 +805,7 @@ export default function GuardRosterPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Supervisor (User)
                 </label>
                 <select
@@ -813,7 +813,7 @@ export default function GuardRosterPage() {
                   onChange={(e) =>
                     setGuardForm({ ...guardForm, supervisor: e.target.value })
                   }
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 >
                   <option value="">None / Unassigned</option>
                   {usersList.map((u) => (
@@ -825,7 +825,7 @@ export default function GuardRosterPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Linked System Login (Optional)
                 </label>
                 <select
@@ -833,7 +833,7 @@ export default function GuardRosterPage() {
                   onChange={(e) =>
                     setGuardForm({ ...guardForm, user: e.target.value })
                   }
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 >
                   <option value="">No Login Account</option>
                   {usersList.map((u) => (
@@ -848,14 +848,14 @@ export default function GuardRosterPage() {
                 <button
                   type="button"
                   onClick={() => setShowGuardModal(false)}
-                  className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-4 py-2 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingGuard}
-                  className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {savingGuard ? "Saving..." : editingGuard ? "Update Guard" : "Create Guard"}
                 </button>
@@ -867,18 +867,18 @@ export default function GuardRosterPage() {
 
       {/* ==================== MODAL: ASSIGN SHIFT FOR DATE ==================== */}
       {assignModal.open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl animate-in fade-in">
-            <h2 className="text-lg font-bold text-neutral-900 mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-sm rounded-card bg-surface p-6 shadow-overlay animate-in fade-in">
+            <h2 className="text-h2 font-bold text-primary mb-2">
               Assign Shift
             </h2>
-            <p className="text-xs text-neutral-500 mb-4">
-              Set shift for <span className="font-semibold text-neutral-800">{assignModal.guard?.name}</span> on{" "}
-              <span className="font-semibold text-neutral-800">{assignModal.date}</span>.
+            <p className="text-small text-secondary mb-4">
+              Set shift for <span className="font-semibold text-primary">{assignModal.guard?.name}</span> on{" "}
+              <span className="font-semibold text-primary">{assignModal.date}</span>.
             </p>
             <form onSubmit={handleSaveAssign} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Shift
                 </label>
                 <select
@@ -886,7 +886,7 @@ export default function GuardRosterPage() {
                   onChange={(e) =>
                     setAssignModal({ ...assignModal, shift: e.target.value })
                   }
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 >
                   {SHIFTS.map((s) => (
                     <option key={s} value={s}>
@@ -907,14 +907,14 @@ export default function GuardRosterPage() {
                       shift: "Morning",
                     })
                   }
-                  className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-3 py-1.5 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingAssign}
-                  className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="rounded-control bg-accent px-4 py-1.5 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {savingAssign ? "Saving..." : "Save Shift"}
                 </button>

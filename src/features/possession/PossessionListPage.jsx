@@ -31,15 +31,15 @@ export default function PossessionListPage() {
     <div className="space-y-6" data-tour="possession-list">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900" data-tour="possession-page">Possession</h1>
-          <p className="mt-1 text-sm text-neutral-500" data-tour="possession-summary">
+          <h1 className="text-h1 font-bold text-primary" data-tour="possession-page">Possession</h1>
+          <p className="mt-1 text-body text-secondary" data-tour="possession-summary">
             Manage site readiness, handover, and possession letters.
           </p>
         </div>
         <button
           data-tour="possession-new"
           onClick={() => navigate("/possession/new")}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Plus className="h-4 w-4" /> Apply for possession
         </button>

@@ -27,15 +27,15 @@ const ACTION_LABELS = {
 };
 
 const ACTION_COLORS = {
-  create: "bg-success-50 text-success-700",
-  update: "bg-primary-50 text-primary-700",
-  delete: "bg-danger-50 text-danger-700",
-  approve: "bg-success-50 text-success-700",
-  reject: "bg-danger-50 text-danger-700",
-  cancel: "bg-warning-50 text-warning-700",
-  statusChange: "bg-primary-50 text-primary-700",
-  login: "bg-neutral-100 text-neutral-700",
-  logout: "bg-neutral-100 text-neutral-700",
+  create: "bg-success-soft text-success",
+  update: "bg-gold-soft text-accent",
+  delete: "bg-danger-soft text-danger",
+  approve: "bg-success-soft text-success",
+  reject: "bg-danger-soft text-danger",
+  cancel: "bg-warning-soft text-warning",
+  statusChange: "bg-gold-soft text-accent",
+  login: "bg-surface-muted text-primary",
+  logout: "bg-surface-muted text-primary",
 };
 
 export default function AuditLogPage() {
@@ -120,35 +120,35 @@ export default function AuditLogPage() {
     <div data-tour="audit-page-intro" className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Audit Logs</h1>
-        <p className="mt-1 text-sm text-neutral-500">
+        <h1 className="text-h1 font-bold text-primary">Audit Logs</h1>
+        <p className="mt-1 text-body text-secondary">
           Track all system changes and user activities with complete audit trail.
         </p>
       </div>
 
       {/* Filters */}
-      <div data-tour="audit-filters" className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+      <div data-tour="audit-filters" className="rounded-card border border-border bg-surface p-4 shadow-none">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
           {/* Search */}
           <div data-tour="audit-search" className="lg:col-span-2">
-            <label className="block text-xs font-medium text-neutral-700">Search</label>
+            <label className="block text-small font-medium text-primary">Search</label>
             <div className="relative mt-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
               <input
                 type="text"
                 {...register("search")}
                 placeholder="Search by entity ID, user, or IP..."
-                className="block w-full rounded-lg border border-neutral-300 py-2 pl-9 pr-3 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                className="block w-full rounded-control border border-border-strong py-2 pl-9 pr-3 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
 
           {/* Entity Type */}
           <div>
-            <label className="block text-xs font-medium text-neutral-700">Entity Type</label>
+            <label className="block text-small font-medium text-primary">Entity Type</label>
             <select
               {...register("entityType")}
-              className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+              className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
             >
               <option value="">All Types</option>
               <option value="user">User</option>
@@ -168,10 +168,10 @@ export default function AuditLogPage() {
 
           {/* Action */}
           <div>
-            <label className="block text-xs font-medium text-neutral-700">Action</label>
+            <label className="block text-small font-medium text-primary">Action</label>
             <select
               {...register("action")}
-              className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+              className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
             >
               <option value="">All Actions</option>
               {Object.keys(ACTION_LABELS).map((key) => (
@@ -184,28 +184,28 @@ export default function AuditLogPage() {
 
           {/* Date Range */}
           <div data-tour="audit-date-range" className="lg:col-span-2">
-            <label className="block text-xs font-medium text-neutral-700">Date Range</label>
+            <label className="block text-small font-medium text-primary">Date Range</label>
             <div className="mt-1 flex gap-2">
               <input
                 type="date"
                 {...register("startDate")}
-                className="block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                className="block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
               <input
                 type="date"
                 {...register("endDate")}
-                className="block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                className="block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
         </div>
 
         {hasActiveFilters && (
-          <div className="mt-4 flex items-center justify-between border-t border-neutral-200 pt-4">
-            <p className="text-xs text-neutral-600">{totalCount} log entries found</p>
+          <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
+            <p className="text-small text-secondary">{totalCount} log entries found</p>
             <button
               onClick={handleClearFilters}
-              className="flex items-center gap-1 text-xs font-medium text-neutral-600 hover:text-neutral-900"
+              className="flex items-center gap-1 text-small font-medium text-secondary hover:text-primary"
             >
               <X className="h-3 w-3" />
               Clear Filters
@@ -215,19 +215,19 @@ export default function AuditLogPage() {
       </div>
 
       {/* Logs Table */}
-      <div data-tour="audit-log-table" className="rounded-xl border border-neutral-200 bg-white shadow-sm">
+      <div data-tour="audit-log-table" className="rounded-card border border-border bg-surface shadow-none">
         {loading ? (
           <div className="flex h-96 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+            <Loader2 className="h-8 w-8 animate-spin text-accent" />
           </div>
         ) : logs.length === 0 ? (
-          <div className="flex h-96 flex-col items-center justify-center text-neutral-500">
-            <Activity className="mb-2 h-12 w-12 text-neutral-300" />
-            <p className="text-sm">No audit logs found</p>
+          <div className="flex h-96 flex-col items-center justify-center text-secondary">
+            <Activity className="mb-2 h-12 w-12 text-muted" />
+            <p className="text-body">No audit logs found</p>
             {hasActiveFilters && (
               <button
                 onClick={handleClearFilters}
-                className="mt-4 text-sm font-medium text-primary-600 hover:text-primary-700"
+                className="mt-4 text-body font-medium text-accent hover:text-accent"
               >
                 Clear filters to see all logs
               </button>
@@ -235,8 +235,8 @@ export default function AuditLogPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold uppercase text-neutral-600">
+            <table className="w-full text-left text-body">
+              <thead className="border-b border-border bg-canvas text-small font-semibold text-secondary">
                 <tr>
                   <th className="px-6 py-3">Timestamp</th>
                   <th className="px-6 py-3">User</th>
@@ -247,24 +247,24 @@ export default function AuditLogPage() {
                   <th className="px-6 py-3 text-right">Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200">
+              <tbody className="divide-y divide-border">
                 {logs.map((log) => (
-                  <tr key={log._id} className="hover:bg-neutral-50">
-                    <td className="px-6 py-4 text-xs text-neutral-600">
+                  <tr key={log._id} className="hover:bg-canvas">
+                    <td className="px-6 py-4 text-small text-secondary">
                       {formatTimestamp(log.timestamp)}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-neutral-400" />
-                        <span className="text-neutral-900">
+                        <User className="h-4 w-4 text-muted" />
+                        <span className="text-primary">
                           {log.userId?.name || log.userId?.email || "System"}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                          ACTION_COLORS[log.action] || "bg-neutral-100 text-neutral-700"
+                        className={`inline-flex rounded-full px-2.5 py-1 text-small font-medium ${
+                          ACTION_COLORS[log.action] || "bg-surface-muted text-primary"
                         }`}
                       >
                         {ACTION_LABELS[log.action] || log.action}
@@ -272,26 +272,26 @@ export default function AuditLogPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="font-medium text-neutral-900">
+                        <span className="font-medium text-primary">
                           {log.entityType || "—"}
                         </span>
                         {log.entityId && (
-                          <span className="text-xs text-neutral-500">{log.entityId}</span>
+                          <span className="text-small text-secondary">{log.entityId}</span>
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs text-neutral-600">
+                    <td className="px-6 py-4 font-mono text-small text-secondary">
                       {log.ip || "—"}
                     </td>
                     <td className="px-6 py-4">
                       {log.status === "success" ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs text-success-600">
-                          <span className="h-1.5 w-1.5 rounded-full bg-success-600"></span>
+                        <span className="inline-flex items-center gap-1.5 text-small text-success">
+                          <span className="h-1.5 w-1.5 rounded-full bg-success"></span>
                           Success
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs text-danger-600">
-                          <span className="h-1.5 w-1.5 rounded-full bg-danger-600"></span>
+                        <span className="inline-flex items-center gap-1.5 text-small text-danger">
+                          <span className="h-1.5 w-1.5 rounded-full bg-danger"></span>
                           Failed
                         </span>
                       )}
@@ -300,7 +300,7 @@ export default function AuditLogPage() {
                       {log.changes && (
                         <button
                           onClick={() => handleViewDiff(log)}
-                          className="inline-flex items-center gap-1 rounded-md p-1.5 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                          className="inline-flex items-center gap-1 rounded-control p-1.5 text-secondary hover:bg-surface-muted hover:text-primary"
                           title="View Changes"
                         >
                           <Eye className="h-4 w-4" />
@@ -317,18 +317,18 @@ export default function AuditLogPage() {
 
       {/* Diff Modal */}
       {showDiffModal && selectedLog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-3xl rounded-xl bg-white p-6 shadow-xl">
-            <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-3xl rounded-card bg-surface p-6 shadow-overlay">
+            <div className="flex items-center justify-between border-b border-border pb-4">
               <div>
-                <h2 className="text-lg font-semibold text-neutral-900">Change Details</h2>
-                <p className="mt-1 text-xs text-neutral-500">
+                <h2 className="text-h2 font-semibold text-primary">Change Details</h2>
+                <p className="mt-1 text-small text-secondary">
                   {ACTION_LABELS[selectedLog.action]} on {formatTimestamp(selectedLog.timestamp)}
                 </p>
               </div>
               <button
                 onClick={() => setShowDiffModal(false)}
-                className="rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                className="rounded-control p-1 text-muted hover:bg-surface-muted hover:text-secondary"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -336,24 +336,24 @@ export default function AuditLogPage() {
 
             <div className="mt-4 space-y-4">
               {/* Metadata */}
-              <div className="grid grid-cols-2 gap-4 rounded-lg bg-neutral-50 p-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 rounded-control bg-canvas p-4 text-body">
                 <div>
-                  <span className="font-medium text-neutral-700">User:</span>
-                  <span className="ml-2 text-neutral-900">
+                  <span className="font-medium text-primary">User:</span>
+                  <span className="ml-2 text-primary">
                     {selectedLog.userId?.name || selectedLog.userId?.email || "System"}
                   </span>
                 </div>
                 <div>
-                  <span className="font-medium text-neutral-700">IP:</span>
-                  <span className="ml-2 font-mono text-neutral-900">{selectedLog.ip || "—"}</span>
+                  <span className="font-medium text-primary">IP:</span>
+                  <span className="ml-2 font-mono text-primary">{selectedLog.ip || "—"}</span>
                 </div>
                 <div>
-                  <span className="font-medium text-neutral-700">Entity:</span>
-                  <span className="ml-2 text-neutral-900">{selectedLog.entityType}</span>
+                  <span className="font-medium text-primary">Entity:</span>
+                  <span className="ml-2 text-primary">{selectedLog.entityType}</span>
                 </div>
                 <div>
-                  <span className="font-medium text-neutral-700">Entity ID:</span>
-                  <span className="ml-2 font-mono text-neutral-900">{selectedLog.entityId}</span>
+                  <span className="font-medium text-primary">Entity ID:</span>
+                  <span className="ml-2 font-mono text-primary">{selectedLog.entityId}</span>
                 </div>
               </div>
 
@@ -362,24 +362,24 @@ export default function AuditLogPage() {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {selectedLog.changes.before && (
                     <div>
-                      <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-neutral-700">
-                        <span className="rounded bg-danger-100 px-2 py-0.5 text-xs text-danger-700">
+                      <h3 className="mb-2 flex items-center gap-2 text-body font-semibold text-primary">
+                        <span className="rounded-control bg-danger-soft px-2 py-0.5 text-small text-danger">
                           Before
                         </span>
                       </h3>
-                      <pre className="max-h-96 overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-xs">
+                      <pre className="max-h-96 overflow-auto rounded-control border border-border bg-canvas p-4 text-small">
                         {JSON.stringify(selectedLog.changes.before, null, 2)}
                       </pre>
                     </div>
                   )}
                   {selectedLog.changes.after && (
                     <div>
-                      <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-neutral-700">
-                        <span className="rounded bg-success-100 px-2 py-0.5 text-xs text-success-700">
+                      <h3 className="mb-2 flex items-center gap-2 text-body font-semibold text-primary">
+                        <span className="rounded-control bg-success-soft px-2 py-0.5 text-small text-success">
                           After
                         </span>
                       </h3>
-                      <pre className="max-h-96 overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-xs">
+                      <pre className="max-h-96 overflow-auto rounded-control border border-border bg-canvas p-4 text-small">
                         {JSON.stringify(selectedLog.changes.after, null, 2)}
                       </pre>
                     </div>
@@ -389,11 +389,11 @@ export default function AuditLogPage() {
 
               {/* User Agent */}
               {selectedLog.userAgent && (
-                <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-                  <h3 className="mb-1 text-xs font-semibold uppercase text-neutral-600">
+                <div className="rounded-control border border-border bg-canvas p-4">
+                  <h3 className="mb-1 text-small font-semibold text-secondary">
                     User Agent
                   </h3>
-                  <p className="text-xs text-neutral-700">{selectedLog.userAgent}</p>
+                  <p className="text-small text-primary">{selectedLog.userAgent}</p>
                 </div>
               )}
             </div>
@@ -401,7 +401,7 @@ export default function AuditLogPage() {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowDiffModal(false)}
-                className="rounded-lg bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-200"
+                className="rounded-control bg-surface-muted px-4 py-2 text-body font-medium text-primary hover:bg-surface-muted"
               >
                 Close
               </button>

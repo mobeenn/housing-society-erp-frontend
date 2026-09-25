@@ -42,7 +42,7 @@ export default function PlotsListPage() {
       key: "plotNumber",
       label: "Plot",
       render: (row) => (
-        <span className="font-mono font-semibold text-primary-700">
+        <span className="font-mono font-semibold text-accent">
           {row.plotNumber}
         </span>
       ),
@@ -69,7 +69,7 @@ export default function PlotsListPage() {
       render: (row) => (
         <div data-tour="plots-status" className="flex flex-wrap items-center gap-2">
           <StatusPill status={row.status} />
-          {row.isBlocked && <span className="rounded-full bg-danger-100 px-2 py-0.5 text-[10px] font-semibold text-danger-700">Recovery blocked</span>}
+          {row.isBlocked && <span className="rounded-full bg-danger-soft px-2 py-0.5 text-small font-semibold text-danger">Recovery blocked</span>}
         </div>
       ),
     },
@@ -89,21 +89,21 @@ export default function PlotsListPage() {
           onClick={(event) => event.stopPropagation()}
         >
           <button
-            className="p-1 text-primary-600 hover:bg-primary-50 rounded"
+            className="p-1 text-accent hover:bg-gold-soft rounded-control"
             title="View plot"
             onClick={() => navigate(`/plots/${row._id}`)}
           >
             <Eye className="h-4 w-4" />
           </button>
           <button
-            className="p-1 text-success-600 hover:bg-success-50 rounded"
+            className="p-1 text-success hover:bg-success-soft rounded-control"
             title="Edit plot"
             onClick={() => navigate(`/plots/${row._id}/edit`)}
           >
             <Edit className="h-4 w-4" />
           </button>
           <button
-            className="p-1 text-danger-600 hover:bg-danger-50 rounded"
+            className="p-1 text-danger hover:bg-danger-soft rounded-control"
             title="Delete plot"
             onClick={() =>
               setConfirm({ isOpen: true, plot: row, loading: false })
@@ -120,21 +120,21 @@ export default function PlotsListPage() {
     <div data-tour="plots-page-intro" className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Plots / Units</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">Plots / Units</h1>
+          <p className="mt-1 text-body text-secondary">
             Manage inventory, allocation, and ownership lifecycle.
           </p>
         </div>
         <button
           data-tour="plots-add"
           onClick={() => navigate("/plots/new")}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent"
         >
           <Plus className="h-4 w-4" /> Add Plot
         </button>
       </div>
 
-      <div data-tour="plots-filters" className="grid grid-cols-1 gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm md:grid-cols-4">
+      <div data-tour="plots-filters" className="grid grid-cols-1 gap-3 rounded-card border border-border bg-surface p-4 shadow-none md:grid-cols-4">
         {[
           { name: "block", label: "Block" },
           { name: "street", label: "Street" },
@@ -145,13 +145,13 @@ export default function PlotsListPage() {
             value={filters[filter.name]}
             onChange={(event) => updateFilter(filter.name, event.target.value)}
             placeholder={`Filter by ${filter.label.toLowerCase()} ID`}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+            className="rounded-control border border-border-strong px-3 py-2 text-body"
           />
         ))}
         <select
           value={filters.status}
           onChange={(event) => updateFilter("status", event.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-control border border-border-strong px-3 py-2 text-body"
         >
           <option value="">All statuses</option>
           {PLOT_STATUSES.map((status) => (

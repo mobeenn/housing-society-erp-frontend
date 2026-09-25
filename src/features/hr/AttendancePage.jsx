@@ -67,16 +67,16 @@ export default function AttendancePage() {
 
   const getStatusBadge = (status) => {
     const variants = {
-      Present: "bg-green-100 text-green-700",
-      Absent: "bg-red-100 text-red-700",
-      "Half Day": "bg-yellow-100 text-yellow-700",
-      Leave: "bg-blue-100 text-blue-700",
-      Holiday: "bg-purple-100 text-purple-700",
+      Present: "bg-success-soft text-success",
+      Absent: "bg-danger-soft text-danger",
+      "Half Day": "bg-warning-soft text-warning",
+      Leave: "bg-info-soft text-info",
+      Holiday: "bg-info-soft text-info",
     };
     return (
       <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${
-          variants[status] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-small font-medium rounded-full ${
+          variants[status] || "bg-surface-muted text-primary"
         }`}
       >
         {status === "Present" && <CheckCircle2 className="w-3.5 h-3.5" />}
@@ -92,7 +92,7 @@ export default function AttendancePage() {
       key: "date",
       label: "Date",
       render: (row) => (
-        <span className="font-mono text-sm text-gray-800 font-medium">
+        <span className="font-mono text-body text-primary font-medium">
           {row.date ? row.date.slice(0, 10) : "—"}
         </span>
       ),
@@ -102,10 +102,10 @@ export default function AttendancePage() {
       label: "Employee",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">
+          <div className="font-medium text-primary">
             {row.employeeRef?.name || row.employee}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-small text-secondary">
             {row.employeeRef?.employeeId} • {row.employeeRef?.department}
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function AttendancePage() {
       key: "checkIn",
       label: "Check-In",
       render: (row) => (
-        <span className="text-sm font-mono text-gray-600">
+        <span className="text-body font-mono text-secondary">
           {row.checkIn || "—"}
         </span>
       ),
@@ -129,7 +129,7 @@ export default function AttendancePage() {
       key: "checkOut",
       label: "Check-Out",
       render: (row) => (
-        <span className="text-sm font-mono text-gray-600">
+        <span className="text-body font-mono text-secondary">
           {row.checkOut || "—"}
         </span>
       ),
@@ -138,7 +138,7 @@ export default function AttendancePage() {
       key: "remarks",
       label: "Remarks",
       render: (row) => (
-        <span className="text-xs text-gray-500">{row.remarks || "—"}</span>
+        <span className="text-small text-secondary">{row.remarks || "—"}</span>
       ),
     },
     {
@@ -148,7 +148,7 @@ export default function AttendancePage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => handleEdit(row)}
-            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
             title="Edit record"
           >
             <Edit className="w-4 h-4" />
@@ -157,7 +157,7 @@ export default function AttendancePage() {
             onClick={() =>
               setConfirmDialog({ isOpen: true, record: row, loading: false })
             }
-            className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+            className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
             title="Delete record"
           >
             <Trash2 className="w-4 h-4" />
@@ -173,11 +173,11 @@ export default function AttendancePage() {
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-tour="hr-attendance-heading">
-              <Calendar className="w-7 h-7 text-blue-600" />
+            <h1 className="text-h1 font-bold text-primary flex items-center gap-2" data-tour="hr-attendance-heading">
+              <Calendar className="w-7 h-7 text-info" />
               Staff Attendance
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-body text-secondary mt-1">
               Track daily attendance, check-in/out logs, and bulk mark shifts
             </p>
           </div>
@@ -185,7 +185,7 @@ export default function AttendancePage() {
             <button
               data-tour="hr-attendance-bulk"
               onClick={() => setIsBulkModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 bg-white rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 border border-info text-info bg-surface rounded-control hover:bg-info-soft transition-colors text-body font-medium"
             >
               <CheckSquare className="w-4 h-4" />
               Bulk Mark
@@ -193,7 +193,7 @@ export default function AttendancePage() {
             <button
               data-tour="hr-attendance-mark"
               onClick={handleCreate}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover transition-colors text-body font-medium"
             >
               <Plus className="w-4 h-4" />
               Mark Attendance
@@ -203,28 +203,28 @@ export default function AttendancePage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6" data-tour="hr-attendance-filters">
+      <div className="bg-surface rounded-control shadow-none border border-border p-4 mb-6" data-tour="hr-attendance-filters">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Date Filter
             </label>
             <input
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Status Filter
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             >
               <option value="">All Statuses</option>
               <option value="Present">Present</option>
@@ -236,13 +236,13 @@ export default function AttendancePage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Employee Filter
             </label>
             <select
               value={employeeFilter}
               onChange={(e) => setEmployeeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             >
               <option value="">All Employees</option>
               {employees.map((emp) => (
@@ -256,7 +256,7 @@ export default function AttendancePage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200" data-tour="hr-attendance-list">
+      <div className="bg-surface rounded-control shadow-none border border-border" data-tour="hr-attendance-list">
         <Table
           key={refreshKey}
           columns={columns}

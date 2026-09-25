@@ -32,7 +32,7 @@ export default function PaymentDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading payment...
       </div>
     );
@@ -43,15 +43,15 @@ export default function PaymentDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/payments")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-neutral-900">
+            <h1 className="text-h1 font-bold text-primary">
               {payment.receiptNumber}
             </h1>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {payment.memberRef?.name || "—"} ·{" "}
               {payment.plotRef?.plotNumber || "—"}
             </p>
@@ -59,7 +59,7 @@ export default function PaymentDetailPage() {
         </div>
         <button
           onClick={print}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Printer className="h-4 w-4" /> Print receipt
         </button>
@@ -72,24 +72,24 @@ export default function PaymentDetailPage() {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="rounded-card border border-border bg-surface p-4 shadow-none"
           >
-            <p className="text-xs text-neutral-500">{label}</p>
-            <p className="mt-1 font-semibold text-neutral-900">
+            <p className="text-small text-secondary">{label}</p>
+            <p className="mt-1 font-semibold text-primary">
               {label === "Status" ? <StatusPill status={value} /> : value}
             </p>
           </div>
         ))}
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <h2 className="font-semibold text-neutral-900">Allocations</h2>
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none">
+        <h2 className="font-semibold text-primary">Allocations</h2>
         <div className="mt-4 space-y-2">
           {(payment.allocations || []).map((allocation) => (
             <div
               key={allocation.installment}
-              className="flex justify-between border-b border-neutral-100 py-2 text-sm"
+              className="flex justify-between border-b border-border py-2 text-body"
             >
-              <span className="font-mono text-neutral-500">
+              <span className="font-mono text-secondary">
                 {allocation.installment}
               </span>
               <strong>

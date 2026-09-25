@@ -63,16 +63,16 @@ export default function ActiveVisitorsPage() {
     <div className="p-6" data-tour="visitors-active-page">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2" data-tour="visitors-active-heading">
+          <h1 className="text-display font-bold text-primary flex items-center gap-2" data-tour="visitors-active-heading">
             <UserCheck className="w-8 h-8" />
             Active Visitors
           </h1>
-          <p className="text-gray-600 mt-1">Currently inside the society</p>
+          <p className="text-secondary mt-1">Currently inside the society</p>
         </div>
         <button
           data-tour="visitors-active-refresh"
           onClick={fetchActiveVisitors}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
         >
           <RefreshCw className="w-4 h-4" />
           Refresh
@@ -82,34 +82,34 @@ export default function ActiveVisitorsPage() {
       {/* Search */}
       <div className="mb-4" data-tour="visitors-active-search">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name, phone, CNIC, vehicle..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 border rounded-control focus:ring-2 focus:ring-info"
           />
         </div>
       </div>
 
       {/* Visitors List */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading...</div>
+        <div className="text-center py-12 text-secondary">Loading...</div>
       ) : filteredVisitors.length === 0 ? (
-        <div className="bg-white rounded-lg shadow p-12 text-center">
-          <UserCheck className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">
+        <div className="bg-surface rounded-control shadow-none p-12 text-center">
+          <UserCheck className="w-16 h-16 text-muted mx-auto mb-4" />
+          <p className="text-secondary text-h2">
             {search ? "No matching visitors" : "No active visitors"}
           </p>
         </div>
       ) : (
         <div className="grid gap-4" data-tour="visitors-active-list">
           {filteredVisitors.map((visitor) => (
-            <div key={visitor._id} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
+            <div key={visitor._id} className="bg-surface rounded-control shadow-none p-4 flex items-center justify-between">
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-900">{visitor.visitorName}</h3>
-                <div className="mt-1 space-y-1 text-sm text-gray-600">
+                <h3 className="text-h2 font-semibold text-primary">{visitor.visitorName}</h3>
+                <div className="mt-1 space-y-1 text-body text-secondary">
                   {visitor.hostMemberRef && (
                     <p>
                       <span className="font-medium">Host:</span> {visitor.hostMemberRef.name}
@@ -138,7 +138,7 @@ export default function ActiveVisitorsPage() {
               <button
                 data-tour="visitors-mark-exit"
                 onClick={() => handleMarkExit(visitor._id, visitor.visitorName)}
-                className="ml-4 flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700"
+                className="ml-4 flex items-center gap-2 px-6 py-3 bg-danger text-on-accent font-semibold rounded-control hover:bg-danger"
               >
                 <LogOut className="w-5 h-5" />
                 Mark Exit

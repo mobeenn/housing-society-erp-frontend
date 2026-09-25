@@ -112,7 +112,7 @@ export default function NewBookingPage() {
 
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading members and available plots...
       </div>
     );
@@ -121,13 +121,13 @@ export default function NewBookingPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/bookings")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">New Booking</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">New Booking</h1>
+          <p className="mt-1 text-body text-secondary">
             Reserve an available plot and prepare its installment plan.
           </p>
         </div>
@@ -136,22 +136,22 @@ export default function NewBookingPage() {
         onSubmit={save}
         className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]"
       >
-        <div className="space-y-6 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="space-y-6 rounded-card border border-border bg-surface p-6 shadow-none">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Member *
               <input
                 value={memberQuery}
                 onChange={(event) => setMemberQuery(event.target.value)}
                 placeholder="Search member name or ID"
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
               <select
                 required
                 name="member"
                 value={form.member}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="">Select member</option>
                 {filteredMembers.map((member) => (
@@ -161,20 +161,20 @@ export default function NewBookingPage() {
                 ))}
               </select>
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Available plot *
               <input
                 value={plotQuery}
                 onChange={(event) => setPlotQuery(event.target.value)}
                 placeholder="Search plot or file number"
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
               <select
                 required
                 name="plot"
                 value={form.plot}
                 onChange={selectPlot}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="">Select plot</option>
                 {filteredPlots.map((plot) => (
@@ -186,7 +186,7 @@ export default function NewBookingPage() {
               </select>
             </label>
           </div>
-          <div className="grid grid-cols-1 gap-4 border-t border-neutral-200 pt-5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 border-t border-border pt-5 md:grid-cols-2">
             {[
               ["price", "Price"],
               ["discount", "Discount"],
@@ -196,7 +196,7 @@ export default function NewBookingPage() {
             ].map(([name, label]) => (
               <label
                 key={name}
-                className="text-sm font-medium text-neutral-700"
+                className="text-body font-medium text-primary"
               >
                 {label} *
                 <input
@@ -206,13 +206,13 @@ export default function NewBookingPage() {
                   name={name}
                   value={form[name]}
                   onChange={change}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                  className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
                 />
               </label>
             ))}
           </div>
-          <div className="grid grid-cols-1 gap-4 border-t border-neutral-200 pt-5 md:grid-cols-3">
-            <label className="text-sm font-medium text-neutral-700">
+          <div className="grid grid-cols-1 gap-4 border-t border-border pt-5 md:grid-cols-3">
+            <label className="text-body font-medium text-primary">
               Installments *
               <input
                 required
@@ -222,22 +222,22 @@ export default function NewBookingPage() {
                 name="numberOfInstallments"
                 value={form.numberOfInstallments}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Frequency
               <select
                 name="frequency"
                 value={form.frequency}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="monthly">Monthly</option>
                 <option value="quarterly">Quarterly</option>
               </select>
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               First due date
               <input
                 required
@@ -245,47 +245,47 @@ export default function NewBookingPage() {
                 name="firstDueDate"
                 value={form.firstDueDate}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
           </div>
-          <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+          <div className="flex justify-end gap-3 border-t border-border pt-5">
             <button
               type="button"
               onClick={() => navigate("/bookings")}
-              className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+              className="rounded-control border border-border-strong px-4 py-2 text-body"
             >
               Cancel
             </button>
             <button
               disabled={saving || !selectedPlot}
-              className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
             >
               {saving ? "Submitting..." : "Create Booking"}
             </button>
           </div>
         </div>
-        <aside className="h-fit rounded-xl border border-primary-100 bg-primary-50 p-5">
-          <div className="flex items-center gap-2 font-semibold text-primary-900">
+        <aside className="h-fit rounded-card border border-gold bg-gold-soft p-5">
+          <div className="flex items-center gap-2 font-semibold text-accent">
             <Calculator className="h-4 w-4" /> Installment preview
           </div>
-          <dl className="mt-5 space-y-3 text-sm">
+          <dl className="mt-5 space-y-3 text-body">
             <div className="flex justify-between">
-              <dt className="text-neutral-600">Selected plot</dt>
+              <dt className="text-secondary">Selected plot</dt>
               <dd className="font-medium">{selectedPlot?.plotNumber || "—"}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-neutral-600">Net payable</dt>
+              <dt className="text-secondary">Net payable</dt>
               <dd className="font-semibold">{netPayable.toLocaleString()}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-neutral-600">After booking amount</dt>
+              <dt className="text-secondary">After booking amount</dt>
               <dd className="font-semibold">
                 {installmentTotal.toLocaleString()}
               </dd>
             </div>
-            <div className="flex justify-between border-t border-primary-100 pt-3">
-              <dt className="text-neutral-600">Each installment</dt>
+            <div className="flex justify-between border-t border-gold pt-3">
+              <dt className="text-secondary">Each installment</dt>
               <dd className="font-semibold">
                 {installmentAmount.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
@@ -293,7 +293,7 @@ export default function NewBookingPage() {
               </dd>
             </div>
           </dl>
-          <p className="mt-5 text-xs text-primary-800">
+          <p className="mt-5 text-small text-accent">
             Final installment absorbs rounding so the schedule always totals the
             outstanding balance.
           </p>

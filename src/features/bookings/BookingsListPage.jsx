@@ -48,7 +48,7 @@ export default function BookingsListPage() {
         <button
           data-tour="bookings-row-actions"
           title="View booking"
-          className="rounded p-1 text-primary-600 hover:bg-primary-50"
+          className="rounded-control p-1 text-accent hover:bg-gold-soft"
           onClick={(event) => {
             event.stopPropagation();
             navigate(`/bookings/${row._id}`);
@@ -63,15 +63,15 @@ export default function BookingsListPage() {
     <div data-tour="bookings-page-intro" className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Bookings</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">Bookings</h1>
+          <p className="mt-1 text-body text-secondary">
             Review reservations, approvals, and payment schedules.
           </p>
         </div>
         <button
           data-tour="bookings-new"
           onClick={() => navigate("/bookings/new")}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Plus className="h-4 w-4" /> New Booking
         </button>
@@ -80,7 +80,7 @@ export default function BookingsListPage() {
         <select
           value={status}
           onChange={(event) => setStatus(event.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-control border border-border-strong px-3 py-2 text-body"
         >
           <option value="">All statuses</option>
           {BOOKING_STATUSES.map((item) => (

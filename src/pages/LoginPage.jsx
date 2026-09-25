@@ -107,29 +107,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-canvas px-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-600">
-            <Building2 className="h-7 w-7 text-white" />
+          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-card bg-accent">
+            <Building2 className="h-7 w-7 text-on-accent" />
           </div>
-          <h1 className="text-2xl font-semibold text-neutral-900">
+          <h1 className="text-h1 font-semibold text-primary">
             Housing Society ERP
           </h1>
-          <p className="mt-2 text-sm text-neutral-500">
+          <p className="mt-2 text-body text-secondary">
             Sign in to manage your society
           </p>
         </div>
 
         {/* Login Form */}
-        <div className="rounded-xl border border-neutral-200 bg-white px-8 py-8 shadow-sm">
+        <div className="rounded-card border border-border bg-surface px-8 py-8 shadow-none">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="mb-1.5 block text-sm font-medium text-neutral-700"
+                className="mb-1.5 block text-body font-medium text-primary"
               >
                 Email Address
               </label>
@@ -147,7 +147,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="mb-1.5 block text-sm font-medium text-neutral-700"
+                className="mb-1.5 block text-body font-medium text-primary"
               >
                 Password
               </label>
@@ -179,17 +179,17 @@ export default function LoginPage() {
           </form>
 
           {/* Development Credentials */}
-          <div className="mt-6 rounded-lg bg-neutral-50 px-4 py-3">
+          <div className="mt-6 rounded-control bg-canvas px-4 py-3">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-medium text-neutral-700">
+                <p className="text-small font-medium text-primary">
                   Development Credentials
                 </p>
-                <p className="mt-0.5 text-[11px] text-neutral-500">
+                <p className="mt-0.5 text-small text-secondary">
                   Click an account to fill the login form.
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-primary-100 px-2 py-1 text-[10px] font-medium text-primary-700">
+              <span className="shrink-0 rounded-full bg-gold-soft px-2 py-1 text-small font-medium text-accent">
                 Demo only
               </span>
             </div>
@@ -200,27 +200,27 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => selectCredentials(account)}
                   disabled={isLoading}
-                  className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-left transition hover:border-primary-300 hover:bg-primary-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="w-full rounded-control border border-border bg-surface px-3 py-2 text-left transition-colors duration-base hover:border-gold hover:bg-gold-soft disabled:cursor-not-allowed disabled:opacity-60"
                   aria-label={`Use ${account.role} demo credentials`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-semibold text-neutral-800">
+                    <span className="text-small font-semibold text-primary">
                       {account.role}
                     </span>
-                    <span className="text-[10px] font-medium text-primary-600">
+                    <span className="text-small font-medium text-accent">
                       Use account
                     </span>
                   </div>
-                  <p className="mt-1 truncate text-[11px] text-neutral-500">
-                    Email: <span className="font-mono text-neutral-700">{account.email}</span>
+                  <p className="mt-1 truncate text-small text-secondary">
+                    Email: <span className="font-mono text-primary">{account.email}</span>
                   </p>
-                  <p className="mt-0.5 text-[11px] text-neutral-500">
-                    Password: <span className="font-mono text-neutral-700">{account.password}</span>
+                  <p className="mt-0.5 text-small text-secondary">
+                    Password: <span className="font-mono text-primary">{account.password}</span>
                   </p>
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-[10px] leading-4 text-neutral-400">
+            <p className="mt-2 text-small leading-4 text-muted">
               Role accounts are created by the Phase 8 development seed.
             </p>
           </div>

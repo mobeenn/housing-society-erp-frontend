@@ -53,8 +53,8 @@ export default function UsersListPage() {
       label: "Name",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">{row.name}</div>
-          <div className="text-xs text-gray-500">{row.email}</div>
+          <div className="font-medium text-primary">{row.name}</div>
+          <div className="text-small text-secondary">{row.email}</div>
         </div>
       ),
     },
@@ -62,7 +62,7 @@ export default function UsersListPage() {
       key: "role",
       label: "Role",
       render: (row) => (
-        <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded">
+        <span className="px-2 py-1 text-small font-medium bg-info-soft text-info rounded-control">
           {row.role?.name || "No Role"}
         </span>
       ),
@@ -71,17 +71,17 @@ export default function UsersListPage() {
     {
       key: "phone",
       label: "Phone",
-      render: (row) => <span className="text-gray-600">{row.phone || "—"}</span>,
+      render: (row) => <span className="text-secondary">{row.phone || "—"}</span>,
     },
     {
       key: "isActive",
       label: "Status",
       render: (row) => (
         <span
-          className={`px-2 py-1 text-xs font-medium rounded ${
+          className={`px-2 py-1 text-small font-medium rounded-control ${
             row.isActive
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
+              ? "bg-success-soft text-success"
+              : "bg-danger-soft text-danger"
           }`}
         >
           {row.isActive ? "Active" : "Inactive"}
@@ -92,7 +92,7 @@ export default function UsersListPage() {
       key: "createdAt",
       label: "Created",
       render: (row) => (
-        <span className="text-gray-600">
+        <span className="text-secondary">
           {new Date(row.createdAt).toLocaleDateString()}
         </span>
       ),
@@ -105,7 +105,7 @@ export default function UsersListPage() {
         <div data-tour="users-roles-row-actions" className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={() => navigate(`/admin/users/${row._id}/edit`)}
-            className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+            className="p-1 text-info hover:bg-info-soft rounded-control"
             title="Edit"
           >
             <Edit className="w-4 h-4" />
@@ -114,10 +114,10 @@ export default function UsersListPage() {
             onClick={() =>
               setConfirmDialog({ isOpen: true, type: "toggle", user: row, loading: false })
             }
-            className={`p-1 rounded ${
+            className={`p-1 rounded-control ${
               row.isActive
-                ? "text-red-600 hover:bg-red-50"
-                : "text-green-600 hover:bg-green-50"
+                ? "text-danger hover:bg-danger-soft"
+                : "text-success hover:bg-success-soft"
             }`}
             title={row.isActive ? "Deactivate" : "Activate"}
           >
@@ -127,7 +127,7 @@ export default function UsersListPage() {
             onClick={() =>
               setConfirmDialog({ isOpen: true, type: "reset", user: row, loading: false })
             }
-            className="p-1 text-orange-600 hover:bg-orange-50 rounded"
+            className="p-1 text-warning hover:bg-warning-soft rounded-control"
             title="Reset Password"
           >
             <RefreshCw className="w-4 h-4" />
@@ -142,21 +142,21 @@ export default function UsersListPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-          <p className="text-sm text-gray-600 mt-1">Manage system users and their roles</p>
+          <h1 className="text-h1 font-bold text-primary">Users</h1>
+          <p className="text-body text-secondary mt-1">Manage system users and their roles</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {canManageRoles && <button
             data-tour="users-roles-roles"
             onClick={() => navigate("/admin/roles")}
-            className="flex items-center gap-2 px-4 py-2 border border-blue-200 text-blue-700 rounded-lg hover:bg-blue-50"
+            className="flex items-center gap-2 px-4 py-2 border border-info text-info rounded-control hover:bg-info-soft"
           >
             <Shield className="w-5 h-5" />
             Roles
           </button>}
           {isSuperAdmin && <button
             onClick={() => navigate("/admin/access-control")}
-            className="flex items-center gap-2 px-4 py-2 border border-primary-200 text-primary-700 rounded-lg hover:bg-primary-50"
+            className="flex items-center gap-2 px-4 py-2 border border-gold text-accent rounded-control hover:bg-gold-soft"
           >
             <Shield className="w-5 h-5" />
             Access Control
@@ -164,7 +164,7 @@ export default function UsersListPage() {
           <button
             data-tour="users-roles-add-user"
             onClick={() => navigate("/admin/users/new")}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
           >
             <Plus className="w-5 h-5" />
             Add User

@@ -15,10 +15,10 @@ export default function ConfirmDialog({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
       <div className="flex items-start gap-3">
-        <div className="rounded-full bg-danger-100 p-2">
-          <AlertTriangle className="h-5 w-5 text-danger-600" />
+        <div className="rounded-full bg-danger-soft p-2 text-danger">
+          <AlertTriangle className="h-5 w-5" aria-hidden="true" />
         </div>
-        <p className="text-sm text-neutral-600">{message}</p>
+        <p className="text-body text-secondary">{message}</p>
       </div>
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="secondary" onClick={onClose} disabled={isLoading}>

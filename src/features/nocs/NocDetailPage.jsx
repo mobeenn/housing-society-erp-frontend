@@ -51,7 +51,7 @@ export default function NocDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">Loading NOC...</div>
+      <div className="py-16 text-center text-secondary">Loading NOC...</div>
     );
   if (!noc) return null;
   const verifyUrl = noc.qrVerificationToken
@@ -63,18 +63,18 @@ export default function NocDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/nocs")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-neutral-900">
+              <h1 className="text-h1 font-bold text-primary">
                 {noc.issuedNocNumber || "NOC Application"}
               </h1>
               <StatusPill status={noc.status} />
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {noc.nocType} · {noc.memberRef?.name} · {noc.plotRef?.plotNumber}
             </p>
           </div>
@@ -82,20 +82,20 @@ export default function NocDetailPage() {
         {noc.status === "Issued" && (
           <button
             onClick={download}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Download className="h-4 w-4" /> Certificate
           </button>
         )}
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="nocs-detail-workflow">
-        <h2 className="mb-5 font-semibold text-neutral-900">Approval stages</h2>
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="nocs-detail-workflow">
+        <h2 className="mb-5 font-semibold text-primary">Approval stages</h2>
         <ApprovalStageTracker stages={noc.approvalStages} />
         <div className="mt-6 flex flex-wrap gap-2">
           {noc.status === "Applied" && (
             <button
               onClick={() => action(verifyNoc, "NOC verified")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Verify
             </button>
@@ -103,7 +103,7 @@ export default function NocDetailPage() {
           {noc.status === "DuesPending" && (
             <button
               onClick={() => action(clearNocDues, "Dues cleared")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Clear dues
             </button>
@@ -111,7 +111,7 @@ export default function NocDetailPage() {
           {noc.status === "UnderVerification" && !noc.feePaid && (
             <button
               onClick={() => action(payNocFee, "NOC fee paid")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Pay fee
             </button>
@@ -119,7 +119,7 @@ export default function NocDetailPage() {
           {noc.status === "UnderVerification" && noc.feePaid && (
             <button
               onClick={() => action(approveNoc, "NOC approved")}
-              className="rounded-lg bg-success-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-success px-4 py-2 text-body font-medium text-on-accent"
             >
               Approve
             </button>
@@ -127,7 +127,7 @@ export default function NocDetailPage() {
           {noc.status === "Approved" && (
             <button
               onClick={() => action(issueNoc, "NOC issued")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Issue NOC
             </button>
@@ -135,15 +135,15 @@ export default function NocDetailPage() {
         </div>
       </section>
       {verifyUrl && (
-        <section className="rounded-xl border border-success-200 bg-success-50 p-5">
-          <p className="text-sm font-semibold text-success-800">
+        <section className="rounded-card border border-success bg-success-soft p-5">
+          <p className="text-body font-semibold text-success">
             Public verification link
           </p>
           <a
             href={verifyUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-2 flex items-center gap-2 break-all text-sm text-success-700 underline"
+            className="mt-2 flex items-center gap-2 break-all text-body text-success underline"
           >
             <ExternalLink className="h-4 w-4 shrink-0" />
             {verifyUrl}

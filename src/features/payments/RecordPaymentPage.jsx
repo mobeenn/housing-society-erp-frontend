@@ -86,7 +86,7 @@ export default function RecordPaymentPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading payment options...
       </div>
     );
@@ -95,15 +95,15 @@ export default function RecordPaymentPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/payments")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             Record Payment
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Apply funds to the oldest outstanding installments first.
           </p>
         </div>
@@ -112,16 +112,16 @@ export default function RecordPaymentPage() {
         onSubmit={save}
         className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]"
       >
-        <div className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="space-y-5 rounded-card border border-border bg-surface p-6 shadow-none">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Member *
               <select
                 required
                 name="member"
                 value={form.member}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="">Select member</option>
                 {members.map((item) => (
@@ -131,13 +131,13 @@ export default function RecordPaymentPage() {
                 ))}
               </select>
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Plot (optional)
               <select
                 name="plot"
                 value={form.plot}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option value="">All member installments</option>
                 {plots.map((item) => (
@@ -149,7 +149,7 @@ export default function RecordPaymentPage() {
             </label>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Amount *
               <input
                 required
@@ -159,16 +159,16 @@ export default function RecordPaymentPage() {
                 name="amount"
                 value={form.amount}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Method
               <select
                 name="method"
                 value={form.method}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 {PAYMENT_METHODS.map((method) => (
                   <option key={method}>{method}</option>
@@ -176,46 +176,46 @@ export default function RecordPaymentPage() {
               </select>
             </label>
           </div>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Remarks
             <textarea
               name="remarks"
               value={form.remarks}
               onChange={change}
               rows={3}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+          <div className="flex justify-end gap-3 border-t border-border pt-5">
             <button
               type="button"
               onClick={() => navigate("/payments")}
-              className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+              className="rounded-control border border-border-strong px-4 py-2 text-body"
             >
               Cancel
             </button>
             <button
               disabled={saving || !preview || Boolean(previewError)}
-              className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
             >
               {saving ? "Recording..." : "Record payment"}
             </button>
           </div>
         </div>
-        <aside className="h-fit rounded-xl border border-primary-100 bg-primary-50 p-5">
-          <div className="flex items-center gap-2 font-semibold text-primary-900">
+        <aside className="h-fit rounded-card border border-gold bg-gold-soft p-5">
+          <div className="flex items-center gap-2 font-semibold text-accent">
             <Calculator className="h-4 w-4" /> Allocation preview
           </div>
           {previewError ? (
-            <p className="mt-5 text-sm text-danger-700">{previewError}</p>
+            <p className="mt-5 text-body text-danger">{previewError}</p>
           ) : preview ? (
-            <div className="mt-5 space-y-3 text-sm">
+            <div className="mt-5 space-y-3 text-body">
               <p className="font-medium">
                 {preview.allocations.length} installment(s) will receive this
                 payment.
               </p>
               {preview.installmentUpdates.map((item) => (
-                <div key={item.id} className="rounded-lg bg-white p-3">
+                <div key={item.id} className="rounded-control bg-surface p-3">
                   <div className="flex justify-between">
                     <span>Applied</span>
                     <strong>
@@ -226,7 +226,7 @@ export default function RecordPaymentPage() {
                       ).toLocaleString()}
                     </strong>
                   </div>
-                  <div className="mt-1 text-xs text-neutral-500">
+                  <div className="mt-1 text-small text-secondary">
                     Remaining balance: {Number(item.balance).toLocaleString()} ·{" "}
                     {item.status}
                   </div>
@@ -234,7 +234,7 @@ export default function RecordPaymentPage() {
               ))}
             </div>
           ) : (
-            <p className="mt-5 text-sm text-primary-800">
+            <p className="mt-5 text-body text-accent">
               Select a member and enter an amount to preview allocation.
             </p>
           )}

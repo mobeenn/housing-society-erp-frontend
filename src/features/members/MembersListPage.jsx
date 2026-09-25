@@ -32,11 +32,11 @@ export default function MembersListPage() {
   const getStatusIcon = (status) => {
     switch (status) {
       case "Active":
-        return <UserCheck className="w-4 h-4 text-green-600" />;
+        return <UserCheck className="w-4 h-4 text-success" />;
       case "Inactive":
-        return <UserMinus className="w-4 h-4 text-gray-600" />;
+        return <UserMinus className="w-4 h-4 text-secondary" />;
       case "Blacklisted":
-        return <UserX className="w-4 h-4 text-red-600" />;
+        return <UserX className="w-4 h-4 text-danger" />;
       default:
         return null;
     }
@@ -47,7 +47,7 @@ export default function MembersListPage() {
       key: "memberId",
       label: "Member ID",
       render: (row) => (
-        <span className="font-mono text-sm font-medium text-blue-600">{row.memberId}</span>
+        <span className="font-mono text-body font-medium text-info">{row.memberId}</span>
       ),
     },
     {
@@ -55,32 +55,32 @@ export default function MembersListPage() {
       label: "Name",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">{row.name}</div>
-          {row.email && <div className="text-xs text-gray-500">{row.email}</div>}
+          <div className="font-medium text-primary">{row.name}</div>
+          {row.email && <div className="text-small text-secondary">{row.email}</div>}
         </div>
       ),
     },
     {
       key: "cnic",
       label: "CNIC",
-      render: (row) => <span className="font-mono text-sm text-gray-600">{row.cnic}</span>,
+      render: (row) => <span className="font-mono text-body text-secondary">{row.cnic}</span>,
     },
     {
       key: "phone",
       label: "Phone",
-      render: (row) => <span className="text-gray-600">{row.phone || "—"}</span>,
+      render: (row) => <span className="text-secondary">{row.phone || "—"}</span>,
     },
     {
       key: "status",
       label: "Status",
       render: (row) => (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-small font-medium rounded-full ${
             row.status === "Active"
-              ? "bg-green-100 text-green-700"
+              ? "bg-success-soft text-success"
               : row.status === "Blacklisted"
-              ? "bg-red-100 text-red-700"
-              : "bg-gray-100 text-gray-700"
+              ? "bg-danger-soft text-danger"
+              : "bg-surface-muted text-primary"
           }`}
         >
           {getStatusIcon(row.status)}
@@ -92,7 +92,7 @@ export default function MembersListPage() {
       key: "createdAt",
       label: "Registered",
       render: (row) => (
-        <span className="text-gray-600">
+        <span className="text-secondary">
           {new Date(row.createdAt).toLocaleDateString()}
         </span>
       ),
@@ -105,21 +105,21 @@ export default function MembersListPage() {
         <div data-tour="members-row-actions" className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={() => navigate(`/members/${row._id}`)}
-            className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+            className="p-1 text-info hover:bg-info-soft rounded-control"
             title="View 360 Profile"
           >
             <Eye className="w-4 h-4" />
           </button>
           <button
             onClick={() => navigate(`/members/${row._id}/edit`)}
-            className="p-1 text-green-600 hover:bg-green-50 rounded"
+            className="p-1 text-success hover:bg-success-soft rounded-control"
             title="Edit"
           >
             <Edit className="w-4 h-4" />
           </button>
           <button
             onClick={() => setConfirmDialog({ isOpen: true, member: row, loading: false })}
-            className="p-1 text-red-600 hover:bg-red-50 rounded"
+            className="p-1 text-danger hover:bg-danger-soft rounded-control"
             title="Delete"
           >
             <Trash2 className="w-4 h-4" />
@@ -134,15 +134,15 @@ export default function MembersListPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Members</h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <h1 className="text-h1 font-bold text-primary">Members</h1>
+          <p className="text-body text-secondary mt-1">
             Manage housing society member records
           </p>
         </div>
         <button
           data-tour="members-add"
           onClick={() => navigate("/members/new")}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
         >
           <Plus className="w-5 h-5" />
           Add Member
@@ -153,40 +153,40 @@ export default function MembersListPage() {
       <div data-tour="members-status-filter" className="flex gap-2">
         <button
           onClick={() => setStatusFilter("")}
-          className={`px-4 py-2 text-sm font-medium rounded-lg ${
+          className={`px-4 py-2 text-body font-medium rounded-control ${
             statusFilter === ""
-              ? "bg-blue-600 text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+              ? "bg-accent text-on-accent"
+              : "bg-surface text-primary border border-border-strong hover:bg-surface-muted"
           }`}
         >
           All
         </button>
         <button
           onClick={() => setStatusFilter("Active")}
-          className={`px-4 py-2 text-sm font-medium rounded-lg ${
+          className={`px-4 py-2 text-body font-medium rounded-control ${
             statusFilter === "Active"
-              ? "bg-green-600 text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+              ? "bg-success text-on-accent"
+              : "bg-surface text-primary border border-border-strong hover:bg-surface-muted"
           }`}
         >
           Active
         </button>
         <button
           onClick={() => setStatusFilter("Inactive")}
-          className={`px-4 py-2 text-sm font-medium rounded-lg ${
+          className={`px-4 py-2 text-body font-medium rounded-control ${
             statusFilter === "Inactive"
-              ? "bg-gray-600 text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+              ? "bg-accent text-on-accent"
+              : "bg-surface text-primary border border-border-strong hover:bg-surface-muted"
           }`}
         >
           Inactive
         </button>
         <button
           onClick={() => setStatusFilter("Blacklisted")}
-          className={`px-4 py-2 text-sm font-medium rounded-lg ${
+          className={`px-4 py-2 text-body font-medium rounded-control ${
             statusFilter === "Blacklisted"
-              ? "bg-red-600 text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+              ? "bg-danger text-on-accent"
+              : "bg-surface text-primary border border-border-strong hover:bg-surface-muted"
           }`}
         >
           Blacklisted

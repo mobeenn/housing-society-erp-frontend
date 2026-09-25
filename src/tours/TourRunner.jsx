@@ -93,10 +93,10 @@ export default function TourRunner() {
     skipBeacon: true,
     placement: getStepPlacement(step.target),
     content: (
-      <div className="space-y-2 text-sm">
+      <div className="space-y-2 text-body">
         <p>{step.purpose}</p>
-        {step.completionCriteria && <p className="rounded-md bg-neutral-50 px-2 py-1.5 text-xs text-neutral-600"><strong>Done when:</strong> {step.completionCriteria}</p>}
-        <p className="text-xs font-medium text-primary-600">Step {index + 1} of {filteredSteps.length}</p>
+        {step.completionCriteria && <p className="rounded-control bg-canvas px-2 py-1.5 text-small text-secondary"><strong>Done when:</strong> {step.completionCriteria}</p>}
+        <p className="text-small font-medium text-accent">Step {index + 1} of {filteredSteps.length}</p>
       </div>
     ),
   })), [filteredSteps]);
@@ -123,6 +123,32 @@ export default function TourRunner() {
           showProgress: true,
           spotlightClicks: true,
           spotlightPadding: 8,
+        }}
+        styles={{
+          options: {
+            backgroundColor: "var(--color-overlay)",
+            arrowColor: "var(--color-bg-surface-raised)",
+          },
+          tooltip: {
+            backgroundColor: "var(--color-bg-surface-raised)",
+            color: "var(--color-text-primary)",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-card)",
+            boxShadow: "var(--shadow-overlay)",
+            fontFamily: "Inter, sans-serif",
+          },
+          tooltipContainer: { padding: "12px" },
+          buttonNext: {
+            backgroundColor: "var(--color-accent-primary)",
+            color: "var(--color-text-on-accent)",
+            borderRadius: "var(--radius-control)",
+          },
+          buttonBack: {
+            color: "var(--color-text-secondary)",
+            borderRadius: "var(--radius-control)",
+          },
+          buttonClose: { color: "var(--color-text-muted)" },
+          buttonSkip: { color: "var(--color-text-muted)" },
         }}
         locale={{
           back: "Back",

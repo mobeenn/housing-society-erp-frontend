@@ -35,30 +35,30 @@ export default function AddCallDialog({ isOpen, onClose, assignment, onSaved }) 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Log Recovery Call" size="md">
       <form onSubmit={submit} className="space-y-4">
-        <div className="rounded-lg bg-primary-50 px-3 py-2 text-sm text-primary-800">
+        <div className="rounded-control bg-gold-soft px-3 py-2 text-body text-accent">
           {assignment?.memberRef?.name || "Member"} · {assignment?.plotRef?.plotNumber || assignment?.booking}
         </div>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Outcome
-          <select value={form.outcome} onChange={(event) => update("outcome", event.target.value)} className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-normal">
+          <select value={form.outcome} onChange={(event) => update("outcome", event.target.value)} className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 text-body font-normal">
             {OUTCOMES.map((outcome) => <option key={outcome} value={outcome}>{outcome}</option>)}
           </select>
         </label>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Notes
-          <textarea value={form.notes} onChange={(event) => update("notes", event.target.value)} rows={4} placeholder="What was discussed?" className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm font-normal" />
+          <textarea value={form.notes} onChange={(event) => update("notes", event.target.value)} rows={4} placeholder="What was discussed?" className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 text-body font-normal" />
         </label>
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Commitment date
             <Input type="date" value={form.commitmentDate} onChange={(event) => update("commitmentDate", event.target.value)} className="mt-1" />
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Commitment amount
             <Input type="number" min="0" step="0.01" value={form.commitmentAmount} onChange={(event) => update("commitmentAmount", event.target.value)} className="mt-1" />
           </label>
         </div>
-        <div className="flex justify-end gap-2 border-t border-neutral-100 pt-4">
+        <div className="flex justify-end gap-2 border-t border-border pt-4">
           <Button type="button" variant="outline" onClick={onClose} disabled={loading}>Cancel</Button>
           <Button type="submit" disabled={loading}>{loading ? "Saving..." : "Save Call"}</Button>
         </div>

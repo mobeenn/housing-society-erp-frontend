@@ -41,57 +41,57 @@ export default function InvoicesListPage() {
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-neutral-900">Invoices</h1>
-            <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-700">
+            <h1 className="text-h1 font-bold text-primary">Invoices</h1>
+            <span className="rounded-full bg-gold-soft px-2.5 py-1 text-small font-medium text-accent">
               Document registry
             </span>
           </div>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Browse, filter, view, and reprint generated society documents.
           </p>
         </div>
-        <ReceiptText className="hidden h-8 w-8 text-primary-600 sm:block" />
+        <ReceiptText className="hidden h-8 w-8 text-accent sm:block" />
       </div>
 
       <Card title="Filters">
         <div data-tour="invoices-filters" className="grid gap-4 md:grid-cols-4 xl:grid-cols-7">
-          <label data-tour="dealers-type-filter" className="text-sm font-medium text-neutral-700">
+          <label data-tour="dealers-type-filter" className="text-body font-medium text-primary">
             Type
             <select
               value={filters.invoiceType}
               onChange={(event) => setFilter("invoiceType", event.target.value)}
-              className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 text-body font-normal"
             >
               <option value="">All types</option>
               {INVOICE_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
             </select>
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Member ID
             <Input value={filters.member} onChange={(event) => setFilter("member", event.target.value)} placeholder="Member ID" className="mt-1" />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Dealer/Vendor ID
             <Input data-tour="dealers-reference-filter" value={filters.dealer} onChange={(event) => setFilter("dealer", event.target.value)} placeholder="Vendor ID" className="mt-1" />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Plot ID
             <Input value={filters.plot} onChange={(event) => setFilter("plot", event.target.value)} placeholder="Plot ID" className="mt-1" />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             From
             <Input type="date" value={filters.startDate} onChange={(event) => setFilter("startDate", event.target.value)} className="mt-1" />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             To
             <Input type="date" value={filters.endDate} onChange={(event) => setFilter("endDate", event.target.value)} className="mt-1" />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Status
             <select
               value={filters.status}
               onChange={(event) => setFilter("status", event.target.value)}
-              className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 text-body font-normal"
             >
               <option value="">All statuses</option>
               <option value="Active">Active</option>

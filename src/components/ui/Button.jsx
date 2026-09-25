@@ -2,17 +2,17 @@ import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 
 const variants = {
-  primary: "bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500",
-  secondary: "bg-neutral-200 text-neutral-800 hover:bg-neutral-300 focus:ring-neutral-400",
-  danger: "bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500",
-  ghost: "bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-400",
-  outline: "border border-neutral-300 text-neutral-700 hover:bg-neutral-50 focus:ring-primary-500",
+  primary: "bg-accent text-on-accent hover:bg-accent-hover focus:ring-accent/40",
+  secondary: "border border-border bg-surface-muted text-primary hover:border-border-strong hover:bg-surface-raised focus:ring-accent/30",
+  danger: "bg-danger text-on-accent hover:brightness-95 focus:ring-danger/40",
+  ghost: "bg-transparent text-secondary hover:bg-surface-muted hover:text-primary focus:ring-accent/30",
+  outline: "border border-border-strong bg-transparent text-primary hover:border-accent hover:bg-surface-muted focus:ring-accent/30",
 };
 
 const sizes = {
-  sm: "px-3 py-1.5 text-xs",
-  md: "px-4 py-2 text-sm",
-  lg: "px-5 py-2.5 text-base",
+  sm: "min-h-8 px-3 py-1.5 text-small",
+  md: "min-h-10 px-4 py-2 text-body",
+  lg: "min-h-11 px-5 py-2.5 text-body",
 };
 
 const Button = forwardRef(
@@ -32,13 +32,13 @@ const Button = forwardRef(
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium
-          transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
-          disabled:opacity-50 disabled:cursor-not-allowed
-          ${variants[variant]} ${sizes[size]} ${className}`}
+        className={`erp-button inline-flex items-center justify-center gap-2 rounded-control font-semibold
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-canvas
+          disabled:cursor-not-allowed disabled:opacity-50
+          ${variants[variant] || variants.primary} ${sizes[size] || sizes.md} ${className}`}
         {...props}
       >
-        {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+        {isLoading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
         {children}
       </button>
     );

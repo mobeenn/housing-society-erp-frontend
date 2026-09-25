@@ -132,8 +132,8 @@ export default function PayrollPage() {
     <div className="space-y-5" data-tour="hr-payroll-page">
       <Card title="Payroll Run" actions={<Button variant="outline" size="sm" onClick={() => load()}><RefreshCw className="h-4 w-4" /> Refresh</Button>}>
         <div className="grid gap-3 md:grid-cols-[150px_150px_auto] md:items-end" data-tour="hr-payroll-period">
-          <label className="text-sm font-medium text-neutral-700">Month
-            <select value={period.month} onChange={(event) => setPeriod((current) => ({ ...current, month: Number(event.target.value) }))} className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm">
+          <label className="text-body font-medium text-primary">Month
+            <select value={period.month} onChange={(event) => setPeriod((current) => ({ ...current, month: Number(event.target.value) }))} className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 text-body">
               {Array.from({ length: 12 }, (_, index) => <option key={index + 1} value={index + 1}>{new Date(2000, index, 1).toLocaleString("en", { month: "long" })}</option>)}
             </select>
           </label>
@@ -144,20 +144,20 @@ export default function PayrollPage() {
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <Card title="Payroll History">
-          {loading ? <p className="py-8 text-center text-sm text-neutral-500">Loading payroll runs...</p> : runs.length === 0 ? <p className="py-8 text-center text-sm text-neutral-500">No payroll runs for {period.year}.</p> : <div className="space-y-2" data-tour="hr-payroll-history">{runs.map((run) => <button key={run._id} onClick={() => selectRun(run)} className={`w-full rounded-lg border p-3 text-left transition-colors ${selectedRun?._id === run._id ? "border-primary-300 bg-primary-50" : "border-neutral-200 hover:bg-neutral-50"}`}><div className="flex items-center justify-between gap-2"><span className="font-medium text-neutral-900">{periodLabel(run)}</span><span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusClass(run.status)}`}>{run.status}</span></div><div className="mt-2 flex justify-between text-xs text-neutral-500"><span>{run.entries?.length || 0} employees</span><span>Net {money(run.totals?.netPay)}</span></div></button>)}</div>}
+          {loading ? <p className="py-8 text-center text-body text-secondary">Loading payroll runs...</p> : runs.length === 0 ? <p className="py-8 text-center text-body text-secondary">No payroll runs for {period.year}.</p> : <div className="space-y-2" data-tour="hr-payroll-history">{runs.map((run) => <button key={run._id} onClick={() => selectRun(run)} className={`w-full rounded-control border p-3 text-left transition-colors ${selectedRun?._id === run._id ? "border-gold bg-gold-soft" : "border-border hover:bg-canvas"}`}><div className="flex items-center justify-between gap-2"><span className="font-medium text-primary">{periodLabel(run)}</span><span className={`rounded-full px-2 py-0.5 text-small font-medium ${statusClass(run.status)}`}>{run.status}</span></div><div className="mt-2 flex justify-between text-small text-secondary"><span>{run.entries?.length || 0} employees</span><span>Net {money(run.totals?.netPay)}</span></div></button>)}</div>}
         </Card>
 
-        <Card title={selectedRun ? `Review — ${periodLabel(selectedRun)}` : "Payroll Review"} actions={selectedRun && <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${statusClass(selectedRun.status)}`}>{selectedRun.status}</span>}>
-          {!selectedRun ? <div className="flex min-h-48 flex-col items-center justify-center text-center"><Banknote className="mb-2 h-10 w-10 text-neutral-300" /><p className="text-sm text-neutral-500">Generate or select a payroll run to review its entries.</p></div> : <>
+        <Card title={selectedRun ? `Review — ${periodLabel(selectedRun)}` : "Payroll Review"} actions={selectedRun && <span className={`rounded-full px-2.5 py-1 text-small font-medium ${statusClass(selectedRun.status)}`}>{selectedRun.status}</span>}>
+          {!selectedRun ? <div className="flex min-h-48 flex-col items-center justify-center text-center"><Banknote className="mb-2 h-10 w-10 text-muted" /><p className="text-body text-secondary">Generate or select a payroll run to review its entries.</p></div> : <>
             <div className="mb-4 grid gap-3 sm:grid-cols-4" data-tour="hr-payroll-review">
-              <div className="rounded-lg bg-neutral-50 p-3"><p className="text-xs text-neutral-500">Gross</p><p className="mt-1 font-semibold">{money(totals.earnings)}</p></div>
-              <div className="rounded-lg bg-neutral-50 p-3"><p className="text-xs text-neutral-500">Loan deduction</p><p className="mt-1 font-semibold">{money(totals.loanDeduction)}</p></div>
-              <div className="rounded-lg bg-neutral-50 p-3"><p className="text-xs text-neutral-500">Tax</p><p className="mt-1 font-semibold">{money(totals.tax)}</p></div>
-              <div className="rounded-lg bg-emerald-50 p-3"><p className="text-xs text-emerald-700">Net payable</p><p className="mt-1 font-semibold text-emerald-800">{money(totals.netPay)}</p></div>
+              <div className="rounded-control bg-canvas p-3"><p className="text-small text-secondary">Gross</p><p className="mt-1 font-semibold">{money(totals.earnings)}</p></div>
+              <div className="rounded-control bg-canvas p-3"><p className="text-small text-secondary">Loan deduction</p><p className="mt-1 font-semibold">{money(totals.loanDeduction)}</p></div>
+              <div className="rounded-control bg-canvas p-3"><p className="text-small text-secondary">Tax</p><p className="mt-1 font-semibold">{money(totals.tax)}</p></div>
+              <div className="rounded-control bg-success-soft p-3"><p className="text-small text-success">Net payable</p><p className="mt-1 font-semibold text-success">{money(totals.netPay)}</p></div>
             </div>
-            {selectedRun.journalEntryId && <p className="mb-4 flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-700"><FileText className="h-4 w-4" /> GL journal posted: {selectedRun.journalEntryId}</p>}
-            <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="border-b border-neutral-200 text-xs uppercase tracking-wide text-neutral-500"><tr><th className="px-2 py-3">Employee</th><th className="px-2 py-3">Earnings</th><th className="px-2 py-3">Deductions</th><th className="px-2 py-3">Loan</th><th className="px-2 py-3">Tax</th><th className="px-2 py-3">Net pay</th></tr></thead><tbody className="divide-y divide-neutral-100">{selectedRun.entries?.map((entry) => <tr key={entry.employee}><td className="px-2 py-3"><p className="font-medium">{entry.employeeRef?.name || entry.employeeName}</p><p className="text-xs text-neutral-500">{entry.employeeId} · {entry.attendance?.prorationApplied ? `${entry.attendance.presentDays}/${entry.attendance.workingDays} days` : "Full attendance basis"}</p></td><td className="px-2 py-3">{money(entry.earnings)}</td><td className="px-2 py-3">{money(entry.deductions)}</td><td className="px-2 py-3">{money(entry.loanDeduction)}</td><td className="px-2 py-3">{money(entry.tax)}</td><td className="px-2 py-3 font-semibold">{money(entry.netPay)}</td></tr>)}</tbody></table></div>
-            <div className="mt-5 flex flex-wrap justify-end gap-2 border-t border-neutral-100 pt-4" data-tour="hr-payroll-actions">
+            {selectedRun.journalEntryId && <p className="mb-4 flex items-center gap-2 rounded-control bg-info-soft px-3 py-2 text-small text-info"><FileText className="h-4 w-4" /> GL journal posted: {selectedRun.journalEntryId}</p>}
+            <div className="overflow-x-auto"><table className="w-full text-left text-body"><thead className="border-b border-border text-small tracking-wide text-secondary"><tr><th className="px-2 py-3">Employee</th><th className="px-2 py-3">Earnings</th><th className="px-2 py-3">Deductions</th><th className="px-2 py-3">Loan</th><th className="px-2 py-3">Tax</th><th className="px-2 py-3">Net pay</th></tr></thead><tbody className="divide-y divide-border">{selectedRun.entries?.map((entry) => <tr key={entry.employee}><td className="px-2 py-3"><p className="font-medium">{entry.employeeRef?.name || entry.employeeName}</p><p className="text-small text-secondary">{entry.employeeId} · {entry.attendance?.prorationApplied ? `${entry.attendance.presentDays}/${entry.attendance.workingDays} days` : "Full attendance basis"}</p></td><td className="px-2 py-3">{money(entry.earnings)}</td><td className="px-2 py-3">{money(entry.deductions)}</td><td className="px-2 py-3">{money(entry.loanDeduction)}</td><td className="px-2 py-3">{money(entry.tax)}</td><td className="px-2 py-3 font-semibold">{money(entry.netPay)}</td></tr>)}</tbody></table></div>
+            <div className="mt-5 flex flex-wrap justify-end gap-2 border-t border-border pt-4" data-tour="hr-payroll-actions">
               {selectedRun.status === "Draft" && canApprove && <Button onClick={approve} isLoading={actionLoading === "approve"}><CheckCircle2 className="h-4 w-4" /> Approve &amp; Post GL</Button>}
               {selectedRun.status === "Approved" && canEdit && <Button onClick={markPaid} isLoading={actionLoading === "pay"}><CheckCircle2 className="h-4 w-4" /> Mark Paid</Button>}
             </div>
@@ -165,10 +165,10 @@ export default function PayrollPage() {
         </Card>
       </div>
 
-      <Card title="Salary Structures" actions={canEdit && <span className="text-xs text-neutral-500">Assign components without changing the employee record screen.</span>}>
+      <Card title="Salary Structures" actions={canEdit && <span className="text-small text-secondary">Assign components without changing the employee record screen.</span>}>
         <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
-          <label className="text-sm font-medium text-neutral-700">Employee
-            <select value={structureEmployee?._id || ""} onChange={(event) => setStructureEmployee(employees.find((employee) => employee._id === event.target.value) || null)} className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm">
+          <label className="text-body font-medium text-primary">Employee
+            <select value={structureEmployee?._id || ""} onChange={(event) => setStructureEmployee(employees.find((employee) => employee._id === event.target.value) || null)} className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 text-body">
               <option value="">Select an active employee</option>{employees.map((employee) => <option key={employee._id} value={employee._id}>{employee.name} ({employee.employeeId})</option>)}
             </select>
           </label>

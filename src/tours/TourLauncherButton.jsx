@@ -21,12 +21,12 @@ function TourMenuItem({ tour, onSelect }) {
     <button
       type="button"
       onClick={() => onSelect(tour.moduleKey)}
-      className="flex w-full items-start gap-2 rounded-lg px-3 py-2 text-left hover:bg-neutral-50"
+      className="flex w-full items-start gap-2 rounded-control px-3 py-2 text-left hover:bg-canvas"
     >
-      <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-primary-600" />
+      <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
       <span>
-        <span className="block text-sm font-medium text-neutral-800">{tour.tourTitle}</span>
-        <span className="block text-xs text-neutral-500">
+        <span className="block text-body font-medium text-primary">{tour.tourTitle}</span>
+        <span className="block text-small text-secondary">
           {tour.moduleSummary.split(".")[0]}.
         </span>
       </span>
@@ -105,19 +105,19 @@ export default function TourLauncherButton({ moduleKey, compact = false }) {
         <ChevronDown className="h-3.5 w-3.5" />
       </Button>
       {open && (
-        <div className="absolute right-0 top-11 z-50 max-h-96 w-80 overflow-y-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-xl">
+        <div className="erp-overlay-panel absolute right-0 top-11 z-50 max-h-96 w-80 overflow-y-auto rounded-card border border-border bg-surface-raised p-2 shadow-overlay">
           <div className="flex items-center justify-between px-2 py-2">
-            <p className="text-sm font-semibold text-neutral-900">Guided tours</p>
+            <p className="text-body font-semibold text-primary">Guided tours</p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="rounded p-1 text-neutral-400 hover:bg-neutral-100"
+              className="rounded-control p-1 text-muted hover:bg-surface-muted"
               aria-label="Close tour menu"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
-          <p className="px-2 pb-2 text-xs text-neutral-500">
+          <p className="px-2 pb-2 text-small text-secondary">
             Choose a walkthrough for a section you can access.
           </p>
           {Object.values(TOURS).map((tour) => (

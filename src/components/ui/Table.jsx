@@ -1,26 +1,24 @@
 export default function Table({ columns, data, onRowClick, className = "" }) {
   return (
-    <div className={`overflow-x-auto rounded-lg border border-neutral-200 ${className}`}>
-      <table className="min-w-full divide-y divide-neutral-200">
-        <thead className="bg-neutral-50">
+    <div className={`erp-table overflow-x-auto rounded-none border border-border ${className}`}>
+      <table className="min-w-full divide-y divide-border">
+        <thead className="bg-surface-muted">
           <tr>
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-500"
+                scope="col"
+                className={`px-4 py-3 text-left text-label font-semibold text-secondary ${col.numeric ? "text-right font-tabular" : ""}`}
               >
                 {col.label}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-neutral-100 bg-white">
+        <tbody className="divide-y divide-border bg-surface">
           {data.length === 0 ? (
             <tr>
-              <td
-                colSpan={columns.length}
-                className="px-4 py-8 text-center text-sm text-neutral-400"
-              >
+              <td colSpan={columns.length} className="px-4 py-8 text-center text-small text-muted">
                 No records found
               </td>
             </tr>
@@ -29,12 +27,13 @@ export default function Table({ columns, data, onRowClick, className = "" }) {
               <tr
                 key={row._id || idx}
                 onClick={() => onRowClick?.(row)}
-                className={`transition-colors hover:bg-neutral-50 ${
-                  onRowClick ? "cursor-pointer" : ""
-                }`}
+                className={`erp-table-row ${onRowClick ? "cursor-pointer" : ""}`}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="whitespace-nowrap px-4 py-3 text-sm text-neutral-700">
+                  <td
+                    key={col.key}
+                    className={`whitespace-nowrap px-4 py-3 text-body text-secondary ${col.numeric ? "text-right font-tabular" : ""}`}
+                  >
                     {col.render ? col.render(row) : row[col.key]}
                   </td>
                 ))}

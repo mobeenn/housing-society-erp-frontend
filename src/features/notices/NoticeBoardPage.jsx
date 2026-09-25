@@ -25,12 +25,12 @@ export default function NoticeBoardPage() {
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-neutral-900" data-tour="notices-heading">Notice Board</h1>
-            <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-700">
+            <h1 className="text-h1 font-bold text-primary" data-tour="notices-heading">Notice Board</h1>
+            <span className="rounded-full bg-gold-soft px-2.5 py-1 text-small font-medium text-accent">
               {notices.length} published
             </span>
           </div>
-          <p className="mt-1 text-sm text-neutral-500">Society announcements and important updates.</p>
+          <p className="mt-1 text-body text-secondary">Society announcements and important updates.</p>
         </div>
         <div className="flex gap-2">
           <Button data-tour="notices-refresh" variant="outline" onClick={() => refetch()} isLoading={isFetching}>
@@ -46,16 +46,16 @@ export default function NoticeBoardPage() {
 
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2" data-tour="notices-list">
-          {Array.from({ length: 4 }, (_, index) => <div key={index} className="h-48 animate-pulse rounded-xl bg-white" />)}
+          {Array.from({ length: 4 }, (_, index) => <div key={index} className="h-48 animate-pulse rounded-card bg-surface" />)}
         </div>
       ) : isError ? (
-        <Card><p className="py-8 text-center text-danger-600">Unable to load notices.</p></Card>
+        <Card><p className="py-8 text-center text-danger">Unable to load notices.</p></Card>
       ) : notices.length === 0 ? (
         <Card>
           <div className="py-12 text-center">
-            <Megaphone className="mx-auto h-12 w-12 text-neutral-300" />
-            <p className="mt-3 font-medium text-neutral-700">No published notices</p>
-            <p className="mt-1 text-sm text-neutral-400">New society announcements will appear here.</p>
+            <Megaphone className="mx-auto h-12 w-12 text-muted" />
+            <p className="mt-3 font-medium text-primary">No published notices</p>
+            <p className="mt-1 text-body text-muted">New society announcements will appear here.</p>
           </div>
         </Card>
       ) : (
@@ -64,15 +64,15 @@ export default function NoticeBoardPage() {
             <Card key={notice._id}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 items-start gap-3">
-                  <span className="rounded-xl bg-primary-50 p-2.5 text-primary-700"><Bell className="h-5 w-5" /></span>
+                  <span className="rounded-card bg-gold-soft p-2.5 text-accent"><Bell className="h-5 w-5" /></span>
                   <div className="min-w-0">
-                    <h2 className="font-semibold text-neutral-900">{notice.title}</h2>
-                    <p className="mt-2 whitespace-pre-line text-sm leading-6 text-neutral-600">{notice.body}</p>
+                    <h2 className="font-semibold text-primary">{notice.title}</h2>
+                    <p className="mt-2 whitespace-pre-line text-body leading-6 text-secondary">{notice.body}</p>
                   </div>
                 </div>
                 <StatusPill status={notice.status} />
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-neutral-100 pt-3 text-xs text-neutral-400">
+              <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-border pt-3 text-small text-muted">
                 <span className="inline-flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" /> Published {formatDate(notice.publishDate)}</span>
                 {notice.expiryDate && <span>Expires {formatDate(notice.expiryDate)}</span>}
                 <span className="ml-auto">{notice.targetAudience}</span>

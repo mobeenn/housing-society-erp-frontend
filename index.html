@@ -4,7 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <script>
+      try {
+        const saved = localStorage.getItem("kceb-theme");
+        const preferred = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = saved === "light" || saved === "dark" ? saved : preferred;
+        document.documentElement.style.colorScheme = document.documentElement.dataset.theme;
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <title>Housing Society ERP</title>
   </head>
   <body>
     <div id="root"></div>

@@ -114,7 +114,7 @@ export default function AssetsPage() {
 
   if (loading) {
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading assets...
       </div>
     );
@@ -126,16 +126,16 @@ export default function AssetsPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/maintenance")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
             title="Back to work orders"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-neutral-900" data-tour="assets-heading">
+            <h1 className="text-h1 font-bold text-primary" data-tour="assets-heading">
               Asset Registry
             </h1>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               Society assets — select one to view its full maintenance history.
             </p>
           </div>
@@ -144,14 +144,14 @@ export default function AssetsPage() {
           <button
             data-tour="assets-refresh"
             onClick={load}
-            className="flex items-center gap-2 rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="flex items-center gap-2 rounded-control border border-border-strong px-4 py-2 text-body"
           >
             <RefreshCw className="h-4 w-4" /> Refresh
           </button>
           <button
             data-tour="assets-register"
             onClick={() => setShowForm((value) => !value)}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Plus className="h-4 w-4" /> Register asset
           </button>
@@ -162,9 +162,9 @@ export default function AssetsPage() {
         <form
           data-tour="assets-form"
           onSubmit={submit}
-          className="grid grid-cols-1 gap-4 rounded-xl border border-primary-200 bg-primary-50/40 p-5 md:grid-cols-4"
+          className="grid grid-cols-1 gap-4 rounded-card border border-gold bg-gold-soft/40 p-5 md:grid-cols-4"
         >
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Name
             <input
               required
@@ -172,39 +172,39 @@ export default function AssetsPage() {
               value={form.name}
               onChange={change}
               placeholder="e.g. Street light — Main Blvd"
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Type
             <select
               name="type"
               value={form.type}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {ASSET_TYPES.map((type) => (
                 <option key={type}>{type}</option>
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Location
             <input
               name="location"
               value={form.location}
               onChange={change}
               placeholder="e.g. Block A, Main Blvd"
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Block (optional)
             <select
               name="block"
               value={form.block}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">No block</option>
               {blocks.map((block) => (
@@ -217,7 +217,7 @@ export default function AssetsPage() {
           <div className="md:col-span-4">
             <button
               disabled={saving}
-              className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
             >
               {saving ? "Saving..." : "Register asset"}
             </button>
@@ -226,12 +226,12 @@ export default function AssetsPage() {
       )}
 
       <div className="flex items-center gap-3" data-tour="assets-filter">
-        <label className="flex items-center gap-2 text-sm text-neutral-600">
+        <label className="flex items-center gap-2 text-body text-secondary">
           Type
           <select
             value={typeFilter}
             onChange={(event) => setTypeFilter(event.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm"
+            className="rounded-control border border-border-strong px-3 py-1.5 text-body"
           >
             <option value="">All</option>
             {ASSET_TYPES.map((type) => (
@@ -243,21 +243,21 @@ export default function AssetsPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Asset registry */}
-        <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm" data-tour="assets-list">
-          <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-neutral-200 bg-neutral-50 text-xs uppercase tracking-wide text-neutral-500">
+        <div className="overflow-x-auto rounded-card border border-border bg-surface shadow-none" data-tour="assets-list">
+          <table className="min-w-full text-left text-body">
+            <thead className="border-b border-border bg-canvas text-small tracking-wide text-secondary">
               <tr>
                 <th className="px-4 py-3">Asset</th>
                 <th className="px-4 py-3">Type</th>
                 <th className="px-4 py-3">Location</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100">
+            <tbody className="divide-y divide-border">
               {assets.length === 0 && (
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-4 py-8 text-center text-neutral-400"
+                    className="px-4 py-8 text-center text-muted"
                   >
                     No assets registered yet.
                   </td>
@@ -269,19 +269,19 @@ export default function AssetsPage() {
                   onClick={() => setSelectedId(asset._id)}
                   className={`cursor-pointer ${
                     selectedId === asset._id
-                      ? "bg-primary-50"
-                      : "hover:bg-neutral-50"
+                      ? "bg-gold-soft"
+                      : "hover:bg-canvas"
                   }`}
                 >
-                  <td className="px-4 py-3 font-medium text-neutral-800">
+                  <td className="px-4 py-3 font-medium text-primary">
                     {asset.name}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium uppercase text-neutral-600">
+                    <span className="rounded-full bg-surface-muted px-2 py-0.5 text-small font-medium text-secondary">
                       {asset.type}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-neutral-600">
+                  <td className="px-4 py-3 text-secondary">
                     {asset.location || "—"}
                   </td>
                 </tr>
@@ -291,52 +291,52 @@ export default function AssetsPage() {
         </div>
 
         {/* Maintenance history */}
-        <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="assets-history">
-          <h2 className="mb-4 flex items-center gap-2 font-semibold text-neutral-900">
+        <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="assets-history">
+          <h2 className="mb-4 flex items-center gap-2 font-semibold text-primary">
             <Wrench className="h-4 w-4" /> Maintenance History
           </h2>
           {!selectedId && (
-            <p className="text-sm text-neutral-400">
+            <p className="text-body text-muted">
               Select an asset to view its maintenance history.
             </p>
           )}
           {selectedId && historyLoading && (
-            <p className="text-sm text-neutral-500">Loading history...</p>
+            <p className="text-body text-secondary">Loading history...</p>
           )}
           {selectedId && !historyLoading && history && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold text-neutral-900">
+                <h3 className="text-h2 font-semibold text-primary">
                   {history.asset.name}
                 </h3>
-                <p className="text-sm text-neutral-500">
+                <p className="text-body text-secondary">
                   {history.asset.type} ·{" "}
                   {history.asset.location || "no location"}
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
-                <div className="rounded-lg bg-neutral-50 p-3">
-                  <p className="text-xs text-neutral-500">Total jobs</p>
-                  <p className="text-lg font-semibold text-neutral-800">
+              <div className="grid grid-cols-2 gap-3 text-body md:grid-cols-4">
+                <div className="rounded-control bg-canvas p-3">
+                  <p className="text-small text-secondary">Total jobs</p>
+                  <p className="text-h2 font-semibold text-primary">
                     {history.summary.total}
                   </p>
                 </div>
-                <div className="rounded-lg bg-warning-50 p-3">
-                  <p className="text-xs text-warning-700">Open</p>
-                  <p className="text-lg font-semibold text-warning-800">
+                <div className="rounded-control bg-warning-soft p-3">
+                  <p className="text-small text-warning">Open</p>
+                  <p className="text-h2 font-semibold text-warning">
                     {history.summary.open}
                   </p>
                 </div>
-                <div className="rounded-lg bg-success-50 p-3">
-                  <p className="text-xs text-success-700">Completed</p>
-                  <p className="text-lg font-semibold text-success-800">
+                <div className="rounded-control bg-success-soft p-3">
+                  <p className="text-small text-success">Completed</p>
+                  <p className="text-h2 font-semibold text-success">
                     {history.summary.byStatus.Completed}
                   </p>
                 </div>
-                <div className="rounded-lg bg-neutral-50 p-3">
-                  <p className="text-xs text-neutral-500">Total cost</p>
-                  <p className="text-lg font-semibold text-neutral-800">
+                <div className="rounded-control bg-canvas p-3">
+                  <p className="text-small text-secondary">Total cost</p>
+                  <p className="text-h2 font-semibold text-primary">
                     {history.summary.totalCost}
                   </p>
                 </div>
@@ -344,23 +344,23 @@ export default function AssetsPage() {
 
               <div className="space-y-3">
                 {history.workOrders.length === 0 && (
-                  <p className="text-sm text-neutral-400">
+                  <p className="text-body text-muted">
                     No work orders raised for this asset yet.
                   </p>
                 )}
                 {history.workOrders.map((workOrder) => (
                   <div
                     key={workOrder._id}
-                    className="cursor-pointer rounded-lg border border-neutral-200 p-3 transition hover:border-primary-300"
+                    className="cursor-pointer rounded-control border border-border p-3 transition-colors duration-base hover:border-gold"
                     onClick={() => navigate(`/maintenance/${workOrder._id}`)}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-sm font-medium text-neutral-800">
+                      <p className="text-body font-medium text-primary">
                         {workOrder.description}
                       </p>
                       <StatusPill status={workOrder.status} />
                     </div>
-                    <p className="mt-1 text-xs text-neutral-500">
+                    <p className="mt-1 text-small text-secondary">
                       {workOrder.priority} ·{" "}
                       {workOrder.assignedStaffRef?.name ||
                         workOrder.contractor ||
@@ -370,7 +370,7 @@ export default function AssetsPage() {
                         ` → done ${new Date(workOrder.completedAt).toLocaleDateString()}`}
                     </p>
                     {workOrder.completionNote && (
-                      <p className="mt-1 text-xs text-neutral-600">
+                      <p className="mt-1 text-small text-secondary">
                         {workOrder.completionNote}
                       </p>
                     )}

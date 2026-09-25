@@ -49,16 +49,16 @@ export default function DocumentUploader({
     <form
       data-tour="documents-uploader"
       onSubmit={submit}
-      className="rounded-lg border border-neutral-200 bg-neutral-50 p-4"
+      className="rounded-control border border-border bg-canvas p-4"
     >
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-        <label className="text-sm font-medium text-neutral-700">
+        <label className="text-body font-medium text-primary">
           Document type
           <select
             name="type"
             value={form.type}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 font-normal"
           >
             <option>CNIC</option>
             <option>Ownership proof</option>
@@ -67,33 +67,33 @@ export default function DocumentUploader({
             <option>Other</option>
           </select>
         </label>
-        <label className="text-sm font-medium text-neutral-700">
+        <label className="text-body font-medium text-primary">
           Document number
           <input
             name="number"
             value={form.number}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 font-normal"
           />
         </label>
-        <label className="text-sm font-medium text-neutral-700">
+        <label className="text-body font-medium text-primary">
           Issue date
           <input
             type="date"
             name="issueDate"
             value={form.issueDate}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 font-normal"
           />
         </label>
-        <label className="text-sm font-medium text-neutral-700">
+        <label className="text-body font-medium text-primary">
           Expiry date
           <input
             type="date"
             name="expiryDate"
             value={form.expiryDate}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong bg-surface px-3 py-2 font-normal"
           />
         </label>
       </div>
@@ -104,12 +104,12 @@ export default function DocumentUploader({
           type="file"
           accept={ACCEPTED}
           onChange={(event) => setFile(event.target.files?.[0] || null)}
-          className="block max-w-full text-sm text-neutral-600"
+          className="block max-w-full text-body text-secondary"
         />
         <button
           data-tour="documents-upload"
           disabled={saving}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent disabled:opacity-50"
         >
           {saving ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -119,7 +119,7 @@ export default function DocumentUploader({
           Upload document
         </button>
       </div>
-      <p className="mt-2 text-xs text-neutral-500">
+      <p className="mt-2 text-small text-secondary">
         PDF, JPG, PNG, WEBP, DOC, or DOCX up to 10 MB.
       </p>
     </form>

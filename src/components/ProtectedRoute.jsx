@@ -10,7 +10,7 @@ function resolveRequirement(requiredModule, requiredAction) {
 function AccessLoading() {
   return (
     <div className="flex min-h-[50vh] items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-neutral-200 border-t-primary-600" />
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-border border-t-accent" />
     </div>
   );
 }
@@ -41,14 +41,14 @@ export default function ProtectedRoute({
   const allowed = requiredSuperAdmin ? isSuperAdmin : !requirement || canAccess;
   if (!allowed) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-neutral-50">
-        <div className="rounded-xl border border-neutral-200 bg-white px-8 py-12 text-center shadow-sm">
+      <div className="flex min-h-screen items-center justify-center bg-canvas">
+        <div className="rounded-card border border-border bg-surface px-8 py-12 text-center shadow-none">
           <div className="mb-4 text-6xl">🔒</div>
-          <h1 className="mb-2 text-2xl font-semibold text-neutral-900">Access Denied</h1>
-          <p className="text-sm text-neutral-500">You don't have permission to access this page.</p>
+          <h1 className="mb-2 text-h1 font-semibold text-primary">Access Denied</h1>
+          <p className="text-body text-secondary">You don't have permission to access this page.</p>
           {requirement && (
-            <p className="mt-1 text-xs text-neutral-400">
-              Required access: <code className="rounded bg-neutral-100 px-2 py-0.5">{requirement.module}:{requirement.action}</code>
+            <p className="mt-1 text-small text-muted">
+              Required access: <code className="rounded-control bg-surface-muted px-2 py-0.5">{requirement.module}:{requirement.action}</code>
             </p>
           )}
         </div>

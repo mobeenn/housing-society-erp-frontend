@@ -60,29 +60,29 @@ export default function DocumentList({
   };
   if (loading)
     return (
-      <div data-tour="documents-list" className="flex items-center gap-2 py-6 text-sm text-neutral-500">
+      <div data-tour="documents-list" className="flex items-center gap-2 py-6 text-body text-secondary">
         <Loader2 className="h-4 w-4 animate-spin" /> Loading documents...
       </div>
     );
   return (
     <div data-tour="documents-list" className="space-y-3">
       {documents.length === 0 && (
-        <p className="py-4 text-sm text-neutral-500">
+        <p className="py-4 text-body text-secondary">
           No documents uploaded yet.
         </p>
       )}
       {documents.map((document) => (
         <div
           key={document._id}
-          className={`flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3 ${document.isSuperseded ? "border-neutral-200 bg-neutral-50 opacity-70" : "border-neutral-200 bg-white"}`}
+          className={`flex flex-wrap items-center justify-between gap-3 rounded-control border p-3 ${document.isSuperseded ? "border-border bg-canvas opacity-70" : "border-border bg-surface"}`}
         >
           <div className="flex min-w-0 items-center gap-3">
-            <FileText className="h-5 w-5 shrink-0 text-primary-600" />
+            <FileText className="h-5 w-5 shrink-0 text-accent" />
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-neutral-900">
+              <p className="truncate text-body font-medium text-primary">
                 {document.type} · {document.fileName}
               </p>
-              <p className="text-xs text-neutral-500">
+              <p className="text-small text-secondary">
                 Version {document.version} · {(document.size / 1024).toFixed(1)}{" "}
                 KB{document.isSuperseded ? " · Superseded" : ""}
               </p>
@@ -90,7 +90,7 @@ export default function DocumentList({
           </div>
           <div className="flex items-center gap-2">
             <span
-              className={`rounded-full px-2.5 py-1 text-xs font-medium ${document.verificationStatus === "Verified" ? "bg-success-100 text-success-700" : document.verificationStatus === "Rejected" ? "bg-danger-100 text-danger-700" : "bg-warning-100 text-warning-700"}`}
+              className={`rounded-full px-2.5 py-1 text-small font-medium ${document.verificationStatus === "Verified" ? "bg-success-soft text-success" : document.verificationStatus === "Rejected" ? "bg-danger-soft text-danger" : "bg-warning-soft text-warning"}`}
             >
               {document.verificationStatus}
             </span>
@@ -98,7 +98,7 @@ export default function DocumentList({
               disabled={workingId === document._id}
               onClick={() => download(document)}
               title="Secure download"
-              className="rounded p-1.5 text-primary-600 hover:bg-primary-50"
+              className="rounded-control p-1.5 text-accent hover:bg-gold-soft"
             >
               <Download className="h-4 w-4" />
             </button>
@@ -110,7 +110,7 @@ export default function DocumentList({
                     disabled={workingId === document._id}
                     onClick={() => verify(document, "Verified")}
                     title="Verify document"
-                    className="rounded p-1.5 text-success-600 hover:bg-success-50"
+                    className="rounded-control p-1.5 text-success hover:bg-success-soft"
                   >
                     <CheckCircle2 className="h-4 w-4" />
                   </button>
@@ -118,7 +118,7 @@ export default function DocumentList({
                     data-tour="documents-verify"
                     disabled={workingId === document._id}
                     onClick={() => verify(document, "Rejected")}
-                    className="rounded px-2 py-1 text-xs text-danger-600 hover:bg-danger-50"
+                    className="rounded-control px-2 py-1 text-small text-danger hover:bg-danger-soft"
                   >
                     Reject
                   </button>

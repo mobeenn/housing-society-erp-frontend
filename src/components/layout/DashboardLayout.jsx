@@ -9,25 +9,14 @@ export default function DashboardLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar
-        collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed((prev) => !prev)}
-      />
-
-      {/* Main content area */}
-      <div
-        className={`flex flex-1 flex-col transition-all duration-300
-          ${sidebarCollapsed ? "ml-16" : "ml-60"}`}
-      >
+    <div className="min-h-screen bg-canvas text-primary">
+      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((previous) => !previous)} />
+      <div className={`flex min-h-screen flex-1 flex-col transition-[margin] duration-base ${sidebarCollapsed ? "ml-16" : "ml-60"}`}>
         <Topbar />
-
         <main className="flex-1 px-6 py-5">
           <Breadcrumbs />
           <TourRunner />
-          <div className="mt-4">
-            <Outlet />
-          </div>
+          <div className="mt-4"><Outlet /></div>
         </main>
       </div>
     </div>

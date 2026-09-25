@@ -118,15 +118,15 @@ export default function TransferRequestPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/transfers")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             New Transfer Request
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Complete each verification step before approval.
           </p>
         </div>
@@ -135,22 +135,22 @@ export default function TransferRequestPage() {
         {steps.map((label, index) => (
           <div
             key={label}
-            className={`rounded-lg border p-3 text-xs ${index === step ? "border-primary-500 bg-primary-50 text-primary-700" : index < step ? "border-success-200 bg-success-50 text-success-700" : "border-neutral-200 text-neutral-500"}`}
+            className={`rounded-control border p-3 text-small ${index === step ? "border-accent bg-gold-soft text-accent" : index < step ? "border-success bg-success-soft text-success" : "border-border text-secondary"}`}
           >
             <span className="font-semibold">{index + 1}. </span>
             {label}
           </div>
         ))}
       </div>
-      <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm" data-tour="transfers-request-panel">
+      <div className="rounded-card border border-border bg-surface p-6 shadow-none" data-tour="transfers-request-panel">
         {step === 0 && (
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Plot with current owner
             <select
               required
               value={form.plot}
               onChange={selectPlot}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">Select plot</option>
               {plots
@@ -165,12 +165,12 @@ export default function TransferRequestPage() {
           </label>
         )}
         {step === 1 && (
-          <div className="rounded-lg bg-neutral-50 p-5">
-            <div className="flex items-center gap-2 font-semibold text-neutral-900">
-              <Check className="h-4 w-4 text-success-600" /> Verification will
+          <div className="rounded-control bg-canvas p-5">
+            <div className="flex items-center gap-2 font-semibold text-primary">
+              <Check className="h-4 w-4 text-success" /> Verification will
               check ownership, identity, outstanding dues, and restrictions.
             </div>
-            <p className="mt-2 text-sm text-neutral-600">
+            <p className="mt-2 text-body text-secondary">
               Plot: {selectedPlot?.plotNumber || "—"} · Current owner:{" "}
               {selectedPlot?.currentOwnerRef?.name || form.fromMember || "—"}
             </p>
@@ -182,27 +182,27 @@ export default function TransferRequestPage() {
               <button
                 type="button"
                 onClick={() => setRecipientMode("existing")}
-                className={`rounded-lg px-3 py-2 text-sm ${recipientMode === "existing" ? "bg-primary-600 text-white" : "border border-neutral-300"}`}
+                className={`rounded-control px-3 py-2 text-body ${recipientMode === "existing" ? "bg-accent text-on-accent" : "border border-border-strong"}`}
               >
                 Existing member
               </button>
               <button
                 type="button"
                 onClick={() => setRecipientMode("new")}
-                className={`rounded-lg px-3 py-2 text-sm ${recipientMode === "new" ? "bg-primary-600 text-white" : "border border-neutral-300"}`}
+                className={`rounded-control px-3 py-2 text-body ${recipientMode === "new" ? "bg-accent text-on-accent" : "border border-border-strong"}`}
               >
                 New member
               </button>
             </div>
             {recipientMode === "existing" ? (
-              <label className="block text-sm font-medium text-neutral-700">
+              <label className="block text-body font-medium text-primary">
                 Transfer to member
                 <select
                   required
                   name="toMember"
                   value={form.toMember}
                   onChange={change}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                  className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
                 >
                   <option value="">Select member</option>
                   {members
@@ -216,32 +216,32 @@ export default function TransferRequestPage() {
               </label>
             ) : (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <label className="text-sm font-medium text-neutral-700">
+                <label className="text-body font-medium text-primary">
                   Name
                   <input
                     name="name"
                     value={newMember.name}
                     onChange={changeNewMember}
-                    className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                    className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
                   />
                 </label>
-                <label className="text-sm font-medium text-neutral-700">
+                <label className="text-body font-medium text-primary">
                   CNIC
                   <input
                     name="cnic"
                     value={newMember.cnic}
                     onChange={changeNewMember}
                     placeholder="12345-1234567-1"
-                    className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                    className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
                   />
                 </label>
-                <label className="text-sm font-medium text-neutral-700">
+                <label className="text-body font-medium text-primary">
                   Phone
                   <input
                     name="phone"
                     value={newMember.phone}
                     onChange={changeNewMember}
-                    className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                    className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
                   />
                 </label>
               </div>
@@ -250,13 +250,13 @@ export default function TransferRequestPage() {
         )}
         {step === 3 && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Transfer type
               <select
                 name="type"
                 value={form.type}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               >
                 <option>Sale</option>
                 <option>Gift</option>
@@ -264,7 +264,7 @@ export default function TransferRequestPage() {
                 <option>Family transfer</option>
               </select>
             </label>
-            <label className="text-sm font-medium text-neutral-700">
+            <label className="text-body font-medium text-primary">
               Transfer fee
               <input
                 type="number"
@@ -272,26 +272,26 @@ export default function TransferRequestPage() {
                 name="transferFee"
                 value={form.transferFee}
                 onChange={change}
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
           </div>
         )}
         {step === 4 && (
           <div>
-            <h2 className="font-semibold text-neutral-900">Documents</h2>
-            <p className="mt-2 text-sm text-neutral-500">
+            <h2 className="font-semibold text-primary">Documents</h2>
+            <p className="mt-2 text-body text-secondary">
               Documents can be attached to the request after creation from the
               transfer detail page.
             </p>
           </div>
         )}
-        <div className="mt-6 flex justify-between border-t border-neutral-200 pt-5">
+        <div className="mt-6 flex justify-between border-t border-border pt-5">
           <button
             type="button"
             disabled={step === 0}
             onClick={() => setStep((value) => value - 1)}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm disabled:opacity-40"
+            className="rounded-control border border-border-strong px-4 py-2 text-body disabled:opacity-40"
           >
             Back
           </button>
@@ -299,7 +299,7 @@ export default function TransferRequestPage() {
             type="button"
             disabled={saving}
             onClick={next}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent"
           >
             {step === steps.length - 1
               ? saving

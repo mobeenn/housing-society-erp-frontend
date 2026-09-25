@@ -37,27 +37,18 @@ export default function Breadcrumbs() {
   const segments = pathname.split("/").filter(Boolean);
 
   return (
-    <nav className="flex items-center gap-1 text-sm text-neutral-500">
-      <Link to="/dashboard" className="hover:text-primary-600">
+    <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-small text-muted">
+      <Link to="/dashboard" aria-label="Dashboard" className="rounded-control p-1 text-muted transition-colors duration-fast hover:bg-surface-muted hover:text-primary">
         <Home className="h-4 w-4" />
       </Link>
-
-      {segments.map((seg, idx) => {
-        const path = "/" + segments.slice(0, idx + 1).join("/");
-        const label =
-          labelMap[seg] || seg.charAt(0).toUpperCase() + seg.slice(1);
-        const isLast = idx === segments.length - 1;
-
+      {segments.map((segment, index) => {
+        const path = `/${segments.slice(0, index + 1).join("/")}`;
+        const label = labelMap[segment] || segment.charAt(0).toUpperCase() + segment.slice(1);
+        const isLast = index === segments.length - 1;
         return (
           <span key={path} className="flex items-center gap-1">
-            <ChevronRight className="h-3.5 w-3.5 text-neutral-300" />
-            {isLast ? (
-              <span className="font-medium text-neutral-900">{label}</span>
-            ) : (
-              <Link to={path} className="hover:text-primary-600">
-                {label}
-              </Link>
-            )}
+            <ChevronRight className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
+            {isLast ? <span className="font-semibold text-primary">{label}</span> : <Link to={path} className="rounded-control px-1 py-0.5 transition-colors duration-fast hover:text-primary">{label}</Link>}
           </span>
         );
       })}

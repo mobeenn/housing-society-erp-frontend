@@ -31,6 +31,6 @@ export default function AccessControlPage() {
     return () => { active = false; };
   }, [navigate]);
 
-  if (loading) return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-primary-600" /></div>;
-  return <div className="flex min-h-[50vh] items-center justify-center"><div className="text-center text-neutral-500"><ShieldAlert className="mx-auto mb-3 h-8 w-8" />No role is available for access control.</div></div>;
+  if (loading) return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-accent" /></div>;
+  return <div className="flex min-h-[50vh] items-center justify-center"><div className="text-center text-secondary"><ShieldAlert className="mx-auto mb-3 h-8 w-8" />No role is available for access control.</div></div>;
 }

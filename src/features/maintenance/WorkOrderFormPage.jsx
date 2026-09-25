@@ -113,15 +113,15 @@ export default function WorkOrderFormPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/maintenance")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             New Work Order
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             Schedule maintenance against an asset, or track a repair spawned
             from a complaint.
           </p>
@@ -129,7 +129,7 @@ export default function WorkOrderFormPage() {
       </div>
 
       {complaint && (
-        <div className="flex items-start gap-2 rounded-lg border border-primary-200 bg-primary-50 p-3 text-sm text-primary-800">
+        <div className="flex items-start gap-2 rounded-control border border-gold bg-gold-soft p-3 text-body text-accent">
           <Link2 className="mt-0.5 h-4 w-4 shrink-0" />
           <span>
             Linked to complaint{" "}
@@ -148,16 +148,16 @@ export default function WorkOrderFormPage() {
       <form
         data-tour="maintenance-form"
         onSubmit={submit}
-        className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        className="space-y-5 rounded-card border border-border bg-surface p-6 shadow-none"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Asset (optional — leave empty for general work)
             <select
               name="asset"
               value={form.asset}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">No specific asset</option>
               {assets.map((asset) => (
@@ -167,26 +167,26 @@ export default function WorkOrderFormPage() {
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Priority
             <select
               name="priority"
               value={form.priority}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {PRIORITIES.map((priority) => (
                 <option key={priority}>{priority}</option>
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Assigned staff
             <select
               name="assignedStaff"
               value={form.assignedStaff}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">Unassigned</option>
               {users.map((user) => (
@@ -196,28 +196,28 @@ export default function WorkOrderFormPage() {
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Contractor (external, optional)
             <input
               name="contractor"
               value={form.contractor}
               onChange={change}
               placeholder="e.g. Al-Noor Builders"
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Expected completion
             <input
               type="date"
               name="expectedCompletion"
               value={form.expectedCompletion}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
           <div className="grid grid-cols-2 gap-4">
-            <label className="block text-sm font-medium text-neutral-700">
+            <label className="block text-body font-medium text-primary">
               Labor cost
               <input
                 type="number"
@@ -227,10 +227,10 @@ export default function WorkOrderFormPage() {
                 value={form.laborCost}
                 onChange={change}
                 placeholder="0"
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
-            <label className="block text-sm font-medium text-neutral-700">
+            <label className="block text-body font-medium text-primary">
               Material cost
               <input
                 type="number"
@@ -240,13 +240,13 @@ export default function WorkOrderFormPage() {
                 value={form.materialCost}
                 onChange={change}
                 placeholder="0"
-                className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+                className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
               />
             </label>
           </div>
         </div>
 
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Description
           <textarea
             required
@@ -255,19 +255,19 @@ export default function WorkOrderFormPage() {
             onChange={change}
             rows={4}
             placeholder="Describe the maintenance work..."
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           />
         </label>
 
         <div data-tour="maintenance-materials">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-medium text-neutral-700">
+            <span className="text-body font-medium text-primary">
               Materials
             </span>
             <button
               type="button"
               onClick={addMaterial}
-              className="text-sm font-medium text-primary-600 hover:underline"
+              className="text-body font-medium text-accent hover:underline"
             >
               + Add item
             </button>
@@ -281,7 +281,7 @@ export default function WorkOrderFormPage() {
                     changeMaterial(index, "item", event.target.value)
                   }
                   placeholder="Item (e.g. PVC pipe 4 inch)"
-                  className="flex-1 rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+                  className="flex-1 rounded-control border border-border-strong px-3 py-2 text-body"
                 />
                 <input
                   type="number"
@@ -291,13 +291,13 @@ export default function WorkOrderFormPage() {
                     changeMaterial(index, "quantity", event.target.value)
                   }
                   placeholder="Qty"
-                  className="w-28 rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+                  className="w-28 rounded-control border border-border-strong px-3 py-2 text-body"
                 />
                 {materials.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removeMaterial(index)}
-                    className="rounded-lg border border-neutral-300 px-3 text-sm text-neutral-500"
+                    className="rounded-control border border-border-strong px-3 text-body text-secondary"
                   >
                     ✕
                   </button>
@@ -307,18 +307,18 @@ export default function WorkOrderFormPage() {
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+        <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button
             type="button"
             onClick={() => navigate("/maintenance")}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="rounded-control border border-border-strong px-4 py-2 text-body"
           >
             Cancel
           </button>
           <button
             data-tour="maintenance-submit"
             disabled={saving}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
           >
             {saving ? "Creating..." : "Create work order"}
           </button>

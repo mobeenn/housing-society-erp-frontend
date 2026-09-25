@@ -20,7 +20,7 @@ export default function MemberStatementPage({ embedded = false }) {
   }, [id]);
   if (loading)
     return (
-      <div className="py-8 text-center text-sm text-neutral-500">
+      <div className="py-8 text-center text-body text-secondary">
         Loading statement...
       </div>
     );
@@ -28,7 +28,7 @@ export default function MemberStatementPage({ embedded = false }) {
   return (
     <div className={embedded ? "space-y-5" : "space-y-6"}>
       {!embedded && (
-        <h1 className="text-2xl font-bold text-neutral-900">
+        <h1 className="text-h1 font-bold text-primary">
           Member Statement
         </h1>
       )}
@@ -40,18 +40,18 @@ export default function MemberStatementPage({ embedded = false }) {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="rounded-card border border-border bg-surface p-4 shadow-none"
           >
-            <p className="text-xs text-neutral-500">{label}</p>
-            <p className="mt-1 text-lg font-semibold text-neutral-900">
+            <p className="text-small text-secondary">{label}</p>
+            <p className="mt-1 text-h2 font-semibold text-primary">
               {Number(value).toLocaleString()}
             </p>
           </div>
         ))}
       </div>
-      <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
+      <div className="overflow-x-auto rounded-card border border-border bg-surface shadow-none">
+        <table className="w-full text-left text-body">
+          <thead className="bg-canvas text-small text-secondary">
             <tr>
               <th className="px-5 py-3">Date</th>
               <th className="px-5 py-3">Type</th>
@@ -61,14 +61,14 @@ export default function MemberStatementPage({ embedded = false }) {
               <th className="px-5 py-3">Running total</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-200">
+          <tbody className="divide-y divide-border">
             {statement.ledger.map((entry) => (
               <tr key={`${entry.type}-${entry.reference}`}>
                 <td className="px-5 py-3">
                   {new Date(entry.date).toLocaleDateString()}
                 </td>
                 <td className="px-5 py-3">{entry.type}</td>
-                <td className="px-5 py-3 font-mono text-xs">
+                <td className="px-5 py-3 font-mono text-small">
                   {entry.reference}
                 </td>
                 <td className="px-5 py-3">
@@ -88,7 +88,7 @@ export default function MemberStatementPage({ embedded = false }) {
       {embedded && (
         <Link
           to={`/members/${id}/statement`}
-          className="text-sm font-medium text-primary-600 hover:text-primary-700"
+          className="text-body font-medium text-accent hover:text-accent"
         >
           Open full statement
         </Link>

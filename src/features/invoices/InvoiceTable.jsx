@@ -59,13 +59,13 @@ export default function InvoiceTable({
       key: "invoiceNumber",
       label: "Invoice #",
       sortable: false,
-      render: (row) => <span className="font-mono text-xs font-medium text-neutral-800">{row.invoiceNumber}</span>,
+      render: (row) => <span className="font-mono text-small font-medium text-primary">{row.invoiceNumber}</span>,
     },
     {
       key: "invoiceType",
       label: "Type",
       sortable: false,
-      render: (row) => <span className="text-sm text-neutral-700">{row.invoiceType}</span>,
+      render: (row) => <span className="text-body text-primary">{row.invoiceType}</span>,
     },
     {
       key: "memberName",
@@ -117,7 +117,7 @@ export default function InvoiceTable({
               openFile(row);
             }}
             disabled={(!row.fileUrl && !row.viewUrl) || workingId === row._id}
-            className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-2.5 py-1.5 text-xs font-medium text-primary-700 hover:bg-primary-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex items-center gap-1 rounded-control border border-border px-2.5 py-1.5 text-small font-medium text-accent hover:bg-gold-soft disabled:cursor-not-allowed disabled:opacity-40"
             title="View or reprint original document"
           >
             {workingId === row._id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ExternalLink className="h-3.5 w-3.5" />}
@@ -131,7 +131,7 @@ export default function InvoiceTable({
                 event.stopPropagation();
                 setCancelTarget(row);
               }}
-              className="inline-flex items-center gap-1 rounded-lg border border-danger-200 px-2.5 py-1.5 text-xs font-medium text-danger-700 hover:bg-danger-50"
+              className="inline-flex items-center gap-1 rounded-control border border-danger px-2.5 py-1.5 text-small font-medium text-danger hover:bg-danger-soft"
               title="Cancel invoice"
             >
               <XCircle className="h-3.5 w-3.5" />

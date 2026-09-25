@@ -200,17 +200,17 @@ export default function VehicleRegistryPage() {
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-900" data-tour="vehicles-heading">
+          <h1 className="text-h1 font-bold tracking-tight text-primary" data-tour="vehicles-heading">
             Vehicle Registry
           </h1>
-          <p className="text-sm text-neutral-500">
+          <p className="text-body text-secondary">
             Register resident vehicles, issue stickers, and manage access status
           </p>
         </div>
         <button
           data-tour="vehicles-register"
           onClick={() => handleOpenVehicleModal()}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700 transition"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent shadow-none hover:bg-accent transition-colors duration-base"
         >
           <Plus className="h-4 w-4" />
           Register Vehicle
@@ -219,65 +219,65 @@ export default function VehicleRegistryPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4" data-tour="vehicles-stats">
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+        <div className="rounded-card border border-border bg-surface p-4 shadow-none">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-control bg-surface-muted text-secondary">
               <Car className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-neutral-500">Total Vehicles</p>
-              <p className="text-xl font-bold text-neutral-900">{stats.total}</p>
+              <p className="text-small font-medium text-secondary">Total Vehicles</p>
+              <p className="text-h2 font-bold text-primary">{stats.total}</p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+        <div className="rounded-card border border-border bg-surface p-4 shadow-none">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-control bg-success-soft text-success">
               <Package className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-neutral-500">Active</p>
-              <p className="text-xl font-bold text-neutral-900">{stats.active}</p>
+              <p className="text-small font-medium text-secondary">Active</p>
+              <p className="text-h2 font-bold text-primary">{stats.active}</p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+        <div className="rounded-card border border-border bg-surface p-4 shadow-none">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-control bg-danger-soft text-danger">
               <Filter className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-neutral-500">Blocked</p>
-              <p className="text-xl font-bold text-neutral-900">{stats.blocked}</p>
+              <p className="text-small font-medium text-secondary">Blocked</p>
+              <p className="text-h2 font-bold text-primary">{stats.blocked}</p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+        <div className="rounded-card border border-border bg-surface p-4 shadow-none">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-control bg-warning-soft text-warning">
               <Package className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs font-medium text-neutral-500">Expired</p>
-              <p className="text-xl font-bold text-neutral-900">{stats.expired}</p>
+              <p className="text-small font-medium text-secondary">Expired</p>
+              <p className="text-h2 font-bold text-primary">{stats.expired}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm" data-tour="vehicles-filters">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-card border border-border bg-surface p-4 shadow-none" data-tour="vehicles-filters">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-neutral-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by number, model, sticker..."
-            className="w-full rounded-lg border border-neutral-300 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-control border border-border-strong pl-9 pr-3 py-2 text-body focus:border-accent focus:outline-none"
           />
         </div>
 
@@ -285,7 +285,7 @@ export default function VehicleRegistryPage() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm text-neutral-800 focus:border-primary-500 focus:outline-none"
+            className="rounded-control border border-border-strong px-3 py-2 text-body text-primary focus:border-accent focus:outline-none"
           >
             <option value="">All Types</option>
             {VEHICLE_TYPES.map((t) => (
@@ -298,7 +298,7 @@ export default function VehicleRegistryPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm text-neutral-800 focus:border-primary-500 focus:outline-none"
+            className="rounded-control border border-border-strong px-3 py-2 text-body text-primary focus:border-accent focus:outline-none"
           >
             <option value="">All Statuses</option>
             {VEHICLE_STATUSES.map((s) => (
@@ -311,9 +311,9 @@ export default function VehicleRegistryPage() {
       </div>
 
       {/* Vehicles Table */}
-      <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm" data-tour="vehicles-list">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+      <div className="overflow-hidden rounded-card border border-border bg-surface shadow-none" data-tour="vehicles-list">
+        <table className="w-full text-left text-body">
+          <thead className="border-b border-border bg-canvas text-small font-semibold text-secondary">
             <tr>
               <th className="p-4">Vehicle Number</th>
               <th className="p-4">Type</th>
@@ -324,47 +324,47 @@ export default function VehicleRegistryPage() {
               <th className="p-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-200">
+          <tbody className="divide-y divide-border">
             {loading ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-neutral-400">
+                <td colSpan={7} className="p-8 text-center text-muted">
                   Loading vehicles...
                 </td>
               </tr>
             ) : vehicles.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-neutral-400">
+                <td colSpan={7} className="p-8 text-center text-muted">
                   No vehicles registered yet.
                 </td>
               </tr>
             ) : (
               vehicles.map((vehicle) => (
-                <tr key={vehicle._id} className="hover:bg-neutral-50">
+                <tr key={vehicle._id} className="hover:bg-canvas">
                   <td className="p-4">
-                    <span className="font-mono font-semibold text-neutral-900">
+                    <span className="font-mono font-semibold text-primary">
                       {vehicle.number}
                     </span>
                   </td>
                   <td className="p-4">
-                    <span className="inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-neutral-700">
+                    <span className="inline-block rounded-full bg-surface-muted px-2.5 py-0.5 text-small font-medium text-primary">
                       {vehicle.type}
                     </span>
                   </td>
-                  <td className="p-4 text-neutral-600">
+                  <td className="p-4 text-secondary">
                     {vehicle.model || "—"}
                   </td>
-                  <td className="p-4 text-neutral-600">
+                  <td className="p-4 text-secondary">
                     {vehicle.ownerRef?.name || "No Owner"}
                   </td>
                   <td className="p-4">
                     {vehicle.stickerNumber ? (
-                      <span className="font-mono text-xs font-semibold text-primary-700">
+                      <span className="font-mono text-small font-semibold text-accent">
                         {vehicle.stickerNumber}
                       </span>
                     ) : (
                       <button
                         onClick={() => handleOpenStickerModal(vehicle)}
-                        className="text-xs font-medium text-primary-600 hover:text-primary-800 underline"
+                        className="text-small font-medium text-accent hover:text-accent underline"
                       >
                         Issue Sticker
                       </button>
@@ -382,13 +382,13 @@ export default function VehicleRegistryPage() {
                     <div className="flex items-center justify-end gap-3">
                       <button
                         onClick={() => handleOpenVehicleModal(vehicle)}
-                        className="text-xs font-medium text-primary-600 hover:text-primary-800"
+                        className="text-small font-medium text-accent hover:text-accent"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteVehicle(vehicle._id)}
-                        className="text-xs font-medium text-rose-600 hover:text-rose-800"
+                        className="text-small font-medium text-danger hover:text-danger"
                       >
                         Delete
                       </button>
@@ -403,14 +403,14 @@ export default function VehicleRegistryPage() {
 
       {/* ==================== MODAL: ADD / EDIT VEHICLE ==================== */}
       {showVehicleModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl animate-in fade-in">
-            <h2 className="text-lg font-bold text-neutral-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-md rounded-card bg-surface p-6 shadow-overlay animate-in fade-in">
+            <h2 className="text-h2 font-bold text-primary mb-4">
               {editingVehicle ? "Edit Vehicle" : "Register Vehicle"}
             </h2>
             <form onSubmit={handleSaveVehicle} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Vehicle Number *
                 </label>
                 <input
@@ -421,13 +421,13 @@ export default function VehicleRegistryPage() {
                   }
                   required
                   placeholder="e.g. ABC-123 or LEA-1234"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm font-mono uppercase focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body font-mono focus:border-accent focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-neutral-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Type *
                   </label>
                   <select
@@ -435,7 +435,7 @@ export default function VehicleRegistryPage() {
                     onChange={(e) =>
                       setVehicleForm({ ...vehicleForm, type: e.target.value })
                     }
-                    className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                   >
                     {VEHICLE_TYPES.map((t) => (
                       <option key={t} value={t}>
@@ -446,7 +446,7 @@ export default function VehicleRegistryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-neutral-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Status *
                   </label>
                   <select
@@ -454,7 +454,7 @@ export default function VehicleRegistryPage() {
                     onChange={(e) =>
                       setVehicleForm({ ...vehicleForm, status: e.target.value })
                     }
-                    className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                   >
                     {VEHICLE_STATUSES.map((s) => (
                       <option key={s} value={s}>
@@ -466,7 +466,7 @@ export default function VehicleRegistryPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Model
                 </label>
                 <input
@@ -476,12 +476,12 @@ export default function VehicleRegistryPage() {
                     setVehicleForm({ ...vehicleForm, model: e.target.value })
                   }
                   placeholder="e.g. Honda Civic, Yamaha YBR"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Owner (Member)
                 </label>
                 <select
@@ -489,7 +489,7 @@ export default function VehicleRegistryPage() {
                   onChange={(e) =>
                     setVehicleForm({ ...vehicleForm, owner: e.target.value })
                   }
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 >
                   <option value="">None / Visitor</option>
                   {members.map((m) => (
@@ -501,7 +501,7 @@ export default function VehicleRegistryPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Sticker Number
                 </label>
                 <input
@@ -514,7 +514,7 @@ export default function VehicleRegistryPage() {
                     })
                   }
                   placeholder="e.g. STK-001"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 />
               </div>
 
@@ -522,14 +522,14 @@ export default function VehicleRegistryPage() {
                 <button
                   type="button"
                   onClick={() => setShowVehicleModal(false)}
-                  className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-4 py-2 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingVehicle}
-                  className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {savingVehicle
                     ? "Saving..."
@@ -545,20 +545,20 @@ export default function VehicleRegistryPage() {
 
       {/* ==================== MODAL: ISSUE STICKER ==================== */}
       {showStickerModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl animate-in fade-in">
-            <h2 className="text-lg font-bold text-neutral-900 mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-sm rounded-card bg-surface p-6 shadow-overlay animate-in fade-in">
+            <h2 className="text-h2 font-bold text-primary mb-2">
               Issue Sticker
             </h2>
-            <p className="text-xs text-neutral-500 mb-4">
+            <p className="text-small text-secondary mb-4">
               Vehicle:{" "}
-              <span className="font-mono font-semibold text-neutral-800">
+              <span className="font-mono font-semibold text-primary">
                 {stickerVehicle?.number}
               </span>
             </p>
             <form onSubmit={handleSaveSticker} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Sticker Number *
                 </label>
                 <input
@@ -567,7 +567,7 @@ export default function VehicleRegistryPage() {
                   onChange={(e) => setStickerNumber(e.target.value)}
                   required
                   placeholder="e.g. STK-001"
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 />
               </div>
 
@@ -575,14 +575,14 @@ export default function VehicleRegistryPage() {
                 <button
                   type="button"
                   onClick={() => setShowStickerModal(false)}
-                  className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-3 py-1.5 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingSticker}
-                  className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="rounded-control bg-accent px-4 py-1.5 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {savingSticker ? "Saving..." : "Issue Sticker"}
                 </button>
@@ -594,26 +594,26 @@ export default function VehicleRegistryPage() {
 
       {/* ==================== MODAL: UPDATE STATUS ==================== */}
       {showStatusModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl animate-in fade-in">
-            <h2 className="text-lg font-bold text-neutral-900 mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-sm rounded-card bg-surface p-6 shadow-overlay animate-in fade-in">
+            <h2 className="text-h2 font-bold text-primary mb-2">
               Update Vehicle Status
             </h2>
-            <p className="text-xs text-neutral-500 mb-4">
+            <p className="text-small text-secondary mb-4">
               Vehicle:{" "}
-              <span className="font-mono font-semibold text-neutral-800">
+              <span className="font-mono font-semibold text-primary">
                 {statusVehicle?.number}
               </span>
             </p>
             <form onSubmit={handleSaveStatus} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Status *
                 </label>
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value)}
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none"
                 >
                   {VEHICLE_STATUSES.map((s) => (
                     <option key={s} value={s}>
@@ -627,14 +627,14 @@ export default function VehicleRegistryPage() {
                 <button
                   type="button"
                   onClick={() => setShowStatusModal(false)}
-                  className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-3 py-1.5 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingStatus}
-                  className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="rounded-control bg-accent px-4 py-1.5 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {savingStatus ? "Saving..." : "Update Status"}
                 </button>

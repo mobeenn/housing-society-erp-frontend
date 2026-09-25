@@ -85,21 +85,21 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+      <div className="bg-surface rounded-card shadow-overlay max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-6 border-b border-border sticky top-0 bg-surface z-10">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-h2 font-bold text-primary">
               {isEdit ? "Edit Employee" : "Add New Employee"}
             </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-small text-secondary mt-0.5">
               Enter the staff member details and employment credentials
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="text-muted hover:text-secondary p-1.5 rounded-control hover:bg-surface-muted transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -109,13 +109,13 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6" data-tour="hr-employee-form">
           {/* Basic Info */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">
+            <h3 className="text-body font-semibold text-primary mb-3">
               Basic Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Employee ID <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Employee ID <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
@@ -124,13 +124,13 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   onChange={handleChange}
                   required
                   placeholder="e.g. EMP-001"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Full Name <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
@@ -139,12 +139,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   onChange={handleChange}
                   required
                   placeholder="Employee Full Name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   CNIC
                 </label>
                 <input
@@ -153,12 +153,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.cnic}
                   onChange={handleChange}
                   placeholder="35201-XXXXXXX-X"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Phone Number
                 </label>
                 <input
@@ -167,12 +167,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="03001234567"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Email Address
                 </label>
                 <input
@@ -181,12 +181,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="staff@society.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Date of Birth
                 </label>
                 <input
@@ -194,7 +194,7 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   name="dateOfBirth"
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
             </div>
@@ -202,20 +202,20 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
 
           {/* Job Details */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">
+            <h3 className="text-body font-semibold text-primary mb-3">
               Employment Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Department <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Department <span className="text-danger">*</span>
                 </label>
                 <select
                   name="department"
                   value={formData.department}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 >
                   <option value="Administration">Administration</option>
                   <option value="Maintenance">Maintenance</option>
@@ -227,8 +227,8 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Designation <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Designation <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
@@ -237,13 +237,13 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   onChange={handleChange}
                   required
                   placeholder="e.g. Electrician / Supervisor"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Joining Date <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Joining Date <span className="text-danger">*</span>
                 </label>
                 <input
                   type="date"
@@ -251,20 +251,20 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.joiningDate}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Status <span className="text-danger">*</span>
                 </label>
                 <select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 >
                   <option value="Active">Active</option>
                   <option value="On Leave">On Leave</option>
@@ -277,18 +277,18 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
 
           {/* System Access / Linked User */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">
+            <h3 className="text-body font-semibold text-primary mb-3">
               System Access
             </h3>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-body font-medium text-primary mb-1">
                 Linked System User Account
               </label>
               <select
                 name="linkedUser"
                 value={formData.linkedUser}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
               >
                 <option value="">No System Account (Field staff without login)</option>
                 {users.map((u) => (
@@ -297,7 +297,7 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   </option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-small text-secondary mt-1">
                 Link this employee to an ERP login account to grant role-based system permissions.
               </p>
             </div>
@@ -305,12 +305,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
 
           {/* Salary Details */}
           <div data-tour="bank-accounts-section">
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">
+            <h3 className="text-body font-semibold text-primary mb-3">
               Compensation & Bank Info
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Basic Salary (PKR)
                 </label>
                 <input
@@ -319,12 +319,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.basicSalary}
                   onChange={handleChange}
                   placeholder="e.g. 50000"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Allowances (PKR)
                 </label>
                 <input
@@ -333,12 +333,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.allowances}
                   onChange={handleChange}
                   placeholder="e.g. 5000"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Deductions (PKR)
                 </label>
                 <input
@@ -347,12 +347,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.deductions}
                   onChange={handleChange}
                   placeholder="e.g. 2000"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Bank Account / IBAN
                 </label>
                 <input
@@ -362,7 +362,7 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.bankAccount}
                   onChange={handleChange}
                   placeholder="PK36XXXX0000001234567890"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
             </div>
@@ -370,12 +370,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
 
           {/* Contact & Address */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">
+            <h3 className="text-body font-semibold text-primary mb-3">
               Contact & Emergency
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Emergency Contact
                 </label>
                 <input
@@ -384,12 +384,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.emergencyContact}
                   onChange={handleChange}
                   placeholder="Contact Name & Number"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Remarks / Notes
                 </label>
                 <input
@@ -398,12 +398,12 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   value={formData.remarks}
                   onChange={handleChange}
                   placeholder="Special instructions or notes"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-body font-medium text-primary mb-1">
                   Residential Address
                 </label>
                 <textarea
@@ -412,18 +412,18 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
                   onChange={handleChange}
                   rows={2}
                   placeholder="Full Residential Address"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
                 />
               </div>
             </div>
           </div>
 
           {/* Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-body font-medium text-primary hover:bg-surface-muted rounded-control transition-colors"
             >
               Cancel
             </button>
@@ -431,9 +431,9 @@ export default function EmployeeFormModal({ employee, onClose, onSuccess }) {
               data-tour="bank-accounts-save"
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 text-body font-medium text-on-accent bg-accent hover:bg-accent-hover rounded-control transition-colors disabled:opacity-50 flex items-center gap-2"
             >
-              {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+              {loading && <div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" />}
               {isEdit ? "Update Employee" : "Create Employee"}
             </button>
           </div>

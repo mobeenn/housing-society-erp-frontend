@@ -67,7 +67,7 @@ export default function BookingDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading booking...
       </div>
     );
@@ -79,16 +79,16 @@ export default function BookingDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/bookings")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-neutral-900">Booking</h1>
+              <h1 className="text-h1 font-bold text-primary">Booking</h1>
               <StatusPill status={booking.status} />
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {booking.memberRef?.name || "—"} ·{" "}
               {booking.plotRef?.plotNumber || "—"}
             </p>
@@ -98,13 +98,13 @@ export default function BookingDetailPage() {
           <div className="flex gap-2">
             {canReject && <button
               onClick={reject}
-              className="flex items-center gap-2 rounded-lg border border-danger-200 px-3 py-2 text-sm text-danger-700"
+              className="flex items-center gap-2 rounded-control border border-danger px-3 py-2 text-body text-danger"
             >
               <X className="h-4 w-4" /> Reject
             </button>}
             {canApprove && <button
               onClick={approve}
-              className="flex items-center gap-2 rounded-lg bg-success-600 px-3 py-2 text-sm font-medium text-white"
+              className="flex items-center gap-2 rounded-control bg-success px-3 py-2 text-body font-medium text-on-accent"
             >
               <Check className="h-4 w-4" /> Approve
             </button>}
@@ -113,7 +113,7 @@ export default function BookingDetailPage() {
         {canCancel && booking.status === "Confirmed" && (
           <button
             onClick={cancel}
-            className="rounded-lg border border-danger-200 px-3 py-2 text-sm text-danger-700"
+            className="rounded-control border border-danger px-3 py-2 text-body text-danger"
           >
             Cancel booking
           </button>
@@ -136,27 +136,27 @@ export default function BookingDetailPage() {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="rounded-card border border-border bg-surface p-4 shadow-none"
           >
-            <p className="text-xs text-neutral-500">{label}</p>
-            <p className="mt-1 font-semibold text-neutral-900">
+            <p className="text-small text-secondary">{label}</p>
+            <p className="mt-1 font-semibold text-primary">
               {value || "—"}
             </p>
           </div>
         ))}
       </div>
       {plan ? (
-        <section className="rounded-xl border border-neutral-200 bg-white shadow-sm">
-          <div className="border-b border-neutral-100 px-5 py-4">
-            <h2 className="font-semibold text-neutral-900">Installment plan</h2>
-            <p className="mt-1 text-sm text-neutral-500">
+        <section className="rounded-card border border-border bg-surface shadow-none">
+          <div className="border-b border-border px-5 py-4">
+            <h2 className="font-semibold text-primary">Installment plan</h2>
+            <p className="mt-1 text-body text-secondary">
               {plan.numberOfInstallments} {plan.frequency} installments ·
               Outstanding {Number(plan.totalAmount).toLocaleString()}
             </p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
+            <table className="w-full text-left text-body">
+              <thead className="bg-canvas text-small text-secondary">
                 <tr>
                   <th className="px-5 py-3">#</th>
                   <th className="px-5 py-3">Due date</th>
@@ -166,7 +166,7 @@ export default function BookingDetailPage() {
                   <th className="px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200">
+              <tbody className="divide-y divide-border">
                 {(plan.installments || []).map((item, index) => (
                   <tr key={item._id}>
                     <td className="px-5 py-3">{index + 1}</td>
@@ -192,12 +192,12 @@ export default function BookingDetailPage() {
           </div>
         </section>
       ) : (
-        <section className="rounded-xl border border-dashed border-neutral-300 bg-white p-8 text-center text-sm text-neutral-500">
+        <section className="rounded-card border border-dashed border-border-strong bg-surface p-8 text-center text-body text-secondary">
           Installment plan will be generated when this booking is approved.
         </section>
       )}
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-neutral-900">
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none">
+        <h2 className="mb-4 text-h2 font-semibold text-primary">
           Documents
         </h2>
         <div className="space-y-5">

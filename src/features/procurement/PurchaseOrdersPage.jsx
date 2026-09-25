@@ -211,17 +211,17 @@ export default function PurchaseOrdersPage() {
 
   const getStatusBadge = (status) => {
     const variants = {
-      Draft: "bg-gray-100 text-gray-700",
-      Approved: "bg-blue-100 text-blue-700 font-semibold",
-      Sent: "bg-purple-100 text-purple-700",
-      PartiallyReceived: "bg-amber-100 text-amber-700 font-bold",
-      Completed: "bg-green-100 text-green-700 font-bold",
-      Cancelled: "bg-red-100 text-red-700",
+      Draft: "bg-surface-muted text-primary",
+      Approved: "bg-info-soft text-info font-semibold",
+      Sent: "bg-info-soft text-info",
+      PartiallyReceived: "bg-warning-soft text-warning font-bold",
+      Completed: "bg-success-soft text-success font-bold",
+      Cancelled: "bg-danger-soft text-danger",
     };
     return (
       <span
-        className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium rounded-full ${
-          variants[status] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-small font-medium rounded-full ${
+          variants[status] || "bg-surface-muted text-primary"
         }`}
       >
         {status === "Completed" && <CheckCircle className="w-3 h-3" />}
@@ -237,7 +237,7 @@ export default function PurchaseOrdersPage() {
       key: "poNumber",
       label: "PO Number",
       render: (row) => (
-        <span className="font-mono text-sm font-bold text-blue-600" data-tour="procurement-orders-list">
+        <span className="font-mono text-body font-bold text-info" data-tour="procurement-orders-list">
           {row.poNumber}
         </span>
       ),
@@ -247,8 +247,8 @@ export default function PurchaseOrdersPage() {
       label: "Vendor",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">{row.selectedVendor?.name || "—"}</div>
-          <div className="text-xs text-gray-500">{row.selectedVendor?.category}</div>
+          <div className="font-medium text-primary">{row.selectedVendor?.name || "—"}</div>
+          <div className="text-small text-secondary">{row.selectedVendor?.category}</div>
         </div>
       ),
     },
@@ -256,7 +256,7 @@ export default function PurchaseOrdersPage() {
       key: "items",
       label: "Ordered Items",
       render: (row) => (
-        <div className="text-xs text-gray-700">
+        <div className="text-small text-primary">
           {row.items?.map((it, idx) => (
             <div key={idx} className="line-clamp-1">
               • {it.item} ({it.quantity} @ PKR {it.unitPrice?.toLocaleString()})
@@ -269,7 +269,7 @@ export default function PurchaseOrdersPage() {
       key: "totalAmount",
       label: "Total Amount (PKR)",
       render: (row) => (
-        <span className="font-mono font-bold text-sm text-gray-900">
+        <span className="font-mono font-bold text-body text-primary">
           {row.totalAmount?.toLocaleString()} {row.currency}
         </span>
       ),
@@ -278,7 +278,7 @@ export default function PurchaseOrdersPage() {
       key: "deliveryDate",
       label: "Target Delivery",
       render: (row) => (
-        <span className="text-sm text-gray-600">
+        <span className="text-body text-secondary">
           {row.deliveryDate ? new Date(row.deliveryDate).toLocaleDateString() : "—"}
         </span>
       ),
@@ -298,7 +298,7 @@ export default function PurchaseOrdersPage() {
           {["Approved", "Sent", "PartiallyReceived"].includes(row.status) && (
             <button
               onClick={() => navigate(`/procurement/grns?poId=${row._id}`)}
-              className="px-2.5 py-1 bg-green-50 text-green-700 hover:bg-green-100 rounded text-xs font-semibold flex items-center gap-1"
+              className="px-2.5 py-1 bg-success-soft text-success hover:bg-success-soft rounded-control text-small font-semibold flex items-center gap-1"
               title="Receive Goods Note (GRN)"
             >
               <Package className="w-3.5 h-3.5" />
@@ -309,7 +309,7 @@ export default function PurchaseOrdersPage() {
           {row.status === "Draft" && (
             <button
               onClick={() => setStatusModal({ isOpen: true, po: row, targetStatus: "Approved", loading: false })}
-              className="px-2 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-medium"
+              className="px-2 py-1 bg-info-soft text-info hover:bg-info-soft rounded-control text-small font-medium"
               title="Approve PO"
             >
               Approve
@@ -319,7 +319,7 @@ export default function PurchaseOrdersPage() {
           {row.status === "Approved" && (
             <button
               onClick={() => setStatusModal({ isOpen: true, po: row, targetStatus: "Sent", loading: false })}
-              className="px-2 py-1 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded text-xs font-medium"
+              className="px-2 py-1 bg-info-soft text-info hover:bg-info-soft rounded-control text-small font-medium"
               title="Mark as Sent to Vendor"
             >
               Send
@@ -331,7 +331,7 @@ export default function PurchaseOrdersPage() {
               setDetailPO(row);
               setIsDetailOpen(true);
             }}
-            className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+            className="p-1.5 text-secondary hover:bg-surface-muted rounded-control transition-colors"
             title="View Details"
           >
             <Eye className="w-4 h-4" />
@@ -339,7 +339,7 @@ export default function PurchaseOrdersPage() {
 
           <button
             onClick={() => handleEdit(row)}
-            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
             title="Edit Purchase Order"
           >
             <Edit className="w-4 h-4" />
@@ -347,7 +347,7 @@ export default function PurchaseOrdersPage() {
 
           <button
             onClick={() => setConfirmDialog({ isOpen: true, po: row, loading: false })}
-            className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+            className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
             title="Delete Purchase Order"
           >
             <Trash2 className="w-4 h-4" />
@@ -362,11 +362,11 @@ export default function PurchaseOrdersPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-tour="procurement-orders-heading">
-            <ShoppingCart className="w-7 h-7 text-blue-600" />
+          <h1 className="text-h1 font-bold text-primary flex items-center gap-2" data-tour="procurement-orders-heading">
+            <ShoppingCart className="w-7 h-7 text-info" />
             Purchase Orders
           </h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-body text-secondary mt-1">
             Generate, track, and manage official binding vendor purchase orders
           </p>
         </div>
@@ -374,7 +374,7 @@ export default function PurchaseOrdersPage() {
           <button
             data-tour="procurement-create-po"
             onClick={handleCreate}
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-sm transition-colors text-sm"
+            className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-on-accent font-medium px-4 py-2 rounded-control shadow-none transition-colors text-body"
           >
             <Plus className="w-4 h-4" />
             Create Purchase Order
@@ -388,10 +388,10 @@ export default function PurchaseOrdersPage() {
           <button
             key={st}
             onClick={() => setStatusFilter(st)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+            className={`px-3 py-1.5 rounded-control text-small font-medium border transition-colors ${
               statusFilter === st
-                ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+                ? "bg-accent text-on-accent border-info shadow-none"
+                : "bg-surface text-primary border-border hover:bg-surface-muted"
             }`}
           >
             {st || "All Purchase Orders"}
@@ -416,15 +416,15 @@ export default function PurchaseOrdersPage() {
 
       {/* Create/Edit Modal */}
       {isFormOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-3xl w-full p-6 shadow-xl relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-3xl w-full p-6 shadow-overlay relative max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b pb-3 mb-4">
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-h2 font-bold text-primary">
                 {selectedPO ? "Edit Purchase Order" : "Generate Purchase Order"}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted hover:text-secondary"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -433,14 +433,14 @@ export default function PurchaseOrdersPage() {
             <form onSubmit={handleFormSubmit} className="space-y-4" data-tour="procurement-order-form">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Selected Vendor *
                   </label>
                   <select
                     required
                     value={formData.selectedVendor}
                     onChange={(e) => setFormData({ ...formData, selectedVendor: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   >
                     <option value="">-- Choose Vendor --</option>
                     {vendors.map((v) => (
@@ -452,13 +452,13 @@ export default function PurchaseOrdersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Related Purchase Request
                   </label>
                   <select
                     value={formData.purchaseRequest}
                     onChange={(e) => setFormData({ ...formData, purchaseRequest: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   >
                     <option value="">-- Select Requisition (Optional) --</option>
                     {purchaseRequests.map((pr) => (
@@ -470,13 +470,13 @@ export default function PurchaseOrdersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Accepted Quotation Reference
                   </label>
                   <select
                     value={formData.selectedQuotation}
                     onChange={(e) => setFormData({ ...formData, selectedQuotation: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   >
                     <option value="">-- Select Quotation (Optional) --</option>
                     {quotations.map((q) => (
@@ -488,7 +488,7 @@ export default function PurchaseOrdersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Target Delivery Date *
                   </label>
                   <input
@@ -496,32 +496,32 @@ export default function PurchaseOrdersPage() {
                     required
                     value={formData.deliveryDate}
                     onChange={(e) => setFormData({ ...formData, deliveryDate: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Payment Terms
                   </label>
                   <input
                     type="text"
                     value={formData.paymentTerms}
                     onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                     placeholder="e.g. Net 30, on delivery"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Delivery Terms
                   </label>
                   <input
                     type="text"
                     value={formData.deliveryTerms}
                     onChange={(e) => setFormData({ ...formData, deliveryTerms: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                     placeholder="e.g. Delivered to Site"
                   />
                 </div>
@@ -530,13 +530,13 @@ export default function PurchaseOrdersPage() {
               {/* Items Section */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <label className="text-small font-semibold text-primary">
                     PO Line Items
                   </label>
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className="text-xs text-blue-600 font-semibold hover:underline flex items-center gap-1"
+                    className="text-small text-info font-semibold hover:underline flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add Line Item
                   </button>
@@ -544,13 +544,13 @@ export default function PurchaseOrdersPage() {
 
                 <div className="space-y-2">
                   {formData.items.map((it, idx) => (
-                    <div key={idx} className="flex gap-2 items-center bg-gray-50 p-2 rounded border">
+                    <div key={idx} className="flex gap-2 items-center bg-surface-muted p-2 rounded-control border">
                       <input
                         type="text"
                         placeholder="Item name / specs"
                         value={it.item}
                         onChange={(e) => handleItemChange(idx, "item", e.target.value)}
-                        className="flex-1 text-xs border rounded p-1.5"
+                        className="flex-1 text-small border rounded-control p-1.5"
                         required
                       />
                       <input
@@ -559,7 +559,7 @@ export default function PurchaseOrdersPage() {
                         min={1}
                         value={it.quantity}
                         onChange={(e) => handleItemChange(idx, "quantity", e.target.value)}
-                        className="w-16 text-xs border rounded p-1.5 text-center"
+                        className="w-16 text-small border rounded-control p-1.5 text-center"
                         required
                       />
                       <input
@@ -568,17 +568,17 @@ export default function PurchaseOrdersPage() {
                         min={0}
                         value={it.unitPrice}
                         onChange={(e) => handleItemChange(idx, "unitPrice", e.target.value)}
-                        className="w-24 text-xs border rounded p-1.5 text-right font-mono"
+                        className="w-24 text-small border rounded-control p-1.5 text-right font-mono"
                         required
                       />
-                      <div className="w-24 text-xs font-mono font-bold text-right text-gray-800 pr-1">
+                      <div className="w-24 text-small font-mono font-bold text-right text-primary pr-1">
                         PKR {it.totalPrice?.toLocaleString()}
                       </div>
                       {formData.items.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleRemoveItem(idx)}
-                          className="p-1 text-red-500 hover:bg-red-50 rounded"
+                          className="p-1 text-danger hover:bg-danger-soft rounded-control"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -588,21 +588,21 @@ export default function PurchaseOrdersPage() {
                 </div>
 
                 <div className="mt-3 flex justify-end">
-                  <div className="text-sm font-bold text-gray-900 bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">
+                  <div className="text-body font-bold text-primary bg-info-soft px-4 py-2 rounded-control border border-info">
                     Grand Total: PKR {Number(formData.totalAmount || 0).toLocaleString()}
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Additional Remarks / Instructions
                 </label>
                 <textarea
                   rows={2}
                   value={formData.remarks}
                   onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
-                  className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   placeholder="Notes for vendor or store inspection..."
                 />
               </div>
@@ -611,14 +611,14 @@ export default function PurchaseOrdersPage() {
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-border-strong rounded-control text-body font-medium text-primary hover:bg-surface-muted"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-accent hover:bg-accent-hover text-on-accent rounded-control text-body font-medium disabled:opacity-50"
                 >
                   {submitting ? "Saving..." : selectedPO ? "Update Purchase Order" : "Generate Purchase Order"}
                 </button>
@@ -630,54 +630,54 @@ export default function PurchaseOrdersPage() {
 
       {/* Details View Modal */}
       {isDetailOpen && detailPO && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-xl relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-2xl w-full p-6 shadow-overlay relative max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b pb-3 mb-4">
               <div>
-                <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-blue-600" />
+                <h2 className="text-h2 font-bold text-primary flex items-center gap-2">
+                  <ShoppingCart className="w-5 h-5 text-info" />
                   Purchase Order: {detailPO.poNumber}
                 </h2>
-                <div className="text-xs text-gray-500 mt-0.5">
+                <div className="text-small text-secondary mt-0.5">
                   Status: {getStatusBadge(detailPO.status)}
                 </div>
               </div>
               <button
                 onClick={() => setIsDetailOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted hover:text-secondary"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-sm">
-              <div className="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg border">
+            <div className="space-y-4 text-body">
+              <div className="grid grid-cols-2 gap-4 bg-surface-muted p-3 rounded-control border">
                 <div>
-                  <span className="text-xs text-gray-500 block">Vendor</span>
-                  <span className="font-semibold text-gray-900">{detailPO.selectedVendor?.name}</span>
+                  <span className="text-small text-secondary block">Vendor</span>
+                  <span className="font-semibold text-primary">{detailPO.selectedVendor?.name}</span>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500 block">Target Delivery</span>
-                  <span className="font-semibold text-gray-900">
+                  <span className="text-small text-secondary block">Target Delivery</span>
+                  <span className="font-semibold text-primary">
                     {detailPO.deliveryDate ? new Date(detailPO.deliveryDate).toLocaleDateString() : "—"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500 block">Payment Terms</span>
-                  <span className="text-gray-900">{detailPO.paymentTerms || "Net 30"}</span>
+                  <span className="text-small text-secondary block">Payment Terms</span>
+                  <span className="text-primary">{detailPO.paymentTerms || "Net 30"}</span>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500 block">Delivery Terms</span>
-                  <span className="text-gray-900">{detailPO.deliveryTerms || "Standard"}</span>
+                  <span className="text-small text-secondary block">Delivery Terms</span>
+                  <span className="text-primary">{detailPO.deliveryTerms || "Standard"}</span>
                 </div>
               </div>
 
               <div>
-                <h3 className="font-bold text-xs uppercase tracking-wider text-gray-700 mb-2">
+                <h3 className="font-bold text-small text-primary mb-2">
                   Items Ordered
                 </h3>
-                <table className="w-full text-xs text-left border rounded overflow-hidden">
-                  <thead className="bg-gray-100 text-gray-700">
+                <table className="w-full text-small text-left border rounded-control overflow-hidden">
+                  <thead className="bg-surface-muted text-primary">
                     <tr>
                       <th className="p-2">Item</th>
                       <th className="p-2 text-center">Qty</th>
@@ -702,9 +702,9 @@ export default function PurchaseOrdersPage() {
                 </table>
               </div>
 
-              <div className="flex justify-between items-center bg-blue-50 p-3 rounded-lg border border-blue-200">
-                <span className="font-semibold text-blue-900">Total Purchase Order Value</span>
-                <span className="font-bold font-mono text-base text-blue-900">
+              <div className="flex justify-between items-center bg-info-soft p-3 rounded-control border border-info">
+                <span className="font-semibold text-info">Total Purchase Order Value</span>
+                <span className="font-bold font-mono text-body text-info">
                   PKR {detailPO.totalAmount?.toLocaleString()}
                 </span>
               </div>
@@ -717,14 +717,14 @@ export default function PurchaseOrdersPage() {
                     setIsDetailOpen(false);
                     navigate(`/procurement/grns?poId=${detailPO._id}`);
                   }}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-xs font-bold flex items-center gap-1.5"
+                  className="px-4 py-2 bg-success hover:bg-success text-on-accent rounded-control text-small font-bold flex items-center gap-1.5"
                 >
                   <Package className="w-4 h-4" /> Receive Goods Note (GRN)
                 </button>
               )}
               <button
                 onClick={() => setIsDetailOpen(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-xs font-medium text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-border-strong rounded-control text-small font-medium text-primary hover:bg-surface-muted"
               >
                 Close
               </button>
@@ -735,20 +735,20 @@ export default function PurchaseOrdersPage() {
 
       {/* Change Status Confirmation Modal */}
       {statusModal.isOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl relative">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-md w-full p-6 shadow-overlay relative">
+            <h2 className="text-h2 font-bold text-primary mb-2">
               Update Purchase Order Status
             </h2>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-body text-secondary mb-4">
               Mark Purchase Order <span className="font-bold font-mono">{statusModal.po?.poNumber}</span> as{" "}
-              <span className="font-bold text-blue-600">{statusModal.targetStatus}</span>?
+              <span className="font-bold text-info">{statusModal.targetStatus}</span>?
             </p>
             <div className="flex justify-end gap-3 pt-3 border-t">
               <button
                 type="button"
                 onClick={() => setStatusModal({ isOpen: false, po: null, targetStatus: "", loading: false })}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-border-strong rounded-control text-body font-medium text-primary hover:bg-surface-muted"
               >
                 Cancel
               </button>
@@ -756,7 +756,7 @@ export default function PurchaseOrdersPage() {
                 type="button"
                 disabled={statusModal.loading}
                 onClick={() => handleStatusChange(statusModal.targetStatus)}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium disabled:opacity-50"
+                className="px-4 py-2 bg-accent hover:bg-accent-hover text-on-accent rounded-control text-body font-medium disabled:opacity-50"
               >
                 {statusModal.loading ? "Updating..." : `Confirm ${statusModal.targetStatus}`}
               </button>

@@ -140,14 +140,14 @@ export default function MasterDataPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Master Data</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">Master Data</h1>
+          <p className="mt-1 text-body text-secondary">
             Manage blocks, streets, categories, property types, and departments.
           </p>
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent"
         >
           <Plus className="h-4 w-4" />
           Add {activeType?.label}
@@ -155,7 +155,7 @@ export default function MasterDataPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-neutral-200">
+      <div className="border-b border-border">
         <nav className="-mb-px flex gap-6">
           {MASTER_DATA_TYPES.map((type) => {
             const Icon = type.icon;
@@ -163,10 +163,10 @@ export default function MasterDataPage() {
               <button
                 key={type.key}
                 onClick={() => setActiveTab(type.key)}
-                className={`flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-colors ${
+                className={`flex items-center gap-2 border-b-2 px-1 py-3 text-body font-medium transition-colors ${
                   activeTab === type.key
-                    ? "border-primary-600 text-primary-600"
-                    : "border-transparent text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+                    ? "border-accent text-accent"
+                    : "border-transparent text-secondary hover:border-border-strong hover:text-primary"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -184,36 +184,36 @@ export default function MasterDataPage() {
           id="showArchived"
           checked={showArchived}
           onChange={(e) => setShowArchived(e.target.checked)}
-          className="h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-500"
+          className="h-4 w-4 rounded-control border-border-strong text-accent focus:ring-accent"
         />
-        <label htmlFor="showArchived" className="text-sm text-neutral-700">
+        <label htmlFor="showArchived" className="text-body text-primary">
           Show archived items
         </label>
       </div>
 
       {/* Data Table */}
-      <div className="rounded-xl border border-neutral-200 bg-white shadow-sm">
+      <div className="rounded-card border border-border bg-surface shadow-none">
         {loading ? (
           <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+            <Loader2 className="h-8 w-8 animate-spin text-accent" />
           </div>
         ) : items.length === 0 ? (
-          <div className="flex h-64 flex-col items-center justify-center text-neutral-500">
-            <ActiveIcon className="mb-2 h-12 w-12 text-neutral-300" />
-            <p className="text-sm">
+          <div className="flex h-64 flex-col items-center justify-center text-secondary">
+            <ActiveIcon className="mb-2 h-12 w-12 text-muted" />
+            <p className="text-body">
               No {activeType?.label.toLowerCase()} found
             </p>
             <button
               onClick={handleAdd}
-              className="mt-4 text-sm font-medium text-primary-600 hover:text-primary-700"
+              className="mt-4 text-body font-medium text-accent hover:text-accent"
             >
               Add your first {activeType?.label.toLowerCase()}
             </button>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold uppercase text-neutral-600">
+            <table className="w-full text-left text-body">
+              <thead className="border-b border-border bg-canvas text-small font-semibold text-secondary">
                 <tr>
                   <th className="px-6 py-3">Name</th>
                   <th className="px-6 py-3">Code</th>
@@ -222,33 +222,33 @@ export default function MasterDataPage() {
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200">
+              <tbody className="divide-y divide-border">
                 {items.map((item) => (
                   <tr
                     key={item._id}
-                    className={item.isActive ? "" : "bg-neutral-50 opacity-60"}
+                    className={item.isActive ? "" : "bg-canvas opacity-60"}
                   >
-                    <td className="px-6 py-4 font-medium text-neutral-900">
+                    <td className="px-6 py-4 font-medium text-primary">
                       {item.name}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700">
+                      <span className="inline-flex rounded-control bg-surface-muted px-2.5 py-1 text-small font-semibold text-primary">
                         {item.code}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-neutral-600">
+                    <td className="px-6 py-4 text-secondary">
                       {item.description || (
-                        <span className="italic text-neutral-400">—</span>
+                        <span className="italic text-muted">—</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {item.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-success-50 px-2.5 py-1 text-xs font-medium text-success-700">
-                          <span className="h-1.5 w-1.5 rounded-full bg-success-600"></span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-success-soft px-2.5 py-1 text-small font-medium text-success">
+                          <span className="h-1.5 w-1.5 rounded-full bg-success"></span>
                           Active
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-muted px-2.5 py-1 text-small font-medium text-secondary">
                           <Archive className="h-3 w-3" />
                           Archived
                         </span>
@@ -260,14 +260,14 @@ export default function MasterDataPage() {
                           <>
                             <button
                               onClick={() => handleEdit(item)}
-                              className="inline-flex items-center gap-1 rounded-md p-1.5 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                              className="inline-flex items-center gap-1 rounded-control p-1.5 text-secondary hover:bg-surface-muted hover:text-primary"
                               title="Edit"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => handleArchive(item)}
-                              className="inline-flex items-center gap-1 rounded-md p-1.5 text-neutral-600 hover:bg-neutral-100 hover:text-danger-600"
+                              className="inline-flex items-center gap-1 rounded-control p-1.5 text-secondary hover:bg-surface-muted hover:text-danger"
                               title="Archive"
                             >
                               <Archive className="h-4 w-4" />
@@ -276,7 +276,7 @@ export default function MasterDataPage() {
                         ) : (
                           <button
                             onClick={() => handleRestore(item)}
-                            className="inline-flex items-center gap-1 rounded-md p-1.5 text-neutral-600 hover:bg-neutral-100 hover:text-success-600"
+                            className="inline-flex items-center gap-1 rounded-control p-1.5 text-secondary hover:bg-surface-muted hover:text-success"
                             title="Restore"
                           >
                             <RotateCcw className="h-4 w-4" />
@@ -294,15 +294,15 @@ export default function MasterDataPage() {
 
       {/* Create/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
-              <h2 className="text-lg font-semibold text-neutral-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-md rounded-card bg-surface p-6 shadow-overlay">
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <h2 className="text-h2 font-semibold text-primary">
                 {editingItem ? "Edit" : "Add"} {activeType?.label}
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                className="rounded-control p-1 text-muted hover:bg-surface-muted hover:text-secondary"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -310,47 +310,47 @@ export default function MasterDataPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-body font-medium text-primary">
                   Name *
                 </label>
                 <input
                   type="text"
                   {...register("name")}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder={`e.g. ${activeTab === "blocks" ? "Block A" : activeTab === "streets" ? "Main Boulevard" : "Residential"}`}
                 />
                 {errors.name && (
-                  <p className="mt-1 text-xs text-danger-500">
+                  <p className="mt-1 text-small text-danger">
                     {errors.name.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-body font-medium text-primary">
                   Code *
                 </label>
                 <input
                   type="text"
                   {...register("code")}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm uppercase focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder={`e.g. ${activeTab === "blocks" ? "A" : activeTab === "streets" ? "MB" : "RES"}`}
                 />
                 {errors.code && (
-                  <p className="mt-1 text-xs text-danger-500">
+                  <p className="mt-1 text-small text-danger">
                     {errors.code.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-body font-medium text-primary">
                   Description
                 </label>
                 <textarea
                   {...register("description")}
                   rows={3}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="Optional description"
                 />
               </div>
@@ -359,14 +359,14 @@ export default function MasterDataPage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-4 py-2 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {saving ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

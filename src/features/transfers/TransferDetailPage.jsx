@@ -61,7 +61,7 @@ export default function TransferDetailPage() {
   };
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">
+      <div className="py-16 text-center text-secondary">
         Loading transfer...
       </div>
     );
@@ -72,15 +72,15 @@ export default function TransferDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/transfers")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-neutral-900">
+            <h1 className="text-h1 font-bold text-primary">
               Transfer Request
             </h1>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {transfer.plotRef?.plotNumber} · {transfer.fromMemberRef?.name} →{" "}
               {transfer.toMemberRef?.name}
             </p>
@@ -89,20 +89,20 @@ export default function TransferDetailPage() {
         {transfer.status === "Completed" && (
           <button
             onClick={certificate}
-            className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
           >
             <Download className="h-4 w-4" /> Certificate
           </button>
         )}
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="transfers-detail-workflow">
-        <h2 className="mb-5 font-semibold text-neutral-900">Approval stages</h2>
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="transfers-detail-workflow">
+        <h2 className="mb-5 font-semibold text-primary">Approval stages</h2>
         <ApprovalStageTracker stages={transfer.approvalStages} />
         <div className="mt-6 flex flex-wrap gap-2">
           {transfer.status === "Draft" && (
             <button
               onClick={() => action(verifyTransfer, "Transfer verified")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Verify transfer
             </button>
@@ -111,13 +111,13 @@ export default function TransferDetailPage() {
             <>
               <button
                 onClick={() => action(approveTransfer, "Transfer approved")}
-                className="rounded-lg bg-success-600 px-4 py-2 text-sm font-medium text-white"
+                className="rounded-control bg-success px-4 py-2 text-body font-medium text-on-accent"
               >
                 Approve
               </button>
               <button
                 onClick={reject}
-                className="rounded-lg border border-danger-200 px-4 py-2 text-sm text-danger-700"
+                className="rounded-control border border-danger px-4 py-2 text-body text-danger"
               >
                 Reject
               </button>
@@ -126,15 +126,15 @@ export default function TransferDetailPage() {
           {transfer.status === "Approved" && (
             <button
               onClick={() => action(completeTransfer, "Transfer completed")}
-              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
             >
               Complete transfer
             </button>
           )}
         </div>
       </section>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm" data-tour="transfers-detail-documents">
-        <h2 className="mb-4 font-semibold text-neutral-900">Documents</h2>
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none" data-tour="transfers-detail-documents">
+        <h2 className="mb-4 font-semibold text-primary">Documents</h2>
         <DocumentUploader
           relatedEntityType="transfer"
           relatedEntityId={id}

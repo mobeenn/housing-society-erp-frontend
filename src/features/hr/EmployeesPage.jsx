@@ -54,15 +54,15 @@ export default function EmployeesPage() {
 
   const getStatusBadge = (status) => {
     const variants = {
-      Active: "bg-green-100 text-green-700",
-      "On Leave": "bg-yellow-100 text-yellow-700",
-      Resigned: "bg-gray-100 text-gray-700",
-      Terminated: "bg-red-100 text-red-700",
+      Active: "bg-success-soft text-success",
+      "On Leave": "bg-warning-soft text-warning",
+      Resigned: "bg-surface-muted text-primary",
+      Terminated: "bg-danger-soft text-danger",
     };
     return (
       <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${
-          variants[status] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-small font-medium rounded-full ${
+          variants[status] || "bg-surface-muted text-primary"
         }`}
       >
         {status === "Active" && <UserCheck className="w-3.5 h-3.5" />}
@@ -77,7 +77,7 @@ export default function EmployeesPage() {
       key: "employeeId",
       label: "Employee ID",
       render: (row) => (
-        <span className="font-mono text-sm font-medium text-blue-600">{row.employeeId}</span>
+        <span className="font-mono text-body font-medium text-info">{row.employeeId}</span>
       ),
     },
     {
@@ -85,8 +85,8 @@ export default function EmployeesPage() {
       label: "Name",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">{row.name}</div>
-          {row.email && <div className="text-xs text-gray-500">{row.email}</div>}
+          <div className="font-medium text-primary">{row.name}</div>
+          {row.email && <div className="text-small text-secondary">{row.email}</div>}
         </div>
       ),
     },
@@ -94,23 +94,23 @@ export default function EmployeesPage() {
       key: "cnic",
       label: "CNIC",
       render: (row) => (
-        <span className="font-mono text-sm text-gray-600">{row.cnic || "—"}</span>
+        <span className="font-mono text-body text-secondary">{row.cnic || "—"}</span>
       ),
     },
     {
       key: "phone",
       label: "Phone",
-      render: (row) => <span className="text-gray-600">{row.phone || "—"}</span>,
+      render: (row) => <span className="text-secondary">{row.phone || "—"}</span>,
     },
     {
       key: "department",
       label: "Department",
-      render: (row) => <span className="text-gray-700">{row.department}</span>,
+      render: (row) => <span className="text-primary">{row.department}</span>,
     },
     {
       key: "designation",
       label: "Designation",
-      render: (row) => <span className="text-gray-600">{row.designation}</span>,
+      render: (row) => <span className="text-secondary">{row.designation}</span>,
     },
     {
       key: "status",
@@ -124,13 +124,13 @@ export default function EmployeesPage() {
         <div className="flex items-center gap-1.5">
           {row.linkedUser ? (
             <>
-              <UserCheck className="w-4 h-4 text-green-600" />
-              <span className="text-xs text-green-700">Linked</span>
+              <UserCheck className="w-4 h-4 text-success" />
+              <span className="text-small text-success">Linked</span>
             </>
           ) : (
             <>
-              <UserX className="w-4 h-4 text-gray-400" />
-              <span className="text-xs text-gray-500">Not linked</span>
+              <UserX className="w-4 h-4 text-muted" />
+              <span className="text-small text-secondary">Not linked</span>
             </>
           )}
         </div>
@@ -143,7 +143,7 @@ export default function EmployeesPage() {
         <div className="flex items-center gap-2" data-tour="hr-employee-actions">
           <button
             onClick={() => handleEdit(row)}
-            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
             title="Edit employee"
           >
             <Edit className="w-4 h-4" />
@@ -152,7 +152,7 @@ export default function EmployeesPage() {
             onClick={() =>
               setConfirmDialog({ isOpen: true, employee: row, loading: false })
             }
-            className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+            className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
             title="Delete employee"
           >
             <Trash2 className="w-4 h-4" />
@@ -168,18 +168,18 @@ export default function EmployeesPage() {
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-tour="hr-heading">
-              <UsersIcon className="w-7 h-7 text-blue-600" />
+            <h1 className="text-h1 font-bold text-primary flex items-center gap-2" data-tour="hr-heading">
+              <UsersIcon className="w-7 h-7 text-info" />
               Employees
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-body text-secondary mt-1">
               Manage staff members and their employment details
             </p>
           </div>
           <button
             data-tour="hr-add-employee"
             onClick={handleCreate}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Employee
@@ -188,22 +188,22 @@ export default function EmployeesPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6" data-tour="hr-filters">
+      <div className="bg-surface rounded-control shadow-none border border-border p-4 mb-6" data-tour="hr-filters">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input
               type="text"
               placeholder="Search by name, ID, CNIC..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent"
           >
             <option value="">All Statuses</option>
             <option value="Active">Active</option>
@@ -214,7 +214,7 @@ export default function EmployeesPage() {
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent"
           >
             <option value="">All Departments</option>
             <option value="Administration">Administration</option>
@@ -228,7 +228,7 @@ export default function EmployeesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200" data-tour="hr-list">
+      <div className="bg-surface rounded-control shadow-none border border-border" data-tour="hr-list">
         <Table
           key={refreshKey}
           columns={columns}

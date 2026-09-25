@@ -88,7 +88,7 @@ export default function NumberingRulesPage() {
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -97,17 +97,17 @@ export default function NumberingRulesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Numbering Rules</h1>
-        <p className="mt-1 text-sm text-neutral-500">
+        <h1 className="text-h1 font-bold text-primary">Numbering Rules</h1>
+        <p className="mt-1 text-body text-secondary">
           Configure auto-incrementing document and entity numbering sequences.
         </p>
       </div>
 
       {/* Rules Table */}
-      <div className="rounded-xl border border-neutral-200 bg-white shadow-sm">
+      <div className="rounded-card border border-border bg-surface shadow-none">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold uppercase text-neutral-600">
+          <table className="w-full text-left text-body">
+            <thead className="border-b border-border bg-canvas text-small font-semibold text-secondary">
               <tr>
                 <th className="px-6 py-3">Entity Type</th>
                 <th className="px-6 py-3">Prefix</th>
@@ -118,27 +118,27 @@ export default function NumberingRulesPage() {
                 <th className="px-6 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-200">
+            <tbody className="divide-y divide-border">
               {rules.map((rule) => (
-                <tr key={rule._id} className="hover:bg-neutral-50">
-                  <td className="px-6 py-4 font-medium capitalize text-neutral-900">
+                <tr key={rule._id} className="hover:bg-canvas">
+                  <td className="px-6 py-4 font-medium capitalize text-primary">
                     {rule.entityType}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700">
+                    <span className="inline-flex rounded-control bg-surface-muted px-2.5 py-1 text-small font-semibold text-primary">
                       {rule.prefix}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-neutral-600">{rule.currentSequence}</td>
-                  <td className="px-6 py-4 text-neutral-600">{rule.padLength} digits</td>
-                  <td className="px-6 py-4 capitalize text-neutral-600">{rule.resetPolicy}</td>
-                  <td className="px-6 py-4 font-mono text-xs font-medium text-primary-600">
+                  <td className="px-6 py-4 text-secondary">{rule.currentSequence}</td>
+                  <td className="px-6 py-4 text-secondary">{rule.padLength} digits</td>
+                  <td className="px-6 py-4 capitalize text-secondary">{rule.resetPolicy}</td>
+                  <td className="px-6 py-4 font-mono text-small font-medium text-accent">
                     {formatPreview(rule)}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => handleEdit(rule)}
-                      className="inline-flex items-center gap-1 rounded-md p-1.5 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                      className="inline-flex items-center gap-1 rounded-control p-1.5 text-secondary hover:bg-surface-muted hover:text-primary"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -152,15 +152,15 @@ export default function NumberingRulesPage() {
 
       {/* Edit Modal */}
       {editingRule && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
-              <h2 className="text-lg font-semibold text-neutral-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4">
+          <div className="w-full max-w-md rounded-card bg-surface p-6 shadow-overlay">
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <h2 className="text-h2 font-semibold text-primary">
                 Edit Numbering Rule: <span className="capitalize">{editingRule.entityType}</span>
               </h2>
               <button
                 onClick={() => setEditingRule(null)}
-                className="rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                className="rounded-control p-1 text-muted hover:bg-surface-muted hover:text-secondary"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -168,36 +168,36 @@ export default function NumberingRulesPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-700">Prefix *</label>
+                <label className="block text-body font-medium text-primary">Prefix *</label>
                 <input
                   type="text"
                   {...register("prefix")}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 {errors.prefix && (
-                  <p className="mt-1 text-xs text-danger-500">{errors.prefix.message}</p>
+                  <p className="mt-1 text-small text-danger">{errors.prefix.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-body font-medium text-primary">
                   Padding Length (Digits) *
                 </label>
                 <input
                   type="number"
                   {...register("padLength")}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 {errors.padLength && (
-                  <p className="mt-1 text-xs text-danger-500">{errors.padLength.message}</p>
+                  <p className="mt-1 text-small text-danger">{errors.padLength.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700">Reset Policy *</label>
+                <label className="block text-body font-medium text-primary">Reset Policy *</label>
                 <select
                   {...register("resetPolicy")}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="mt-1 block w-full rounded-control border border-border-strong px-3 py-2 text-body focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 >
                   <option value="never">Never</option>
                   <option value="daily">Daily (Reset every day)</option>
@@ -210,14 +210,14 @@ export default function NumberingRulesPage() {
                 <button
                   type="button"
                   onClick={() => setEditingRule(null)}
-                  className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                  className="rounded-control border border-border-strong px-4 py-2 text-body font-medium text-primary hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent hover:bg-accent disabled:opacity-50"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                   Save Rule

@@ -84,15 +84,15 @@ export default function ComplaintFormPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/complaints")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-h1 font-bold text-primary">
             File a Complaint
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-body text-secondary">
             An SLA deadline is computed automatically from category and
             priority.
           </p>
@@ -101,17 +101,17 @@ export default function ComplaintFormPage() {
       <form
         data-tour="complaints-form"
         onSubmit={submit}
-        className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        className="space-y-5 rounded-card border border-border bg-surface p-6 shadow-none"
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Member
             <select
               required
               name="member"
               value={form.member}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">Select member</option>
               {members.map((member) => (
@@ -121,13 +121,13 @@ export default function ComplaintFormPage() {
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Plot (optional — leave empty for common areas)
             <select
               name="plot"
               value={form.plot}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               <option value="">Common area / no plot</option>
               {plots.map((plot) => (
@@ -137,26 +137,26 @@ export default function ComplaintFormPage() {
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Category
             <select
               name="category"
               value={form.category}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {CATEGORIES.map((category) => (
                 <option key={category}>{category}</option>
               ))}
             </select>
           </label>
-          <label className="block text-sm font-medium text-neutral-700">
+          <label className="block text-body font-medium text-primary">
             Priority
             <select
               name="priority"
               value={form.priority}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             >
               {PRIORITIES.map((priority) => (
                 <option key={priority}>{priority}</option>
@@ -164,17 +164,17 @@ export default function ComplaintFormPage() {
             </select>
           </label>
         </div>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Location
           <input
             name="location"
             value={form.location}
             onChange={change}
             placeholder="e.g. Block B, Street 4, near park gate"
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           />
         </label>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Description
           <textarea
             required
@@ -183,31 +183,31 @@ export default function ComplaintFormPage() {
             onChange={change}
             rows={4}
             placeholder="Describe the issue..."
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           />
         </label>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Attachments (document IDs, comma separated)
           <input
             name="attachments"
             value={form.attachments}
             onChange={change}
             placeholder="DOC-1, DOC-2"
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           />
         </label>
-        <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+        <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button
             type="button"
             onClick={() => navigate("/complaints")}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="rounded-control border border-border-strong px-4 py-2 text-body"
           >
             Cancel
           </button>
           <button
             data-tour="complaints-submit"
             disabled={saving}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
           >
             {saving ? "Submitting..." : "File complaint"}
           </button>

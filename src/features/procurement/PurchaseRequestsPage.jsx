@@ -156,17 +156,17 @@ export default function PurchaseRequestsPage() {
 
   const getStatusBadge = (status) => {
     const variants = {
-      Draft: "bg-gray-100 text-gray-700",
-      PendingApproval: "bg-amber-100 text-amber-800",
-      Approved: "bg-green-100 text-green-700",
-      Rejected: "bg-red-100 text-red-700",
-      ConvertedToPO: "bg-blue-100 text-blue-700",
-      Cancelled: "bg-gray-200 text-gray-700",
+      Draft: "bg-surface-muted text-primary",
+      PendingApproval: "bg-warning-soft text-warning",
+      Approved: "bg-success-soft text-success",
+      Rejected: "bg-danger-soft text-danger",
+      ConvertedToPO: "bg-info-soft text-info",
+      Cancelled: "bg-surface-muted text-primary",
     };
     return (
       <span
-        className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium rounded-full ${
-          variants[status] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-small font-medium rounded-full ${
+          variants[status] || "bg-surface-muted text-primary"
         }`}
       >
         {status === "Approved" && <CheckCircle className="w-3 h-3" />}
@@ -179,15 +179,15 @@ export default function PurchaseRequestsPage() {
 
   const getPriorityBadge = (priority) => {
     const variants = {
-      Low: "bg-slate-100 text-slate-700",
-      Medium: "bg-blue-50 text-blue-700 border-blue-200",
-      High: "bg-orange-100 text-orange-800 border-orange-200",
-      Urgent: "bg-red-100 text-red-800 border-red-200 font-bold",
+      Low: "bg-info-soft text-info",
+      Medium: "bg-info-soft text-info border-info",
+      High: "bg-warning-soft text-warning border-warning",
+      Urgent: "bg-danger-soft text-danger border-danger font-bold",
     };
     return (
       <span
-        className={`inline-flex items-center px-2 py-0.5 text-xs rounded border ${
-          variants[priority] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center px-2 py-0.5 text-small rounded-control border ${
+          variants[priority] || "bg-surface-muted text-primary"
         }`}
       >
         {priority}
@@ -203,7 +203,7 @@ export default function PurchaseRequestsPage() {
         <button
           onClick={() => handleViewDetail(row)}
           data-tour="procurement-requests-list"
-          className="font-mono text-sm font-semibold text-blue-600 hover:underline"
+          className="font-mono text-body font-semibold text-info hover:underline"
         >
           {row.requestNumber}
         </button>
@@ -214,8 +214,8 @@ export default function PurchaseRequestsPage() {
       label: "Item / Service",
       render: (row) => (
         <div className="max-w-xs">
-          <div className="font-medium text-gray-900 truncate">{row.itemDescription}</div>
-          <div className="text-xs text-gray-500">
+          <div className="font-medium text-primary truncate">{row.itemDescription}</div>
+          <div className="text-small text-secondary">
             Qty: <span className="font-semibold">{row.quantity}</span> | Dept: {row.department || "General"}
           </div>
         </div>
@@ -230,7 +230,7 @@ export default function PurchaseRequestsPage() {
       key: "estimatedCost",
       label: "Est. Cost (PKR)",
       render: (row) => (
-        <span className="font-mono text-sm text-gray-800">
+        <span className="font-mono text-body text-primary">
           {row.estimatedCost ? row.estimatedCost.toLocaleString() : "—"}
         </span>
       ),
@@ -239,7 +239,7 @@ export default function PurchaseRequestsPage() {
       key: "requiredDate",
       label: "Required Date",
       render: (row) => (
-        <span className="text-sm text-gray-600">
+        <span className="text-body text-secondary">
           {row.requiredDate ? new Date(row.requiredDate).toLocaleDateString() : "—"}
         </span>
       ),
@@ -257,7 +257,7 @@ export default function PurchaseRequestsPage() {
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => handleViewDetail(row)}
-            className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+            className="p-1.5 text-secondary hover:bg-surface-muted rounded-control transition-colors"
             title="View Details"
           >
             <Eye className="w-4 h-4" />
@@ -266,7 +266,7 @@ export default function PurchaseRequestsPage() {
           {/* Compare Quotations Button */}
           <button
             onClick={() => navigate(`/procurement/quotations?prId=${row._id}`)}
-            className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
+            className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
             title="View / Compare Quotations"
           >
             <FileSpreadsheet className="w-4 h-4" />
@@ -284,7 +284,7 @@ export default function PurchaseRequestsPage() {
                     loading: false,
                   })
                 }
-                className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
+                className="p-1.5 text-success hover:bg-success-soft rounded-control transition-colors"
                 title="Approve Request"
               >
                 <CheckCircle className="w-4 h-4" />
@@ -299,7 +299,7 @@ export default function PurchaseRequestsPage() {
                     loading: false,
                   })
                 }
-                className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+                className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
                 title="Reject Request"
               >
                 <XCircle className="w-4 h-4" />
@@ -310,7 +310,7 @@ export default function PurchaseRequestsPage() {
           {row.status === "Approved" && (
             <button
               onClick={() => navigate(`/procurement/purchase-orders?prId=${row._id}`)}
-              className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+              className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
               title="Generate PO"
             >
               <ShoppingCart className="w-4 h-4" />
@@ -319,7 +319,7 @@ export default function PurchaseRequestsPage() {
 
           <button
             onClick={() => handleEdit(row)}
-            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="p-1.5 text-info hover:bg-info-soft rounded-control transition-colors"
             title="Edit PR"
           >
             <Edit className="w-4 h-4" />
@@ -327,7 +327,7 @@ export default function PurchaseRequestsPage() {
 
           <button
             onClick={() => setConfirmDialog({ isOpen: true, pr: row, loading: false })}
-            className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+            className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
             title="Delete PR"
           >
             <Trash2 className="w-4 h-4" />
@@ -342,18 +342,18 @@ export default function PurchaseRequestsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-tour="procurement-requests-heading">
-            <Layers className="w-7 h-7 text-blue-600" />
+          <h1 className="text-h1 font-bold text-primary flex items-center gap-2" data-tour="procurement-requests-heading">
+            <Layers className="w-7 h-7 text-info" />
             Purchase Requests
           </h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-body text-secondary mt-1">
             Initiate, track, and approve department purchase requisitions
           </p>
         </div>
         <button
           data-tour="procurement-new-request"
           onClick={handleCreate}
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-sm transition-colors text-sm"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-on-accent font-medium px-4 py-2 rounded-control shadow-none transition-colors text-body"
         >
           <Plus className="w-4 h-4" />
           New Requisition
@@ -361,13 +361,13 @@ export default function PurchaseRequestsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-6 flex flex-wrap gap-4 items-center" data-tour="procurement-request-filters">
+      <div className="bg-surface p-4 rounded-control border border-border shadow-none mb-6 flex flex-wrap gap-4 items-center" data-tour="procurement-request-filters">
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Status</label>
+          <label className="block text-small font-medium text-secondary mb-1">Status</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="text-sm border border-gray-300 rounded-md px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500"
+            className="text-body border border-border-strong rounded-control px-3 py-1.5 focus:ring-info focus:border-info"
           >
             <option value="">All Statuses</option>
             <option value="Draft">Draft</option>
@@ -380,11 +380,11 @@ export default function PurchaseRequestsPage() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Priority</label>
+          <label className="block text-small font-medium text-secondary mb-1">Priority</label>
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="text-sm border border-gray-300 rounded-md px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500"
+            className="text-body border border-border-strong rounded-control px-3 py-1.5 focus:ring-info focus:border-info"
           >
             <option value="">All Priorities</option>
             <option value="Low">Low</option>
@@ -395,11 +395,11 @@ export default function PurchaseRequestsPage() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Department</label>
+          <label className="block text-small font-medium text-secondary mb-1">Department</label>
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="text-sm border border-gray-300 rounded-md px-3 py-1.5 focus:ring-blue-500 focus:border-blue-500"
+            className="text-body border border-border-strong rounded-control px-3 py-1.5 focus:ring-info focus:border-info"
           >
             <option value="">All Departments</option>
             <option value="Administration">Administration</option>
@@ -430,15 +430,15 @@ export default function PurchaseRequestsPage() {
 
       {/* Create / Edit PR Modal */}
       {isFormOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-xl relative">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-2xl w-full p-6 shadow-overlay relative">
             <div className="flex items-center justify-between border-b pb-3 mb-4">
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-h2 font-bold text-primary">
                 {selectedPR ? "Edit Purchase Request" : "New Purchase Requisition"}
               </h2>
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted hover:text-secondary"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -446,7 +446,7 @@ export default function PurchaseRequestsPage() {
 
             <form onSubmit={handleFormSubmit} className="space-y-4" data-tour="procurement-request-form">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Item / Service Description *
                 </label>
                 <input
@@ -454,14 +454,14 @@ export default function PurchaseRequestsPage() {
                   required
                   value={formData.itemDescription}
                   onChange={(e) => setFormData({ ...formData, itemDescription: e.target.value })}
-                  className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   placeholder="e.g. 50W LED Street Lights for Main Boulevard"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Quantity *
                   </label>
                   <input
@@ -470,12 +470,12 @@ export default function PurchaseRequestsPage() {
                     min={1}
                     value={formData.quantity}
                     onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Estimated Cost (PKR)
                   </label>
                   <input
@@ -483,33 +483,33 @@ export default function PurchaseRequestsPage() {
                     min={0}
                     value={formData.estimatedCost}
                     onChange={(e) => setFormData({ ...formData, estimatedCost: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                     placeholder="e.g. 150000"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Required By Date
                   </label>
                   <input
                     type="date"
                     value={formData.requiredDate}
                     onChange={(e) => setFormData({ ...formData, requiredDate: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Priority *
                   </label>
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -519,13 +519,13 @@ export default function PurchaseRequestsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-small font-medium text-primary mb-1">
                     Department
                   </label>
                   <select
                     value={formData.department}
                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   >
                     <option value="Administration">Administration</option>
                     <option value="Maintenance">Maintenance</option>
@@ -537,7 +537,7 @@ export default function PurchaseRequestsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Business Justification *
                 </label>
                 <textarea
@@ -545,20 +545,20 @@ export default function PurchaseRequestsPage() {
                   required
                   value={formData.justification}
                   onChange={(e) => setFormData({ ...formData, justification: e.target.value })}
-                  className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   placeholder="Explain why this procurement is needed..."
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Additional Remarks
                 </label>
                 <textarea
                   rows={2}
                   value={formData.remarks}
                   onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
-                  className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-info focus:border-info"
                   placeholder="Special instructions or specifications..."
                 />
               </div>
@@ -567,14 +567,14 @@ export default function PurchaseRequestsPage() {
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-border-strong rounded-control text-body font-medium text-primary hover:bg-surface-muted"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-accent hover:bg-accent-hover text-on-accent rounded-control text-body font-medium disabled:opacity-50"
                 >
                   {submitting ? "Submitting..." : selectedPR ? "Update Request" : "Submit Requisition"}
                 </button>
@@ -586,65 +586,65 @@ export default function PurchaseRequestsPage() {
 
       {/* Detail Modal */}
       {isDetailOpen && detailPR && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-xl relative">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-2xl w-full p-6 shadow-overlay relative">
             <div className="flex items-center justify-between border-b pb-3 mb-4">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <FileCheck className="w-5 h-5 text-blue-600" />
+                <h2 className="text-h2 font-bold text-primary flex items-center gap-2">
+                  <FileCheck className="w-5 h-5 text-info" />
                   {detailPR.requestNumber}
                 </h2>
-                <span className="text-xs text-gray-500">
+                <span className="text-small text-secondary">
                   Requested by: {detailPR.requestedBy?.name || "Staff Member"} | Dept: {detailPR.department || "General"}
                 </span>
               </div>
               <button
                 onClick={() => setIsDetailOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted hover:text-secondary"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-lg mb-4 border">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-surface-muted p-4 rounded-control mb-4 border">
               <div>
-                <div className="text-xs text-gray-500">Status</div>
+                <div className="text-small text-secondary">Status</div>
                 <div className="mt-1">{getStatusBadge(detailPR.status)}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500">Priority</div>
+                <div className="text-small text-secondary">Priority</div>
                 <div className="mt-1">{getPriorityBadge(detailPR.priority)}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500">Quantity</div>
-                <div className="text-sm font-bold text-gray-900 mt-1">{detailPR.quantity}</div>
+                <div className="text-small text-secondary">Quantity</div>
+                <div className="text-body font-bold text-primary mt-1">{detailPR.quantity}</div>
               </div>
               <div>
-                <div className="text-xs text-gray-500">Est. Cost</div>
-                <div className="text-sm font-bold text-gray-900 mt-1">
+                <div className="text-small text-secondary">Est. Cost</div>
+                <div className="text-body font-bold text-primary mt-1">
                   PKR {detailPR.estimatedCost ? detailPR.estimatedCost.toLocaleString() : "—"}
                 </div>
               </div>
             </div>
 
-            <div className="space-y-3 mb-6 text-sm">
+            <div className="space-y-3 mb-6 text-body">
               <div>
-                <span className="text-xs text-gray-500 block">Item Description:</span>
-                <p className="font-medium text-gray-900 bg-gray-50 p-2.5 rounded border">
+                <span className="text-small text-secondary block">Item Description:</span>
+                <p className="font-medium text-primary bg-surface-muted p-2.5 rounded-control border">
                   {detailPR.itemDescription}
                 </p>
               </div>
 
               <div>
-                <span className="text-xs text-gray-500 block">Justification:</span>
-                <p className="text-gray-700 bg-gray-50 p-2.5 rounded border">
+                <span className="text-small text-secondary block">Justification:</span>
+                <p className="text-primary bg-surface-muted p-2.5 rounded-control border">
                   {detailPR.justification}
                 </p>
               </div>
 
               {detailPR.rejectionReason && (
-                <div className="bg-red-50 border border-red-200 p-3 rounded text-red-800">
-                  <span className="font-semibold block text-xs uppercase">Rejection Reason:</span>
+                <div className="bg-danger-soft border border-danger p-3 rounded-control text-danger">
+                  <span className="font-semibold block text-small">Rejection Reason:</span>
                   {detailPR.rejectionReason}
                 </div>
               )}
@@ -656,7 +656,7 @@ export default function PurchaseRequestsPage() {
                   setIsDetailOpen(false);
                   navigate(`/procurement/quotations?prId=${detailPR._id}`);
                 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-md text-sm font-medium"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-info-soft text-info hover:bg-info-soft rounded-control text-body font-medium"
               >
                 <FileSpreadsheet className="w-4 h-4" />
                 Compare Vendor Quotations
@@ -666,7 +666,7 @@ export default function PurchaseRequestsPage() {
               <button
                 type="button"
                 onClick={() => setIsDetailOpen(false)}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm font-medium"
+                className="px-4 py-2 bg-surface-muted hover:bg-surface-muted text-primary rounded-control text-body font-medium"
               >
                 Close
               </button>
@@ -677,18 +677,18 @@ export default function PurchaseRequestsPage() {
 
       {/* Approve / Reject Dialog */}
       {statusDialog.isOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl relative">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-overlay flex items-center justify-center p-4">
+          <div className="bg-surface rounded-card max-w-md w-full p-6 shadow-overlay relative">
+            <h2 className="text-h2 font-bold text-primary mb-2">
               {statusDialog.newStatus === "Approved" ? "Approve Purchase Request" : "Reject Purchase Request"}
             </h2>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-body text-secondary mb-4">
               Are you sure you want to mark PR <span className="font-mono font-semibold">{statusDialog.pr?.requestNumber}</span> as {statusDialog.newStatus}?
             </p>
 
             {statusDialog.newStatus === "Rejected" && (
               <div className="mb-4">
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-small font-medium text-primary mb-1">
                   Reason for Rejection *
                 </label>
                 <textarea
@@ -696,7 +696,7 @@ export default function PurchaseRequestsPage() {
                   required
                   value={statusDialog.rejectionReason}
                   onChange={(e) => setStatusDialog({ ...statusDialog, rejectionReason: e.target.value })}
-                  className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-red-500 focus:border-red-500"
+                  className="w-full text-body border border-border-strong rounded-control px-3 py-2 focus:ring-danger focus:border-danger"
                   placeholder="Provide feedback on why this request is rejected..."
                 />
               </div>
@@ -706,7 +706,7 @@ export default function PurchaseRequestsPage() {
               <button
                 type="button"
                 onClick={() => setStatusDialog({ isOpen: false, pr: null, newStatus: "", rejectionReason: "", loading: false })}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-border-strong rounded-control text-body font-medium text-primary hover:bg-surface-muted"
               >
                 Cancel
               </button>
@@ -714,10 +714,10 @@ export default function PurchaseRequestsPage() {
                 type="button"
                 disabled={statusDialog.loading || (statusDialog.newStatus === "Rejected" && !statusDialog.rejectionReason)}
                 onClick={handleStatusUpdate}
-                className={`px-4 py-2 rounded-md text-sm font-medium text-white disabled:opacity-50 ${
+                className={`px-4 py-2 rounded-control text-body font-medium text-on-accent disabled:opacity-50 ${
                   statusDialog.newStatus === "Approved"
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-red-600 hover:bg-red-700"
+                    ? "bg-success hover:bg-success"
+                    : "bg-danger hover:bg-danger"
                 }`}
               >
                 {statusDialog.loading ? "Processing..." : `Confirm ${statusDialog.newStatus}`}

@@ -97,10 +97,10 @@ export default function LeaveRequestsPage() {
 
   const getStatusBadge = (status) => {
     const variants = {
-      Pending: "bg-yellow-100 text-yellow-700",
-      Approved: "bg-green-100 text-green-700",
-      Rejected: "bg-red-100 text-red-700",
-      Cancelled: "bg-gray-100 text-gray-700",
+      Pending: "bg-warning-soft text-warning",
+      Approved: "bg-success-soft text-success",
+      Rejected: "bg-danger-soft text-danger",
+      Cancelled: "bg-surface-muted text-primary",
     };
     const icons = {
       Pending: Clock,
@@ -111,8 +111,8 @@ export default function LeaveRequestsPage() {
     const Icon = icons[status] || Clock;
     return (
       <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${
-          variants[status] || "bg-gray-100 text-gray-700"
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-small font-medium rounded-full ${
+          variants[status] || "bg-surface-muted text-primary"
         }`}
       >
         <Icon className="w-3.5 h-3.5" />
@@ -127,10 +127,10 @@ export default function LeaveRequestsPage() {
       label: "Employee",
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-900">
+          <div className="font-medium text-primary">
             {row.employeeRef?.name || row.employee}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-small text-secondary">
             {row.employeeRef?.employeeId} • {row.employeeRef?.department}
           </div>
         </div>
@@ -140,16 +140,16 @@ export default function LeaveRequestsPage() {
       key: "type",
       label: "Leave Type",
       render: (row) => (
-        <span className="text-sm font-medium text-gray-700">{row.type}</span>
+        <span className="text-body font-medium text-primary">{row.type}</span>
       ),
     },
     {
       key: "dates",
       label: "Period",
       render: (row) => (
-        <div className="text-sm text-gray-600">
+        <div className="text-body text-secondary">
           <div>{row.fromDate ? row.fromDate.slice(0, 10) : "—"}</div>
-          <div className="text-xs text-gray-500">
+          <div className="text-small text-secondary">
             to {row.toDate ? row.toDate.slice(0, 10) : "—"}
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function LeaveRequestsPage() {
       key: "reason",
       label: "Reason",
       render: (row) => (
-        <span className="text-xs text-gray-600 line-clamp-2">{row.reason}</span>
+        <span className="text-small text-secondary line-clamp-2">{row.reason}</span>
       ),
     },
     {
@@ -171,7 +171,7 @@ export default function LeaveRequestsPage() {
       key: "balanceSnapshot",
       label: "Balance (at request)",
       render: (row) => (
-        <span className="text-xs text-gray-600">
+        <span className="text-small text-secondary">
           {row.balanceSnapshot?.available !== undefined
             ? `${row.balanceSnapshot.available} days`
             : "—"}
@@ -186,7 +186,7 @@ export default function LeaveRequestsPage() {
           {row.status === "Pending" && (
             <button
               onClick={() => handleApprove(row)}
-              className="px-2.5 py-1 text-xs font-medium text-green-700 bg-green-50 hover:bg-green-100 rounded transition-colors"
+              className="px-2.5 py-1 text-small font-medium text-success bg-success-soft hover:bg-success-soft rounded-control transition-colors"
             >
               Review
             </button>
@@ -196,7 +196,7 @@ export default function LeaveRequestsPage() {
               onClick={() =>
                 setConfirmDialog({ isOpen: true, request: row, loading: false })
               }
-              className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+              className="p-1.5 text-danger hover:bg-danger-soft rounded-control transition-colors"
               title="Delete request"
             >
               <Trash2 className="w-4 h-4" />
@@ -213,18 +213,18 @@ export default function LeaveRequestsPage() {
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-tour="hr-leave-heading">
-              <ClipboardList className="w-7 h-7 text-blue-600" />
+            <h1 className="text-h1 font-bold text-primary flex items-center gap-2" data-tour="hr-leave-heading">
+              <ClipboardList className="w-7 h-7 text-info" />
               Leave Requests
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-body text-secondary mt-1">
               Manage employee leave applications and approvals
             </p>
           </div>
           <button
             data-tour="hr-leave-new"
             onClick={handleNewRequest}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover transition-colors text-body font-medium"
           >
             <Plus className="w-4 h-4" />
             New Leave Request
@@ -234,34 +234,34 @@ export default function LeaveRequestsPage() {
 
       {/* Leave Balance Card */}
       {selectedEmployee && leaveBalance && (
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-5 mb-6" data-tour="hr-leave-balance">
+        <div className="bg-info-soft rounded-control border border-info p-5 mb-6" data-tour="hr-leave-balance">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h3 className="text-sm font-semibold text-gray-800">
+              <h3 className="text-body font-semibold text-primary">
                 Leave Balance - {selectedEmployee.name}
               </h3>
-              <p className="text-xs text-gray-600 mt-0.5">
+              <p className="text-small text-secondary mt-0.5">
                 Current year allocation and usage
               </p>
             </div>
-            <CalendarIcon className="w-5 h-5 text-blue-600" />
+            <CalendarIcon className="w-5 h-5 text-info" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {Object.entries(leaveBalance).map(([type, balance]) => (
               <div
                 key={type}
-                className="bg-white rounded-lg p-3 border border-gray-200"
+                className="bg-surface rounded-control p-3 border border-border"
               >
-                <div className="text-xs font-medium text-gray-500 mb-1">
+                <div className="text-small font-medium text-secondary mb-1">
                   {type}
                 </div>
-                <div className="text-lg font-bold text-gray-900">
+                <div className="text-h2 font-bold text-primary">
                   {balance.available}
-                  <span className="text-sm font-normal text-gray-500">
+                  <span className="text-body font-normal text-secondary">
                     /{balance.total}
                   </span>
                 </div>
-                <div className="text-xs text-gray-500 mt-0.5">
+                <div className="text-small text-secondary mt-0.5">
                   Used: {balance.used}
                 </div>
               </div>
@@ -271,16 +271,16 @@ export default function LeaveRequestsPage() {
       )}
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6" data-tour="hr-leave-filters">
+      <div className="bg-surface rounded-control shadow-none border border-border p-4 mb-6" data-tour="hr-leave-filters">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Employee Filter
             </label>
             <select
               value={employeeFilter}
               onChange={(e) => handleEmployeeSelect(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             >
               <option value="">All Employees</option>
               {employees.map((emp) => (
@@ -292,13 +292,13 @@ export default function LeaveRequestsPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Status Filter
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             >
               <option value="">All Statuses</option>
               <option value="Pending">Pending</option>
@@ -309,13 +309,13 @@ export default function LeaveRequestsPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-small font-medium text-secondary mb-1">
               Leave Type Filter
             </label>
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-border-strong rounded-control focus:ring-2 focus:ring-info focus:border-transparent text-body"
             >
               <option value="">All Types</option>
               <option value="Annual">Annual</option>
@@ -330,7 +330,7 @@ export default function LeaveRequestsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200" data-tour="hr-leave-list">
+      <div className="bg-surface rounded-control shadow-none border border-border" data-tour="hr-leave-list">
         <Table
           key={refreshKey}
           columns={columns}

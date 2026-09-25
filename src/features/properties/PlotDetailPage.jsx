@@ -15,12 +15,12 @@ import DocumentList from "@/components/documents/DocumentList";
 import { getPlotById, getPlotHistory } from "./propertiesApi";
 
 const Placeholder = ({ icon: Icon, title }) => (
-  <div className="rounded-lg border border-dashed border-neutral-300 p-5">
-    <div className="flex items-center gap-2 text-neutral-700">
+  <div className="rounded-control border border-dashed border-border-strong p-5">
+    <div className="flex items-center gap-2 text-primary">
       <Icon className="h-4 w-4" />
       <h3 className="font-medium">{title}</h3>
     </div>
-    <p className="mt-2 text-sm text-neutral-500">
+    <p className="mt-2 text-body text-secondary">
       This linked module is not available yet. Records will appear here when
       implemented.
     </p>
@@ -48,7 +48,7 @@ export default function PlotDetailPage() {
   }, [id]);
   if (loading)
     return (
-      <div className="py-16 text-center text-neutral-500">Loading plot...</div>
+      <div className="py-16 text-center text-secondary">Loading plot...</div>
     );
   if (!plot) return null;
   return (
@@ -57,18 +57,18 @@ export default function PlotDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/plots")}
-            className="rounded-lg p-2 hover:bg-neutral-100"
+            className="rounded-control p-2 hover:bg-surface-muted"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-neutral-900">
+              <h1 className="text-h1 font-bold text-primary">
                 {plot.plotNumber}
               </h1>
               <StatusPill status={plot.status} />
             </div>
-            <p className="mt-1 text-sm text-neutral-500">
+            <p className="mt-1 text-body text-secondary">
               {plot.blockRef?.name || "—"} · {plot.streetRef?.name || "—"} ·{" "}
               {plot.size}
             </p>
@@ -76,7 +76,7 @@ export default function PlotDetailPage() {
         </div>
         <button
           onClick={() => navigate(`/plots/${id}/edit`)}
-          className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-2 rounded-control bg-accent px-4 py-2 text-body font-medium text-on-accent"
         >
           <Edit className="h-4 w-4" /> Edit Plot
         </button>
@@ -90,17 +90,17 @@ export default function PlotDetailPage() {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="rounded-card border border-border bg-surface p-4 shadow-none"
           >
-            <p className="text-xs text-neutral-500">{label}</p>
-            <p className="mt-1 font-medium text-neutral-900">{value || "—"}</p>
+            <p className="text-small text-secondary">{label}</p>
+            <p className="mt-1 font-medium text-primary">{value || "—"}</p>
           </div>
         ))}
       </div>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-          <h2 className="flex items-center gap-2 font-semibold text-neutral-900">
-            <RefreshCw className="h-4 w-4 text-primary-600" /> Status timeline
+        <section className="rounded-card border border-border bg-surface p-5 shadow-none">
+          <h2 className="flex items-center gap-2 font-semibold text-primary">
+            <RefreshCw className="h-4 w-4 text-accent" /> Status timeline
           </h2>
           <div className="mt-5 space-y-4">
             {(history?.transactionHistory || [])
@@ -111,38 +111,38 @@ export default function PlotDetailPage() {
               .map((entry) => (
                 <div
                   key={entry._id}
-                  className="flex gap-3 border-l-2 border-primary-200 pl-4"
+                  className="flex gap-3 border-l-2 border-gold pl-4"
                 >
                   <div>
-                    <p className="text-sm font-medium text-neutral-900">
+                    <p className="text-body font-medium text-primary">
                       {entry.action === "create"
                         ? "Plot created"
                         : `Status changed to ${entry.changes?.after?.status || "updated"}`}
                     </p>
-                    <p className="text-xs text-neutral-500">
+                    <p className="text-small text-secondary">
                       {new Date(entry.timestamp).toLocaleString()}
                     </p>
                   </div>
                 </div>
               ))}
             {!history?.transactionHistory?.length && (
-              <p className="text-sm text-neutral-500">
+              <p className="text-body text-secondary">
                 No timeline entries yet.
               </p>
             )}
           </div>
         </section>
-        <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-          <h2 className="flex items-center gap-2 font-semibold text-neutral-900">
-            <Building2 className="h-4 w-4 text-primary-600" /> Ownership history
+        <section className="rounded-card border border-border bg-surface p-5 shadow-none">
+          <h2 className="flex items-center gap-2 font-semibold text-primary">
+            <Building2 className="h-4 w-4 text-accent" /> Ownership history
           </h2>
           <div className="mt-5 space-y-3">
             {(history?.ownershipHistory || []).map((entry) => (
-              <div key={entry._id} className="rounded-lg bg-neutral-50 p-3">
-                <p className="text-sm font-medium text-neutral-900">
+              <div key={entry._id} className="rounded-control bg-canvas p-3">
+                <p className="text-body font-medium text-primary">
                   {entry.memberRef?.name || `Member ${entry.member}`}
                 </p>
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-small text-secondary">
                   {new Date(entry.fromDate).toLocaleDateString()} to{" "}
                   {entry.toDate
                     ? new Date(entry.toDate).toLocaleDateString()
@@ -152,7 +152,7 @@ export default function PlotDetailPage() {
               </div>
             ))}
             {!history?.ownershipHistory?.length && (
-              <p className="text-sm text-neutral-500">
+              <p className="text-body text-secondary">
                 No ownership changes recorded.
               </p>
             )}
@@ -164,8 +164,8 @@ export default function PlotDetailPage() {
         <Placeholder icon={RefreshCw} title="Transfers" />
         <Placeholder icon={FileText} title="NOCs" />
       </div>
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-neutral-900">
+      <section className="rounded-card border border-border bg-surface p-5 shadow-none">
+        <h2 className="mb-4 text-h2 font-semibold text-primary">
           Documents
         </h2>
         <div className="space-y-5">

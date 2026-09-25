@@ -147,16 +147,16 @@ export default function PassesPage() {
     <div className="p-6" data-tour="visitors-passes-page">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2" data-tour="visitors-passes-heading">
+          <h1 className="text-display font-bold text-primary flex items-center gap-2" data-tour="visitors-passes-heading">
             <CreditCard className="w-8 h-8" />
             Passes
           </h1>
-          <p className="text-gray-600 mt-1">Issue and manage visitor, contractor, and temporary passes</p>
+          <p className="text-secondary mt-1">Issue and manage visitor, contractor, and temporary passes</p>
         </div>
         <button
           data-tour="visitors-new-pass"
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
         >
           <Plus className="w-5 h-5" />
           New Pass
@@ -165,41 +165,41 @@ export default function PassesPage() {
 
       {/* Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold">
+        <div className="fixed inset-0 bg-overlay flex items-center justify-center p-4 z-50">
+          <div className="bg-surface rounded-control shadow-overlay max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-surface border-b px-6 py-4 flex items-center justify-between">
+              <h2 className="text-h2 font-bold">
                 {editingPass ? "Edit Pass" : "Create New Pass"}
               </h2>
-              <button onClick={resetForm} className="text-gray-400 hover:text-gray-600">
+              <button onClick={resetForm} className="text-muted hover:text-secondary">
                 <X className="w-6 h-6" />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4" data-tour="visitors-pass-form">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Pass Number <span className="text-red-500">*</span>
+                  <label className="block text-body font-medium text-primary mb-1">
+                    Pass Number <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
                     name="passNumber"
                     value={formData.passNumber}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     required
                     disabled={!!editingPass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Type <span className="text-red-500">*</span>
+                  <label className="block text-body font-medium text-primary mb-1">
+                    Type <span className="text-danger">*</span>
                   </label>
                   <select
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     required
                     disabled={!!editingPass}
                   >
@@ -211,15 +211,15 @@ export default function PassesPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Holder Name <span className="text-red-500">*</span>
+                <label className="block text-body font-medium text-primary mb-1">
+                  Holder Name <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
                   name="holderName"
                   value={formData.holderName}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                   required
                   disabled={!!editingPass}
                 />
@@ -227,24 +227,24 @@ export default function PassesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <label className="block text-body font-medium text-primary mb-1">Phone</label>
                   <input
                     type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     disabled={!!editingPass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">CNIC</label>
+                  <label className="block text-body font-medium text-primary mb-1">CNIC</label>
                   <input
                     type="text"
                     name="cnic"
                     value={formData.cnic}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     disabled={!!editingPass}
                   />
                 </div>
@@ -252,41 +252,41 @@ export default function PassesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Valid From <span className="text-red-500">*</span>
+                  <label className="block text-body font-medium text-primary mb-1">
+                    Valid From <span className="text-danger">*</span>
                   </label>
                   <input
                     type="date"
                     name="validFrom"
                     value={formData.validFrom}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     required
                     disabled={!!editingPass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Valid To <span className="text-red-500">*</span>
+                  <label className="block text-body font-medium text-primary mb-1">
+                    Valid To <span className="text-danger">*</span>
                   </label>
                   <input
                     type="date"
                     name="validTo"
                     value={formData.validTo}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Related Member</label>
+                <label className="block text-body font-medium text-primary mb-1">Related Member</label>
                 <select
                   name="relatedMember"
                   value={formData.relatedMember}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                   disabled={!!editingPass}
                 >
                   <option value="">-- None --</option>
@@ -300,12 +300,12 @@ export default function PassesPage() {
 
               {editingPass && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <label className="block text-body font-medium text-primary mb-1">Status</label>
                   <select
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                   >
                     <option value="Active">Active</option>
                     <option value="Expired">Expired</option>
@@ -315,39 +315,39 @@ export default function PassesPage() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
+                <label className="block text-body font-medium text-primary mb-1">Purpose</label>
                 <input
                   type="text"
                   name="purpose"
                   value={formData.purpose}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                   disabled={!!editingPass}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <label className="block text-body font-medium text-primary mb-1">Notes</label>
                 <textarea
                   name="notes"
                   value={formData.notes}
                   onChange={handleChange}
                   rows={2}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
                 />
               </div>
 
               <div className="flex gap-2 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  className="flex-1 bg-accent text-on-accent px-4 py-2 rounded-control hover:bg-accent-hover"
                 >
                   {editingPass ? "Update Pass" : "Create Pass"}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
+                  className="flex-1 bg-surface-muted text-primary px-4 py-2 rounded-control hover:bg-surface-muted"
                 >
                   Cancel
                 </button>
@@ -359,11 +359,11 @@ export default function PassesPage() {
 
       {/* Passes List */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading...</div>
+        <div className="text-center py-12 text-secondary">Loading...</div>
       ) : passes.length === 0 ? (
-        <div className="bg-white rounded-lg shadow p-12 text-center">
-          <CreditCard className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">No passes issued yet</p>
+        <div className="bg-surface rounded-control shadow-none p-12 text-center">
+          <CreditCard className="w-16 h-16 text-muted mx-auto mb-4" />
+          <p className="text-secondary text-h2">No passes issued yet</p>
         </div>
       ) : (
         <div className="grid gap-4" data-tour="visitors-passes-list">
@@ -372,26 +372,26 @@ export default function PassesPage() {
             const statusColor =
               pass.status === "Active"
                 ? isExpired
-                  ? "bg-orange-100 text-orange-800"
-                  : "bg-green-100 text-green-800"
+                  ? "bg-warning-soft text-warning"
+                  : "bg-success-soft text-success"
                 : pass.status === "Revoked"
-                ? "bg-red-100 text-red-800"
-                : "bg-gray-100 text-gray-800";
+                ? "bg-danger-soft text-danger"
+                : "bg-surface-muted text-primary";
 
             return (
-              <div key={pass._id} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
+              <div key={pass._id} className="bg-surface rounded-control shadow-none p-4 flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-semibold text-gray-900">{pass.passNumber}</h3>
-                    <span className={`px-2 py-1 text-xs font-medium rounded ${statusColor}`}>
+                    <h3 className="text-h2 font-semibold text-primary">{pass.passNumber}</h3>
+                    <span className={`px-2 py-1 text-small font-medium rounded-control ${statusColor}`}>
                       {isExpired && pass.status === "Active" ? "Expired" : pass.status}
                     </span>
-                    <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+                    <span className="px-2 py-1 text-small font-medium bg-info-soft text-info rounded-control">
                       {pass.type}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mt-1">{pass.holderName}</p>
-                  <div className="mt-1 text-sm text-gray-600">
+                  <p className="text-body text-primary mt-1">{pass.holderName}</p>
+                  <div className="mt-1 text-body text-secondary">
                     <p>
                       Valid: {pass.validFrom} to {pass.validTo}
                     </p>
@@ -403,21 +403,21 @@ export default function PassesPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEdit(pass)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                    className="p-2 text-info hover:bg-info-soft rounded-control"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   {pass.status === "Active" && (
                     <button
                       onClick={() => handleRevoke(pass._id, pass.passNumber)}
-                      className="px-3 py-1 bg-orange-600 text-white text-sm rounded hover:bg-orange-700"
+                      className="px-3 py-1 bg-warning text-on-accent text-body rounded-control hover:bg-warning"
                     >
                       Revoke
                     </button>
                   )}
                   <button
                     onClick={() => handleDelete(pass._id, pass.passNumber)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded"
+                    className="p-2 text-danger hover:bg-danger-soft rounded-control"
                   >
                     <X className="w-4 h-4" />
                   </button>

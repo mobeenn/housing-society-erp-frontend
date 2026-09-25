@@ -40,43 +40,43 @@ export default function ExpenseFormPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/expenses")}
-          className="rounded-lg p-2 hover:bg-neutral-100"
+          className="rounded-control p-2 hover:bg-surface-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Add Expense</h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h1 className="text-h1 font-bold text-primary">Add Expense</h1>
+          <p className="mt-1 text-body text-secondary">
             Submit an operating cost for approval.
           </p>
         </div>
       </div>
       <form
         onSubmit={save}
-        className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm"
+        className="space-y-5 rounded-card border border-border bg-surface p-6 shadow-none"
       >
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Category *
           <input
             required
             name="category"
             value={form.category}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
           />
         </label>
-        <label className="block text-sm font-medium text-neutral-700">
+        <label className="block text-body font-medium text-primary">
           Vendor
           <input
             name="vendor"
             value={form.vendor}
             onChange={change}
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+            className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             placeholder="Vendor name (optional)"
           />
         </label>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Amount *
             <input
               required
@@ -86,10 +86,10 @@ export default function ExpenseFormPage() {
               name="amount"
               value={form.amount}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Date *
             <input
               required
@@ -97,21 +97,21 @@ export default function ExpenseFormPage() {
               name="date"
               value={form.date}
               onChange={change}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 font-normal"
+              className="mt-1 w-full rounded-control border border-border-strong px-3 py-2 font-normal"
             />
           </label>
         </div>
-        <div className="flex justify-end gap-3 border-t border-neutral-200 pt-5">
+        <div className="flex justify-end gap-3 border-t border-border pt-5">
           <button
             type="button"
             onClick={() => navigate("/expenses")}
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm"
+            className="rounded-control border border-border-strong px-4 py-2 text-body"
           >
             Cancel
           </button>
           <button
             disabled={saving}
-            className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
+            className="rounded-control bg-accent px-5 py-2 text-body font-medium text-on-accent disabled:opacity-50"
           >
             {saving ? "Saving..." : "Submit expense"}
           </button>

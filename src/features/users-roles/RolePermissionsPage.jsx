@@ -133,23 +133,23 @@ export default function RolePermissionsPage() {
   };
 
   if (loading) {
-    return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-primary-600" /></div>;
+    return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-accent" /></div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate("/admin/roles")} className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100" aria-label="Back to roles">
+        <button onClick={() => navigate("/admin/roles")} className="rounded-control p-2 text-secondary hover:bg-surface-muted" aria-label="Back to roles">
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">{isEdit ? "Access Control" : "Create Role"}</h1>
-          <p className="mt-1 text-sm text-neutral-500">Configure module visibility and independently toggle each action.</p>
+          <h1 className="text-h1 font-bold text-primary">{isEdit ? "Access Control" : "Create Role"}</h1>
+          <p className="mt-1 text-body text-secondary">Configure module visibility and independently toggle each action.</p>
         </div>
         {isEdit && (
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Role
-            <select value={id} onChange={(event) => navigate(`/admin/roles/${event.target.value}/edit`)} className="mt-1 block min-w-56 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-normal">
+            <select value={id} onChange={(event) => navigate(`/admin/roles/${event.target.value}/edit`)} className="mt-1 block min-w-56 rounded-control border border-border-strong bg-surface px-3 py-2 text-body font-normal">
               {roles.map((item) => <option key={item._id} value={item._id}>{item.name}</option>)}
             </select>
           </label>
@@ -158,47 +158,47 @@ export default function RolePermissionsPage() {
 
       <Card title={isEdit ? "Role details" : "New role"}>
         <form onSubmit={saveRoleDetails} className="grid gap-4 md:grid-cols-[1fr_2fr_auto] md:items-end">
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Role name
             <Input {...{ value: roleForm.name, onChange: (event) => setRoleForm((current) => ({ ...current, name: event.target.value })) }} className="mt-1" disabled={isEdit && role?.isSystem} />
-            {roleFormErrors.name && <span className="mt-1 block text-xs text-danger-600">{roleFormErrors.name}</span>}
+            {roleFormErrors.name && <span className="mt-1 block text-small text-danger">{roleFormErrors.name}</span>}
           </label>
-          <label className="text-sm font-medium text-neutral-700">
+          <label className="text-body font-medium text-primary">
             Description
             <Input {...{ value: roleForm.description, onChange: (event) => setRoleForm((current) => ({ ...current, description: event.target.value })) }} className="mt-1" disabled={isEdit && role?.isSystem} />
           </label>
           <Button type="submit" disabled={isEdit && role?.isSystem}><Save className="h-4 w-4" /> Save details</Button>
         </form>
-        {isEdit && role?.isSystem && <p className="mt-3 text-xs text-neutral-400">System role metadata is read-only. Its access grid can still be managed by a Super Admin.</p>}
+        {isEdit && role?.isSystem && <p className="mt-3 text-small text-muted">System role metadata is read-only. Its access grid can still be managed by a Super Admin.</p>}
       </Card>
 
       {isEdit && (
         <>
-          {readOnly && <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"><ShieldCheck className="h-4 w-4" /> Super Admin access is always enabled and cannot be changed.</div>}
+          {readOnly && <div className="flex items-center gap-2 rounded-control border border-warning bg-warning-soft px-4 py-3 text-body text-warning"><ShieldCheck className="h-4 w-4" /> Super Admin access is always enabled and cannot be changed.</div>}
           <Card>
             <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-              <div><h2 className="font-semibold text-neutral-900">Module access grid</h2><p className="mt-1 text-sm text-neutral-500">A hidden module disables all of its actions for the role.</p></div>
+              <div><h2 className="font-semibold text-primary">Module access grid</h2><p className="mt-1 text-body text-secondary">A hidden module disables all of its actions for the role.</p></div>
               <Button onClick={saveAccess} disabled={saving || readOnly} isLoading={saving}><Save className="h-4 w-4" /> Save access</Button>
             </div>
             <div className="space-y-6">
               {Object.entries(groupedModules).map(([group, groupModules]) => (
                 <section key={group}>
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">{group}</h3>
-                  <div className="overflow-x-auto rounded-lg border border-neutral-200">
-                    <table className="min-w-[980px] w-full text-left text-sm">
-                      <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
+                  <h3 className="mb-2 text-body font-semibold tracking-wide text-secondary">{group}</h3>
+                  <div className="overflow-x-auto rounded-control border border-border">
+                    <table className="min-w-[980px] w-full text-left text-body">
+                      <thead className="bg-canvas text-small text-secondary">
                         <tr>
                           <th className="min-w-[240px] px-4 py-3">Module</th>
                           <th className="px-3 py-3 text-center">Module Visible</th>
                           {ACTIONS.map((action) => <th key={action} className="px-2 py-3 text-center">{ACTION_LABELS[action]}</th>)}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-neutral-100">
+                      <tbody className="divide-y divide-border">
                         {groupModules.map((module) => (
-                          <tr key={module.key} className={module.isVisible ? "bg-white" : "bg-neutral-50 text-neutral-400"}>
-                            <td className="px-4 py-3"><p className="font-medium text-neutral-800">{module.label}</p><p className="mt-0.5 text-xs text-neutral-400">{module.key}{!module.isActive && " · inactive"}</p></td>
-                            <td className="px-3 py-3 text-center"><input type="checkbox" checked={module.isVisible} disabled={readOnly || !module.isActive} onChange={(event) => updateModule(module.key, { isVisible: event.target.checked })} className="h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-500" aria-label={`${module.label} visibility`} /></td>
-                            {ACTIONS.map((action) => <td key={action} className="px-2 py-3 text-center"><input type="checkbox" checked={module.isVisible && module.actions?.[action] === true} disabled={readOnly || !module.isVisible || !module.isActive} onChange={() => toggleAction(module.key, action)} className="h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-500 disabled:cursor-not-allowed" aria-label={`${module.label} ${action}`} /></td>)}
+                          <tr key={module.key} className={module.isVisible ? "bg-surface" : "bg-canvas text-muted"}>
+                            <td className="px-4 py-3"><p className="font-medium text-primary">{module.label}</p><p className="mt-0.5 text-small text-muted">{module.key}{!module.isActive && " · inactive"}</p></td>
+                            <td className="px-3 py-3 text-center"><input type="checkbox" checked={module.isVisible} disabled={readOnly || !module.isActive} onChange={(event) => updateModule(module.key, { isVisible: event.target.checked })} className="h-4 w-4 rounded-control border-border-strong text-accent focus:ring-accent" aria-label={`${module.label} visibility`} /></td>
+                            {ACTIONS.map((action) => <td key={action} className="px-2 py-3 text-center"><input type="checkbox" checked={module.isVisible && module.actions?.[action] === true} disabled={readOnly || !module.isVisible || !module.isActive} onChange={() => toggleAction(module.key, action)} className="h-4 w-4 rounded-control border-border-strong text-accent focus:ring-accent disabled:cursor-not-allowed" aria-label={`${module.label} ${action}`} /></td>)}
                           </tr>
                         ))}
                       </tbody>

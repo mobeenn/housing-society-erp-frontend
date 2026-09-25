@@ -47,12 +47,12 @@ export default function HRSetupPage() {
   return (
     <div className="space-y-5" data-tour="hr-payroll-setup-page">
       <Card>
-        <div className="flex gap-2 overflow-x-auto border-b border-neutral-200 pb-3" data-tour="hr-payroll-setup-nav">
-          {tabs.map((tab) => <NavLink key={tab.label} to={tab.to} end className={({ isActive }) => `whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium ${isActive ? "bg-primary-50 text-primary-700" : "text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800"}`}>{tab.label}</NavLink>)}
+        <div className="flex gap-2 overflow-x-auto border-b border-border pb-3" data-tour="hr-payroll-setup-nav">
+          {tabs.map((tab) => <NavLink key={tab.label} to={tab.to} end className={({ isActive }) => `whitespace-nowrap rounded-control px-3 py-2 text-body font-medium ${isActive ? "bg-gold-soft text-accent" : "text-secondary hover:bg-canvas hover:text-primary"}`}>{tab.label}</NavLink>)}
         </div>
-        <p className="mt-4 text-sm text-neutral-500">Configure the salary components and statutory rules used when a new payroll draft is generated. Existing employees, attendance, and leave screens remain unchanged.</p>
+        <p className="mt-4 text-body text-secondary">Configure the salary components and statutory rules used when a new payroll draft is generated. Existing employees, attendance, and leave screens remain unchanged.</p>
       </Card>
-      {loading ? <Card><p className="py-10 text-center text-sm text-neutral-500">Loading setup...</p></Card> : <StatutoryConfigTab setup={setup} onSave={save} canEdit={canEdit} isLoading={saving} />}
+      {loading ? <Card><p className="py-10 text-center text-body text-secondary">Loading setup...</p></Card> : <StatutoryConfigTab setup={setup} onSave={save} canEdit={canEdit} isLoading={saving} />}
     </div>
   );
 }
