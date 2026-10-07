@@ -26,7 +26,7 @@ export default function NoticeFormPage() {
   });
 
   useEffect(() => {
-    Promise.all([getRoles(), getMembers({ page: 1, limit: 500 })]).then(([roleData, memberData]) => {
+    Promise.all([getRoles(), getMembers({ page: 1, limit: 50, search: "" })]).then(([roleData, memberData]) => {
       setRoles(Array.isArray(roleData) ? roleData : roleData?.data || []);
       setMembers(memberData?.data || memberData?.members || []);
     }).catch((error) => {

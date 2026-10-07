@@ -10,6 +10,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { administrationApi } from "./administrationApi";
 
 const societySchema = z.object({
@@ -90,11 +91,7 @@ export default function SocietyProfilePage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent" />
-      </div>
-    );
+    return <PageSkeleton variant="form" label="Loading society profile" />;
   }
 
   return (

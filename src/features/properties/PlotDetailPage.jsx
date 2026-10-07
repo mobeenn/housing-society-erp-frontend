@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import DocumentUploader from "@/components/documents/DocumentUploader";
 import DocumentList from "@/components/documents/DocumentList";
@@ -46,10 +47,7 @@ export default function PlotDetailPage() {
       })
       .finally(() => setLoading(false));
   }, [id]);
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">Loading plot...</div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading plot" />;
   if (!plot) return null;
   return (
     <div className="space-y-6">

@@ -18,6 +18,7 @@ import {
   Star,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import Table from "../../components/common/Table";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
 import { vendorApi } from "./procurementApi";
@@ -588,7 +589,7 @@ export default function VendorsPage() {
               </h3>
 
               {historyLoading ? (
-                <div className="text-center py-6 text-secondary text-body">Loading purchase history...</div>
+                <PageSkeleton variant="rows" rows={4} label="Loading purchase history" />
               ) : !purchaseHistory || !purchaseHistory.purchaseOrders || purchaseHistory.purchaseOrders.length === 0 ? (
                 <div className="bg-surface-muted border rounded-control p-6 text-center text-body text-secondary">
                   No purchase orders found for this vendor.

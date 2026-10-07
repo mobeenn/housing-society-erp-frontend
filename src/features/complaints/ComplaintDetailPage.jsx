@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Clock, MessageSquare, Wrench } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { administrationApi } from "@/features/settings/administrationApi";
 import { getUsers } from "@/features/users-roles/usersRolesApi";
@@ -14,6 +15,7 @@ import {
   resolveComplaint,
 } from "./complaintsApi";
 import { getWorkOrders } from "@/features/maintenance/maintenanceApi";
+import SlaCountdown from "./SlaCountdown";
 
 export default function ComplaintDetailPage() {
   const navigate = useNavigate();
@@ -25,7 +27,6 @@ export default function ComplaintDetailPage() {
   const [comment, setComment] = useState("");
   const [assignment, setAssignment] = useState({ department: "", staff: "" });
   const [workOrders, setWorkOrders] = useState([]); // work orders spawned from this complaint
-  const [, setTick] = useState(0); // re-render for live SLA countdown
 
   const load = () =>
     getComplaint(id)
@@ -58,8 +59,6 @@ export default function ComplaintDetailPage() {
     getWorkOrders({ relatedComplaint: id, limit: 50 })
       .then((result) => setWorkOrders(result.data || []))
       .catch(() => setWorkOrders([]));
-    const timer = setInterval(() => setTick((value) => value + 1), 30000);
-    return () => clearInterval(timer);
   }, [id]);
 
   const act = async (handler, message) => {
@@ -106,27 +105,14 @@ export default function ComplaintDetailPage() {
     act(() => changeComplaintStatus(id, "Closed"), "Complaint closed");
 
   if (loading) {
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading complaint...
-      </div>
-    );
+    return <PageSkeleton variant="detail" label="Loading complaint" />;
   }
   if (!complaint) return null;
 
-  const remainingMs = complaint.slaDueDate
-    ? new Date(complaint.slaDueDate).getTime() - Date.now()
-    : null;
+  const showSla =
+    complaint.slaDueDate && !["Resolved", "Closed"].includes(complaint.status);
   const isOverdue =
-    remainingMs !== null &&
-    remainingMs < 0 &&
-    !["Resolved", "Closed"].includes(complaint.status);
-  const slaText =
-    remainingMs === null
-      ? null
-      : isOverdue
-        ? `Overdue by ${Math.ceil(Math.abs(remainingMs) / 3600000)}h`
-        : `${Math.ceil(remainingMs / 3600000)}h left`;
+    showSla && new Date(complaint.slaDueDate).getTime() < Date.now();
 
   const assignable = !["Resolved", "Closed"].includes(complaint.status);
 
@@ -153,7 +139,7 @@ export default function ComplaintDetailPage() {
             </p>
           </div>
         </div>
-        {slaText && (
+        {showSla && (
           <div
             className={`flex items-center gap-2 rounded-control px-3 py-2 text-body font-semibold ${
               isOverdue
@@ -162,12 +148,10 @@ export default function ComplaintDetailPage() {
             }`}
           >
             <Clock className="h-4 w-4" />
-            SLA {slaText}
-            {complaint.slaDueDate && (
-              <span className="font-normal opacity-80">
-                (due {new Date(complaint.slaDueDate).toLocaleString()})
-              </span>
-            )}
+            SLA <SlaCountdown slaDueDate={complaint.slaDueDate} className="font-semibold" />
+            <span className="font-normal opacity-80">
+              (due {new Date(complaint.slaDueDate).toLocaleString()})
+            </span>
           </div>
         )}
       </div>

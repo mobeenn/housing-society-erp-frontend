@@ -34,7 +34,7 @@ function TourMenuItem({ tour, onSelect }) {
   );
 }
 
-export default function TourLauncherButton({ moduleKey, compact = false }) {
+export default function TourLauncherButton({ moduleKey, compact = false, headerTone }) {
   const { startTour } = useTour();
   const moduleAllowed = useCan(
     getTourPermissionModule(moduleKey || "__tour_no_module__"),
@@ -44,6 +44,7 @@ export default function TourLauncherButton({ moduleKey, compact = false }) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const onGradient = headerTone === "light";
 
   useEffect(() => {
     if (!open) return undefined;
@@ -72,6 +73,10 @@ export default function TourLauncherButton({ moduleKey, compact = false }) {
     }
   };
 
+  const lightClasses = onGradient
+    ? "text-white hover:bg-white/15 hover:text-white focus:ring-white/40 disabled:hover:shadow-none"
+    : "";
+
   if (moduleKey && !moduleAllowed) return null;
   if (moduleKey) {
     return (
@@ -82,7 +87,7 @@ export default function TourLauncherButton({ moduleKey, compact = false }) {
         data-tour={`tour-launcher-${moduleKey}`}
         onClick={() => startTour(moduleKey)}
         aria-label={`Start ${moduleKey} tour`}
-        className={compact ? "px-2" : ""}
+        className={`${compact ? "px-2" : ""} ${lightClasses}`}
       >
         <CircleHelp className="h-4 w-4" />
         {!compact && <span>Start Tour</span>}
@@ -99,9 +104,10 @@ export default function TourLauncherButton({ moduleKey, compact = false }) {
         data-tour="global-tour-launcher"
         onClick={() => setOpen((value) => !value)}
         aria-label="Open guided tours"
+        className={lightClasses}
       >
         <CircleHelp className="h-4 w-4" />
-        <span className="hidden sm:inline">Help / Tour</span>
+        <span className="hidden sm:inline">Guided Tour</span>
         <ChevronDown className="h-3.5 w-3.5" />
       </Button>
       {open && (

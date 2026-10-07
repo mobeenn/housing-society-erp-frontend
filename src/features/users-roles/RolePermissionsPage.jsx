@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Loader2, Save, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Save, ShieldCheck } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Button, Card, Input } from "@/components/ui";
+import { Button, Card, Input, PageSkeleton } from "@/components/ui";
 import { getRoles, createRole, updateRole } from "./usersRolesApi";
 import { getRoleAccess, updateRoleAccess } from "@/features/rbac/rbacApi";
 
@@ -133,7 +133,7 @@ export default function RolePermissionsPage() {
   };
 
   if (loading) {
-    return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-accent" /></div>;
+    return <PageSkeleton variant="form" label="Loading role permissions" />;
   }
 
   return (

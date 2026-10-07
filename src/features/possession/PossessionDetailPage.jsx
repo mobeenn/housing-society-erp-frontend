@@ -3,7 +3,7 @@ import { ArrowLeft, Download } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import ApprovalStageTracker from "@/components/workflow/ApprovalStageTracker";
-import { StatusPill } from "@/components/ui";
+import { PageSkeleton, StatusPill } from "@/components/ui";
 import {
   approvePossession,
   downloadPossessionLetter,
@@ -49,12 +49,7 @@ export default function PossessionDetailPage() {
       toast.error(error.response?.data?.message || "Letter download failed");
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading possession...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading possession" />;
   if (!application) return null;
   return (
     <div className="space-y-6" data-tour="possession-detail-page">

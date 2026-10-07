@@ -46,6 +46,7 @@ export default {
       borderRadius: {
         control: "var(--radius-control)",
         card: "var(--radius-card)",
+        shell: "var(--radius-shell)",
         badge: "var(--radius-badge)",
       },
       boxShadow: {

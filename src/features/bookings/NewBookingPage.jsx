@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { getMembers } from "@/features/members/membersApi";
 import { getPlots } from "@/features/properties/propertiesApi";
+import { PageSkeleton } from "@/components/ui";
 import { createBooking } from "./bookingsApi";
 
 const initialForm = {
@@ -110,12 +111,7 @@ export default function NewBookingPage() {
     }
   };
 
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading members and available plots...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="form" label="Loading booking options" />;
   return (
     <div className="max-w-5xl space-y-6">
       <div className="flex items-center gap-4">

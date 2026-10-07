@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, History, MessageSquare } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import {
   cancelWorkOrder,
@@ -75,11 +76,7 @@ export default function WorkOrderDetailPage() {
   };
 
   if (loading) {
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading work order...
-      </div>
-    );
+    return <PageSkeleton variant="detail" label="Loading work order" />;
   }
   if (!workOrder) return null;
 

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { CreditCard, Plus, X, Edit2 } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
+import AsyncMemberSelect from "@/components/common/AsyncMemberSelect";
 import { listPasses, createPass, updatePass, deletePass } from "./visitorsApi";
-import { listMembers } from "../../members/membersApi";
 
 export default function PassesPage() {
   const [passes, setPasses] = useState([]);
-  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingPass, setEditingPass] = useState(null);
@@ -25,7 +25,6 @@ export default function PassesPage() {
 
   useEffect(() => {
     fetchPasses();
-    fetchMembers();
   }, []);
 
   const fetchPasses = async () => {
@@ -38,15 +37,6 @@ export default function PassesPage() {
       console.error(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchMembers = async () => {
-    try {
-      const result = await listMembers({ status: "Active", limit: 500 });
-      setMembers(result.members || result.data || []);
-    } catch (error) {
-      console.error("Failed to fetch members:", error);
     }
   };
 
@@ -282,20 +272,12 @@ export default function PassesPage() {
 
               <div>
                 <label className="block text-body font-medium text-primary mb-1">Related Member</label>
-                <select
-                  name="relatedMember"
+                <AsyncMemberSelect
                   value={formData.relatedMember}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
+                  onChange={(memberId) => setFormData((prev) => ({ ...prev, relatedMember: memberId || "" }))}
+                  emptyLabel="-- None --"
                   disabled={!!editingPass}
-                >
-                  <option value="">-- None --</option>
-                  {members.map((m) => (
-                    <option key={m._id} value={m._id}>
-                      {m.name} ({m.membershipNumber})
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
 
               {editingPass && (
@@ -359,7 +341,7 @@ export default function PassesPage() {
 
       {/* Passes List */}
       {loading ? (
-        <div className="text-center py-12 text-secondary">Loading...</div>
+        <PageSkeleton variant="list" label="Loading passes" />
       ) : passes.length === 0 ? (
         <div className="bg-surface rounded-control shadow-none p-12 text-center">
           <CreditCard className="w-16 h-16 text-muted mx-auto mb-4" />

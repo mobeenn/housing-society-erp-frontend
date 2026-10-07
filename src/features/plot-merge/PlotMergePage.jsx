@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Combine, FileText, RefreshCw, ShieldAlert } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button, Card, Input } from "@/components/ui";
+import { Button, Card, Input, PageSkeleton } from "@/components/ui";
 import LifecycleConfirmationDialog from "@/components/common/LifecycleConfirmationDialog";
 import { openInvoiceFile } from "@/features/invoices/invoicesApi";
 import { useCan } from "@/hooks/useCan";
@@ -83,7 +83,7 @@ export default function PlotMergePage() {
           <div>
             <p className="mb-2 text-body font-medium text-primary">Select plots</p>
             <div className="max-h-72 space-y-2 overflow-y-auto rounded-control border border-border p-2" data-tour="plot-merge-plot-selection">
-              {loading ? <p className="p-3 text-body text-secondary">Loading plots...</p> : availablePlots.map((plot) => <label key={plot._id} className="flex cursor-pointer items-center gap-3 rounded-control p-2 hover:bg-canvas"><input type="checkbox" checked={selected.includes(plot._id)} onChange={() => togglePlot(plot._id)} className="h-4 w-4" /><span className="flex-1"><span className="block text-body font-medium text-primary">{plot.plotNumber} {plot.fileNumber ? `(${plot.fileNumber})` : ""}</span><span className="text-small text-secondary">{plot.block?.name || plot.block} · {plot.street?.name || plot.street} · {plot.size}</span></span><span className={`rounded-full px-2 py-0.5 text-small ${lifecycleStatusClass(plot.status)}`}>{plot.status}</span></label>)}
+              {loading ? <div className="p-2"><PageSkeleton variant="rows" rows={5} label="Loading plots" /></div> : availablePlots.map((plot) => <label key={plot._id} className="flex cursor-pointer items-center gap-3 rounded-control p-2 hover:bg-canvas"><input type="checkbox" checked={selected.includes(plot._id)} onChange={() => togglePlot(plot._id)} className="h-4 w-4" /><span className="flex-1"><span className="block text-body font-medium text-primary">{plot.plotNumber} {plot.fileNumber ? `(${plot.fileNumber})` : ""}</span><span className="text-small text-secondary">{plot.block?.name || plot.block} · {plot.street?.name || plot.street} · {plot.size}</span></span><span className={`rounded-full px-2 py-0.5 text-small ${lifecycleStatusClass(plot.status)}`}>{plot.status}</span></label>)}
               {!loading && availablePlots.length === 0 && <p className="p-3 text-body text-secondary">No eligible plots found.</p>}
             </div>
           </div>

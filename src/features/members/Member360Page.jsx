@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import { getMember360 } from "./membersApi";
 import DocumentUploader from "@/components/documents/DocumentUploader";
 import DocumentList from "@/components/documents/DocumentList";
@@ -49,11 +50,7 @@ export default function Member360Page() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-secondary">Loading...</div>
-      </div>
-    );
+    return <PageSkeleton variant="detail" label="Loading member profile" />;
   }
 
   if (!data) return null;

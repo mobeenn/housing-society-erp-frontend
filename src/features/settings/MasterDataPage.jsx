@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import {
   Plus,
   Edit,
@@ -194,9 +195,7 @@ export default function MasterDataPage() {
       {/* Data Table */}
       <div className="rounded-card border border-border bg-surface shadow-none">
         {loading ? (
-          <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-accent" />
-          </div>
+          <PageSkeleton variant="list" label="Loading master data" />
         ) : items.length === 0 ? (
           <div className="flex h-64 flex-col items-center justify-center text-secondary">
             <ActiveIcon className="mb-2 h-12 w-12 text-muted" />

@@ -3,7 +3,7 @@ import { ArrowLeft, Download, ExternalLink } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import ApprovalStageTracker from "@/components/workflow/ApprovalStageTracker";
-import { StatusPill } from "@/components/ui";
+import { PageSkeleton, StatusPill } from "@/components/ui";
 import {
   approveNoc,
   clearNocDues,
@@ -49,10 +49,7 @@ export default function NocDetailPage() {
       );
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">Loading NOC...</div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading NOC" />;
   if (!noc) return null;
   const verifyUrl = noc.qrVerificationToken
     ? `${window.location.origin}/api/nocs/verify/${noc.qrVerificationToken}`

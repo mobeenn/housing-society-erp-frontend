@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import { useAuthStore } from "@/store/authStore";
 import { useCan, useIsSuperAdmin } from "@/hooks/useCan";
 
@@ -8,11 +9,7 @@ function resolveRequirement(requiredModule, requiredAction) {
 }
 
 function AccessLoading() {
-  return (
-    <div className="flex min-h-[50vh] items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-border border-t-accent" />
-    </div>
-  );
+  return <PageSkeleton variant="page" label="Loading access" />;
 }
 
 /**

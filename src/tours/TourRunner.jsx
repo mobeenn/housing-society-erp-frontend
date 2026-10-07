@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Joyride } from "react-joyride";
 import { useLocation } from "react-router-dom";
-import { useAuthStore } from "@/store/authStore";
 import { useCan } from "@/hooks/useCan";
-import { getTour, getTourModuleForPath, getTourPermissionModule } from "./registry";
 import { useTour } from "./useTour";
 
 function getStepPlacement(target) {
@@ -29,13 +27,9 @@ function StepPermissionGate({ step, onDecision }) {
 
 export default function TourRunner() {
   const location = useLocation();
-  const { activeTour, activeModuleKey, isRunning, runId, startTour, stopTour, setStepIndex, hasSeenTour } = useTour();
-  const user = useAuthStore((state) => state.user);
-  const accessLoaded = useAuthStore((state) => state.accessLoaded);
+  const { activeTour, activeModuleKey, isRunning, runId, stopTour, setStepIndex } = useTour();
   const [permissionState, setPermissionState] = useState({ key: null, decisions: {} });
   const startedPathRef = useRef(null);
-  const routeModule = getTourModuleForPath(location.pathname);
-  const routeModuleAllowed = useCan(getTourPermissionModule(routeModule || "__tour_no_module__"), "view");
   const permissionKey = isRunning && activeModuleKey ? `${activeModuleKey}:${runId}` : null;
   const decisions = useMemo(
     () => (permissionState.key === permissionKey ? permissionState.decisions : {}),
@@ -56,13 +50,6 @@ export default function TourRunner() {
       stopTour();
     }
   }, [isRunning, location.pathname, stopTour]);
-
-  useEffect(() => {
-    if (!user || !accessLoaded || !routeModule || !routeModuleAllowed || isRunning || !getTour(routeModule)) return;
-    if (hasSeenTour(routeModule) !== false) return;
-    const timer = window.setTimeout(() => startTour(routeModule), 250);
-    return () => window.clearTimeout(timer);
-  }, [accessLoaded, hasSeenTour, isRunning, routeModule, routeModuleAllowed, startTour, user]);
 
   const onDecision = useCallback((id, allowed) => {
     setPermissionState((current) => {

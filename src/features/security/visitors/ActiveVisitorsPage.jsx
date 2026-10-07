@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { UserCheck, LogOut, Search, RefreshCw } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { listVisitorEntries, markExit } from "./visitorsApi";
 
 export default function ActiveVisitorsPage() {
@@ -95,7 +96,7 @@ export default function ActiveVisitorsPage() {
 
       {/* Visitors List */}
       {loading ? (
-        <div className="text-center py-12 text-secondary">Loading...</div>
+        <PageSkeleton variant="list" label="Loading active visitors" />
       ) : filteredVisitors.length === 0 ? (
         <div className="bg-surface rounded-control shadow-none p-12 text-center">
           <UserCheck className="w-16 h-16 text-muted mx-auto mb-4" />

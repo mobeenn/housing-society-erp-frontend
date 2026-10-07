@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 
 /**
@@ -18,10 +18,23 @@ export default function Table({
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, pages: 0 });
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("desc");
+  const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedSearch((previous) => {
+        if (previous === searchInput) return previous;
+        setPagination((pageState) => ({ ...pageState, page: 1 }));
+        return searchInput;
+      });
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -33,7 +46,7 @@ export default function Table({
       const result = await dataFetcher({
         page: pagination.page,
         limit: pagination.limit,
-        search,
+        search: debouncedSearch,
         sortBy,
         sortOrder,
         ...filters,
@@ -56,7 +69,8 @@ export default function Table({
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit, search, sortBy, sortOrder, JSON.stringify(filters)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch when query inputs change
+  }, [pagination.page, pagination.limit, debouncedSearch, sortBy, sortOrder, filtersKey]);
 
   const handleSort = (columnKey) => {
     if (sortBy === columnKey) {
@@ -88,11 +102,8 @@ export default function Table({
         <input
           type="text"
           placeholder={searchPlaceholder}
-          value={search}
-          onChange={(event) => {
-            setSearch(event.target.value);
-            setPagination((previous) => ({ ...previous, page: 1 }));
-          }}
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
           className="w-full rounded-control border border-border-strong bg-surface-raised py-2 pl-10 pr-4 text-body text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
         />
       </div>

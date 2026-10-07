@@ -1,98 +1,105 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { DashboardLayout } from "@/components/layout";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import PageSpinner from "@/components/PageSpinner";
 import LoginPage from "@/pages/LoginPage";
-import DashboardPage from "@/pages/DashboardPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
-// Settings pages
-import SocietyProfilePage from "@/features/settings/SocietyProfilePage";
-import NumberingRulesPage from "@/features/settings/NumberingRulesPage";
-import MasterDataPage from "@/features/settings/MasterDataPage";
-import AuditLogPage from "@/features/settings/AuditLogPage";
+const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 
-// User & Role Management pages
-import UsersListPage from "@/features/users-roles/UsersListPage";
-import UserFormPage from "@/features/users-roles/UserFormPage";
-import RolesListPage from "@/features/users-roles/RolesListPage";
-import RolePermissionsPage from "@/features/users-roles/RolePermissionsPage";
-import AccessControlPage from "@/features/users-roles/AccessControlPage";
+const SocietyProfilePage = lazy(() => import("@/features/settings/SocietyProfilePage"));
+const NumberingRulesPage = lazy(() => import("@/features/settings/NumberingRulesPage"));
+const MasterDataPage = lazy(() => import("@/features/settings/MasterDataPage"));
+const AuditLogPage = lazy(() => import("@/features/settings/AuditLogPage"));
 
-// Members pages
-import MembersListPage from "@/features/members/MembersListPage";
-import MemberFormPage from "@/features/members/MemberFormPage";
-import Member360Page from "@/features/members/Member360Page";
-import PlotsListPage from "@/features/properties/PlotsListPage";
-import PlotFormPage from "@/features/properties/PlotFormPage";
-import PlotDetailPage from "@/features/properties/PlotDetailPage";
-import BookingsListPage from "@/features/bookings/BookingsListPage";
-import NewBookingPage from "@/features/bookings/NewBookingPage";
-import BookingDetailPage from "@/features/bookings/BookingDetailPage";
-import PaymentsListPage from "@/features/payments/PaymentsListPage";
-import RecordPaymentPage from "@/features/payments/RecordPaymentPage";
-import PaymentDetailPage from "@/features/payments/PaymentDetailPage";
-import MemberStatementPage from "@/features/payments/MemberStatementPage";
-import RefundsPage from "@/features/payments/RefundsPage";
-import ReportsPage from "@/features/finance-reports/ReportsPage";
-import InvoicesListPage from "@/features/invoices/InvoicesListPage";
-import RecoveryPage from "@/features/recovery/RecoveryPage";
-import RecoveryPortalPage from "@/features/recovery/RecoveryPortalPage";
-import RecoveryAdminPage from "@/features/recovery/RecoveryAdminPage";
-import OverdueInstallmentsPage from "@/features/recovery/overdue/OverdueInstallmentsPage";
-import NoticeBoardPage from "@/features/notices/NoticeBoardPage";
-import NoticeFormPage from "@/features/notices/NoticeFormPage";
-import ExpensesListPage from "@/features/expenses/ExpensesListPage";
-import ExpenseFormPage from "@/features/expenses/ExpenseFormPage";
-import TransfersListPage from "@/features/transfers/TransfersListPage";
-import TransferRequestPage from "@/features/transfers/TransferRequestPage";
-import TransferDetailPage from "@/features/transfers/TransferDetailPage";
-import PossessionListPage from "@/features/possession/PossessionListPage";
-import PossessionApplicationPage from "@/features/possession/PossessionApplicationPage";
-import PossessionDetailPage from "@/features/possession/PossessionDetailPage";
-import ConstructionListPage from "@/features/construction/ConstructionListPage";
-import ConstructionApplicationPage from "@/features/construction/ConstructionApplicationPage";
-import ConstructionDetailPage from "@/features/construction/ConstructionDetailPage";
-import NocsListPage from "@/features/nocs/NocsListPage";
-import NocApplicationPage from "@/features/nocs/NocApplicationPage";
-import NocDetailPage from "@/features/nocs/NocDetailPage";
-import ComplaintsBoardPage from "@/features/complaints/ComplaintsBoardPage";
-import ComplaintFormPage from "@/features/complaints/ComplaintFormPage";
-import ComplaintDetailPage from "@/features/complaints/ComplaintDetailPage";
+const UsersListPage = lazy(() => import("@/features/users-roles/UsersListPage"));
+const UserFormPage = lazy(() => import("@/features/users-roles/UserFormPage"));
+const RolesListPage = lazy(() => import("@/features/users-roles/RolesListPage"));
+const RolePermissionsPage = lazy(() => import("@/features/users-roles/RolePermissionsPage"));
+const AccessControlPage = lazy(() => import("@/features/users-roles/AccessControlPage"));
 
-// Maintenance pages
-import WorkOrdersListPage from "@/features/maintenance/WorkOrdersListPage";
-import WorkOrderFormPage from "@/features/maintenance/WorkOrderFormPage";
-import WorkOrderDetailPage from "@/features/maintenance/WorkOrderDetailPage";
-import AssetsPage from "@/features/maintenance/AssetsPage";
+const MembersListPage = lazy(() => import("@/features/members/MembersListPage"));
+const MemberFormPage = lazy(() => import("@/features/members/MemberFormPage"));
+const Member360Page = lazy(() => import("@/features/members/Member360Page"));
+const PlotsListPage = lazy(() => import("@/features/properties/PlotsListPage"));
+const PlotFormPage = lazy(() => import("@/features/properties/PlotFormPage"));
+const PlotDetailPage = lazy(() => import("@/features/properties/PlotDetailPage"));
+const BookingsListPage = lazy(() => import("@/features/bookings/BookingsListPage"));
+const NewBookingPage = lazy(() => import("@/features/bookings/NewBookingPage"));
+const BookingDetailPage = lazy(() => import("@/features/bookings/BookingDetailPage"));
+const PaymentsListPage = lazy(() => import("@/features/payments/PaymentsListPage"));
+const RecordPaymentPage = lazy(() => import("@/features/payments/RecordPaymentPage"));
+const PaymentDetailPage = lazy(() => import("@/features/payments/PaymentDetailPage"));
+const MemberStatementPage = lazy(() => import("@/features/payments/MemberStatementPage"));
+const RefundsPage = lazy(() => import("@/features/payments/RefundsPage"));
+const ReportsPage = lazy(() => import("@/features/finance-reports/ReportsPage"));
+const InvoicesListPage = lazy(() => import("@/features/invoices/InvoicesListPage"));
+const RecoveryPage = lazy(() => import("@/features/recovery/RecoveryPage"));
+const RecoveryPortalPage = lazy(() => import("@/features/recovery/RecoveryPortalPage"));
+const RecoveryAdminPage = lazy(() => import("@/features/recovery/RecoveryAdminPage"));
+const OverdueInstallmentsPage = lazy(() => import("@/features/recovery/overdue/OverdueInstallmentsPage"));
+const NoticeBoardPage = lazy(() => import("@/features/notices/NoticeBoardPage"));
+const NoticeFormPage = lazy(() => import("@/features/notices/NoticeFormPage"));
+const ExpensesListPage = lazy(() => import("@/features/expenses/ExpensesListPage"));
+const ExpenseFormPage = lazy(() => import("@/features/expenses/ExpenseFormPage"));
+const TransfersListPage = lazy(() => import("@/features/transfers/TransfersListPage"));
+const TransferRequestPage = lazy(() => import("@/features/transfers/TransferRequestPage"));
+const TransferDetailPage = lazy(() => import("@/features/transfers/TransferDetailPage"));
+const PossessionListPage = lazy(() => import("@/features/possession/PossessionListPage"));
+const PossessionApplicationPage = lazy(() => import("@/features/possession/PossessionApplicationPage"));
+const PossessionDetailPage = lazy(() => import("@/features/possession/PossessionDetailPage"));
+const ConstructionListPage = lazy(() => import("@/features/construction/ConstructionListPage"));
+const ConstructionApplicationPage = lazy(() => import("@/features/construction/ConstructionApplicationPage"));
+const ConstructionDetailPage = lazy(() => import("@/features/construction/ConstructionDetailPage"));
+const NocsListPage = lazy(() => import("@/features/nocs/NocsListPage"));
+const NocApplicationPage = lazy(() => import("@/features/nocs/NocApplicationPage"));
+const NocDetailPage = lazy(() => import("@/features/nocs/NocDetailPage"));
+const ComplaintsBoardPage = lazy(() => import("@/features/complaints/ComplaintsBoardPage"));
+const ComplaintFormPage = lazy(() => import("@/features/complaints/ComplaintFormPage"));
+const ComplaintDetailPage = lazy(() => import("@/features/complaints/ComplaintDetailPage"));
 
-// Procurement pages
-import VendorsPage from "@/features/procurement/VendorsPage";
+const WorkOrdersListPage = lazy(() => import("@/features/maintenance/WorkOrdersListPage"));
+const WorkOrderFormPage = lazy(() => import("@/features/maintenance/WorkOrderFormPage"));
+const WorkOrderDetailPage = lazy(() => import("@/features/maintenance/WorkOrderDetailPage"));
+const AssetsPage = lazy(() => import("@/features/maintenance/AssetsPage"));
 
-// Security pages
-import GuardRosterPage from "@/features/security/guards/GuardRosterPage";
-import VehicleRegistryPage from "@/features/security/vehicles/VehicleRegistryPage";
-import GateEntryPage from "@/features/security/visitors/GateEntryPage";
-import ActiveVisitorsPage from "@/features/security/visitors/ActiveVisitorsPage";
-import VisitorHistoryPage from "@/features/security/visitors/VisitorHistoryPage";
-import PassesPage from "@/features/security/visitors/PassesPage";
+const VendorsPage = lazy(() => import("@/features/procurement/VendorsPage"));
 
-// HR & Staff Management pages
-import EmployeesPage from "@/features/hr/EmployeesPage";
-import AttendancePage from "@/features/hr/AttendancePage";
-import LeaveRequestsPage from "@/features/hr/LeaveRequestsPage";
-import PayrollLayout from "@/features/hr-payroll/PayrollLayout";
-import PayrollPage from "@/features/hr-payroll/PayrollPage";
-import LoansPage from "@/features/hr-payroll/LoansPage";
-import PayrollReportsPage from "@/features/hr-payroll/PayrollReportsPage";
-import HRSetupPage from "@/features/hr-payroll/HRSetupPage";
+const GuardRosterPage = lazy(() => import("@/features/security/guards/GuardRosterPage"));
+const VehicleRegistryPage = lazy(() => import("@/features/security/vehicles/VehicleRegistryPage"));
+const GateEntryPage = lazy(() => import("@/features/security/visitors/GateEntryPage"));
+const ActiveVisitorsPage = lazy(() => import("@/features/security/visitors/ActiveVisitorsPage"));
+const VisitorHistoryPage = lazy(() => import("@/features/security/visitors/VisitorHistoryPage"));
+const PassesPage = lazy(() => import("@/features/security/visitors/PassesPage"));
 
-// Phase 15 lifecycle and front-desk pages
-import PlotMergePage from "@/features/plot-merge/PlotMergePage";
-import BuybackPage from "@/features/buyback/BuybackPage";
-import RegistryPage from "@/features/registry/RegistryPage";
-import AppointmentsLayout from "@/features/appointments/AppointmentsLayout";
-import AppointmentsTodayPage from "@/features/appointments/TodayPage";
-import AppointmentsLogsPage from "@/features/appointments/LogsPage";
+const EmployeesPage = lazy(() => import("@/features/hr/EmployeesPage"));
+const AttendancePage = lazy(() => import("@/features/hr/AttendancePage"));
+const LeaveRequestsPage = lazy(() => import("@/features/hr/LeaveRequestsPage"));
+const PayrollLayout = lazy(() => import("@/features/hr-payroll/PayrollLayout"));
+const PayrollPage = lazy(() => import("@/features/hr-payroll/PayrollPage"));
+const LoansPage = lazy(() => import("@/features/hr-payroll/LoansPage"));
+const PayrollReportsPage = lazy(() => import("@/features/hr-payroll/PayrollReportsPage"));
+const HRSetupPage = lazy(() => import("@/features/hr-payroll/HRSetupPage"));
+
+const PlotMergePage = lazy(() => import("@/features/plot-merge/PlotMergePage"));
+const BuybackPage = lazy(() => import("@/features/buyback/BuybackPage"));
+const RegistryPage = lazy(() => import("@/features/registry/RegistryPage"));
+const AppointmentsLayout = lazy(() => import("@/features/appointments/AppointmentsLayout"));
+const AppointmentsTodayPage = lazy(() => import("@/features/appointments/TodayPage"));
+const AppointmentsLogsPage = lazy(() => import("@/features/appointments/LogsPage"));
+
+function LazyPage({ children }) {
+  return <Suspense fallback={<PageSpinner />}>{children}</Suspense>;
+}
+
+function Guarded({ module: requiredModule, action = "view", superAdmin = false, children }) {
+  return (
+    <ProtectedRoute requiredModule={requiredModule} requiredAction={action} requiredSuperAdmin={superAdmin}>
+      <LazyPage>{children}</LazyPage>
+    </ProtectedRoute>
+  );
+}
 
 const router = createBrowserRouter([
   {
@@ -111,623 +118,654 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <ProtectedRoute requiredModule="dashboards" requiredAction="view">
+          <Guarded module="dashboards">
             <DashboardPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-
-      // Administration / Settings Routes
       {
         path: "settings/profile",
         element: (
-          <ProtectedRoute requiredModule="settings" requiredAction="view">
+          <Guarded module="settings">
             <SocietyProfilePage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "settings/numbering-rules",
         element: (
-          <ProtectedRoute requiredModule="settings" requiredAction="view">
+          <Guarded module="settings">
             <NumberingRulesPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "settings/master-data",
         element: (
-          <ProtectedRoute requiredModule="settings" requiredAction="view">
+          <Guarded module="settings">
             <MasterDataPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "settings/audit-logs",
         element: (
-          <ProtectedRoute requiredModule="audit" requiredAction="view">
+          <Guarded module="audit">
             <AuditLogPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-
-      // Members Routes
       {
         path: "members",
         element: (
-          <ProtectedRoute requiredModule="members" requiredAction="view">
+          <Guarded module="members">
             <MembersListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-
-      // Properties Routes
       {
         path: "plots",
         element: (
-          <ProtectedRoute requiredModule="plots" requiredAction="view">
+          <Guarded module="plots">
             <PlotsListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "plots/new",
         element: (
-          <ProtectedRoute requiredModule="plots" requiredAction="create">
+          <Guarded module="plots" action="create">
             <PlotFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "plots/:id",
         element: (
-          <ProtectedRoute requiredModule="plots" requiredAction="view">
+          <Guarded module="plots">
             <PlotDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "plots/:id/edit",
         element: (
-          <ProtectedRoute requiredModule="plots" requiredAction="edit">
+          <Guarded module="plots" action="edit">
             <PlotFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "bookings",
         element: (
-          <ProtectedRoute requiredModule="bookings" requiredAction="view">
+          <Guarded module="bookings">
             <BookingsListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "bookings/new",
         element: (
-          <ProtectedRoute requiredModule="bookings" requiredAction="create">
+          <Guarded module="bookings" action="create">
             <NewBookingPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "bookings/:id",
         element: (
-          <ProtectedRoute requiredModule="bookings" requiredAction="view">
+          <Guarded module="bookings">
             <BookingDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-      // Irreversible lifecycle and front-desk routes
       {
         path: "plot-merge",
         element: (
-          <ProtectedRoute requiredModule="plot-merge" requiredAction="view">
+          <Guarded module="plot-merge">
             <PlotMergePage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "buyback",
         element: (
-          <ProtectedRoute requiredModule="buyback" requiredAction="view">
+          <Guarded module="buyback">
             <BuybackPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "registry",
         element: (
-          <ProtectedRoute requiredModule="registry" requiredAction="view">
+          <Guarded module="registry">
             <RegistryPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "appointments",
         element: (
-          <ProtectedRoute requiredModule="appointments" requiredAction="view">
+          <Guarded module="appointments">
             <AppointmentsLayout />
-          </ProtectedRoute>
+          </Guarded>
         ),
         children: [
           { index: true, element: <Navigate to="/appointments/today" replace /> },
-          { path: "today", element: <AppointmentsTodayPage /> },
-          { path: "logs", element: <AppointmentsLogsPage /> },
+          {
+            path: "today",
+            element: (
+              <LazyPage>
+                <AppointmentsTodayPage />
+              </LazyPage>
+            ),
+          },
+          {
+            path: "logs",
+            element: (
+              <LazyPage>
+                <AppointmentsLogsPage />
+              </LazyPage>
+            ),
+          },
         ],
       },
       {
         path: "payments",
         element: (
-          <ProtectedRoute requiredModule="payments" requiredAction="view">
+          <Guarded module="payments">
             <PaymentsListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "payments/new",
         element: (
-          <ProtectedRoute requiredModule="payments" requiredAction="create">
+          <Guarded module="payments" action="create">
             <RecordPaymentPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "payments/:id",
         element: (
-          <ProtectedRoute requiredModule="payments" requiredAction="view">
+          <Guarded module="payments">
             <PaymentDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "members/:id/statement",
         element: (
-          <ProtectedRoute requiredModule="payments" requiredAction="view">
+          <Guarded module="payments">
             <MemberStatementPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "refunds",
         element: (
-          <ProtectedRoute requiredModule="refunds" requiredAction="view">
+          <Guarded module="refunds">
             <RefundsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "reports",
         element: (
-          <ProtectedRoute requiredModule="reports" requiredAction="view">
+          <Guarded module="reports">
             <ReportsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "invoices",
         element: (
-          <ProtectedRoute requiredModule="invoices" requiredAction="view">
+          <Guarded module="invoices">
             <InvoicesListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "invoicing",
         element: (
-          <ProtectedRoute requiredModule="invoices" requiredAction="view">
+          <Guarded module="invoices">
             <Navigate to="/invoices" replace />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "recovery",
         element: (
-          <ProtectedRoute requiredModule="recovery" requiredAction="view">
+          <Guarded module="recovery">
             <RecoveryPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "recovery/admin",
         element: (
-          <ProtectedRoute requiredModule="recovery" requiredAction="create">
+          <Guarded module="recovery" action="create">
             <RecoveryAdminPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "recovery/portal",
         element: (
-          <ProtectedRoute requiredModule="recovery" requiredAction="view">
+          <Guarded module="recovery">
             <RecoveryPortalPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "recovery/overdue",
         element: (
-          <ProtectedRoute requiredModule="recovery" requiredAction="view">
+          <Guarded module="recovery">
             <OverdueInstallmentsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "recovery/overdue-installments",
         element: (
-          <ProtectedRoute requiredModule="recovery" requiredAction="view">
+          <Guarded module="recovery">
             <Navigate to="/recovery/overdue" replace />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "notices",
         element: (
-          <ProtectedRoute requiredModule="notices" requiredAction="view">
+          <Guarded module="notices">
             <NoticeBoardPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "notices/new",
         element: (
-          <ProtectedRoute requiredModule="notices" requiredAction="create">
+          <Guarded module="notices" action="create">
             <NoticeFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "expenses",
         element: (
-          <ProtectedRoute requiredModule="expenses" requiredAction="view">
+          <Guarded module="expenses">
             <ExpensesListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "expenses/new",
         element: (
-          <ProtectedRoute requiredModule="expenses" requiredAction="create">
+          <Guarded module="expenses" action="create">
             <ExpenseFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "transfers",
         element: (
-          <ProtectedRoute requiredModule="transfers" requiredAction="view">
+          <Guarded module="transfers">
             <TransfersListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "transfers/new",
         element: (
-          <ProtectedRoute requiredModule="transfers" requiredAction="create">
+          <Guarded module="transfers" action="create">
             <TransferRequestPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "transfers/:id",
         element: (
-          <ProtectedRoute requiredModule="transfers" requiredAction="view">
+          <Guarded module="transfers">
             <TransferDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "nocs",
         element: (
-          <ProtectedRoute requiredModule="nocs" requiredAction="view">
+          <Guarded module="nocs">
             <NocsListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "nocs/new",
         element: (
-          <ProtectedRoute requiredModule="nocs" requiredAction="create">
+          <Guarded module="nocs" action="create">
             <NocApplicationPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "nocs/:id",
         element: (
-          <ProtectedRoute requiredModule="nocs" requiredAction="view">
+          <Guarded module="nocs">
             <NocDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "possession",
         element: (
-          <ProtectedRoute requiredModule="possession" requiredAction="view">
+          <Guarded module="possession">
             <PossessionListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "possession/new",
         element: (
-          <ProtectedRoute requiredModule="possession" requiredAction="create">
+          <Guarded module="possession" action="create">
             <PossessionApplicationPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "possession/:id",
         element: (
-          <ProtectedRoute requiredModule="possession" requiredAction="view">
+          <Guarded module="possession">
             <PossessionDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "construction",
         element: (
-          <ProtectedRoute requiredModule="construction" requiredAction="view">
+          <Guarded module="construction">
             <ConstructionListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "construction/new",
         element: (
-          <ProtectedRoute requiredModule="construction" requiredAction="create">
+          <Guarded module="construction" action="create">
             <ConstructionApplicationPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "construction/:id",
         element: (
-          <ProtectedRoute requiredModule="construction" requiredAction="view">
+          <Guarded module="construction">
             <ConstructionDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "complaints",
         element: (
-          <ProtectedRoute requiredModule="complaints" requiredAction="view">
+          <Guarded module="complaints">
             <ComplaintsBoardPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "complaints/new",
         element: (
-          <ProtectedRoute requiredModule="complaints" requiredAction="create">
+          <Guarded module="complaints" action="create">
             <ComplaintFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "complaints/:id",
         element: (
-          <ProtectedRoute requiredModule="complaints" requiredAction="view">
+          <Guarded module="complaints">
             <ComplaintDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "maintenance",
         element: (
-          <ProtectedRoute requiredModule="maintenance" requiredAction="view">
+          <Guarded module="maintenance">
             <WorkOrdersListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "maintenance/new",
         element: (
-          <ProtectedRoute requiredModule="maintenance" requiredAction="create">
+          <Guarded module="maintenance" action="create">
             <WorkOrderFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "maintenance/:id",
         element: (
-          <ProtectedRoute requiredModule="maintenance" requiredAction="view">
+          <Guarded module="maintenance">
             <WorkOrderDetailPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "assets",
         element: (
-          <ProtectedRoute requiredModule="assets" requiredAction="view">
+          <Guarded module="assets">
             <AssetsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "procurement/vendors",
         element: (
-          <ProtectedRoute requiredModule="procurement" requiredAction="view">
+          <Guarded module="procurement">
             <VendorsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/guards",
         element: (
-          <ProtectedRoute requiredModule="security-guards" requiredAction="view">
+          <Guarded module="security-guards">
             <GuardRosterPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/vehicles",
         element: (
-          <ProtectedRoute requiredModule="security-vehicles" requiredAction="view">
+          <Guarded module="security-vehicles">
             <VehicleRegistryPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/visitors/entry",
         element: (
-          <ProtectedRoute requiredModule="visitors" requiredAction="create">
+          <Guarded module="visitors" action="create">
             <GateEntryPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/visitors/active",
         element: (
-          <ProtectedRoute requiredModule="visitors" requiredAction="view">
+          <Guarded module="visitors">
             <ActiveVisitorsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/visitors/history",
         element: (
-          <ProtectedRoute requiredModule="visitors" requiredAction="view">
+          <Guarded module="visitors">
             <VisitorHistoryPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "security/visitors/passes",
         element: (
-          <ProtectedRoute requiredModule="visitors" requiredAction="view">
+          <Guarded module="visitors">
             <PassesPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "members/new",
         element: (
-          <ProtectedRoute requiredModule="members" requiredAction="create">
+          <Guarded module="members" action="create">
             <MemberFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "members/:id",
         element: (
-          <ProtectedRoute requiredModule="members" requiredAction="view">
+          <Guarded module="members">
             <Member360Page />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "members/:id/edit",
         element: (
-          <ProtectedRoute requiredModule="members" requiredAction="edit">
+          <Guarded module="members" action="edit">
             <MemberFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-
       {
         path: "admin/access-control",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit" requiredSuperAdmin>
+          <Guarded module="users-roles" action="edit" superAdmin>
             <AccessControlPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-      // Users & Roles Management Routes
       {
         path: "admin/users",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit">
+          <Guarded module="users-roles" action="edit">
             <UsersListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "admin/users/new",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit">
+          <Guarded module="users-roles" action="edit">
             <UserFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "admin/users/:id/edit",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit">
+          <Guarded module="users-roles" action="edit">
             <UserFormPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "admin/roles",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit">
+          <Guarded module="users-roles" action="edit">
             <RolesListPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "admin/roles/new",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit" requiredSuperAdmin>
+          <Guarded module="users-roles" action="edit" superAdmin>
             <RolePermissionsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "admin/roles/:id/edit",
         element: (
-          <ProtectedRoute requiredModule="users-roles" requiredAction="edit" requiredSuperAdmin>
+          <Guarded module="users-roles" action="edit" superAdmin>
             <RolePermissionsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
-
-      // HR & Staff Management Routes
       {
         path: "hr/employees",
         element: (
-          <ProtectedRoute requiredModule="hr" requiredAction="view">
+          <Guarded module="hr">
             <EmployeesPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "hr/attendance",
         element: (
-          <ProtectedRoute requiredModule="hr" requiredAction="view">
+          <Guarded module="hr">
             <AttendancePage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "hr/leave-requests",
         element: (
-          <ProtectedRoute requiredModule="hr" requiredAction="view">
+          <Guarded module="hr">
             <LeaveRequestsPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "hr/setup",
         element: (
-          <ProtectedRoute requiredModule="hr-payroll" requiredAction="view">
+          <Guarded module="hr-payroll">
             <HRSetupPage />
-          </ProtectedRoute>
+          </Guarded>
         ),
       },
       {
         path: "hr/payroll",
         element: (
-          <ProtectedRoute requiredModule="hr-payroll" requiredAction="view">
+          <Guarded module="hr-payroll">
             <PayrollLayout />
-          </ProtectedRoute>
+          </Guarded>
         ),
         children: [
-          { index: true, element: <PayrollPage /> },
-          { path: "loans", element: <LoansPage /> },
-          { path: "setup", element: <HRSetupPage /> },
-          { path: "reports", element: <PayrollReportsPage /> },
+          {
+            index: true,
+            element: (
+              <LazyPage>
+                <PayrollPage />
+              </LazyPage>
+            ),
+          },
+          {
+            path: "loans",
+            element: (
+              <LazyPage>
+                <LoansPage />
+              </LazyPage>
+            ),
+          },
+          {
+            path: "setup",
+            element: (
+              <LazyPage>
+                <HRSetupPage />
+              </LazyPage>
+            ),
+          },
+          {
+            path: "reports",
+            element: (
+              <LazyPage>
+                <PayrollReportsPage />
+              </LazyPage>
+            ),
+          },
         ],
       },
     ],

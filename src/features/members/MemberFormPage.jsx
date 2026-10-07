@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, AlertTriangle } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import {
   createMember,
   updateMember,
@@ -131,11 +132,7 @@ export default function MemberFormPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-secondary">Loading...</div>
-      </div>
-    );
+    return <PageSkeleton variant="form" label="Loading member" />;
   }
 
   return (

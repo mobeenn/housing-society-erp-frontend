@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { getUsers } from "@/features/users-roles/usersRolesApi";
 import {
@@ -459,8 +460,8 @@ export default function GuardRosterPage() {
               <tbody className="divide-y divide-border">
                 {loadingRoster || loadingGuards ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted">
-                      Loading duty roster...
+                    <td colSpan={8} className="p-4">
+                      <PageSkeleton variant="rows" rows={6} label="Loading duty roster" />
                     </td>
                   </tr>
                 ) : guards.length === 0 ? (
@@ -667,8 +668,8 @@ export default function GuardRosterPage() {
               <tbody className="divide-y divide-border">
                 {loadingGuards ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted">
-                      Loading guards...
+                    <td colSpan={7} className="p-4">
+                      <PageSkeleton variant="rows" rows={5} label="Loading guards" />
                     </td>
                   </tr>
                 ) : guards.length === 0 ? (

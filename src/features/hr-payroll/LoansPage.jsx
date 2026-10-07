@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Plus, Search, WalletCards } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button } from "@/components/ui";
+import { Button, PageSkeleton } from "@/components/ui";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import { useCan } from "@/hooks/useCan";
@@ -81,7 +81,7 @@ export default function LoansPage() {
       </Card>
 
       <Card>
-        {loading ? <div className="py-10 text-center text-body text-secondary">Loading loans...</div> : visibleLoans.length === 0 ? <div className="py-10 text-center"><WalletCards className="mx-auto mb-2 h-8 w-8 text-muted" /><p className="text-body text-secondary">No loans found.</p></div> : (
+        {loading ? <PageSkeleton variant="list" label="Loading loans" /> : visibleLoans.length === 0 ? <div className="py-10 text-center"><WalletCards className="mx-auto mb-2 h-8 w-8 text-muted" /><p className="text-body text-secondary">No loans found.</p></div> : (
           <div className="overflow-x-auto" data-tour="hr-payroll-loans-list">
             <table className="w-full text-left text-body">
               <thead className="border-b border-border text-small tracking-wide text-secondary"><tr><th className="px-3 py-3">Employee</th><th className="px-3 py-3">Amount</th><th className="px-3 py-3">Installment</th><th className="px-3 py-3">Remaining</th><th className="px-3 py-3">Status</th><th className="px-3 py-3 text-right">Action</th></tr></thead>

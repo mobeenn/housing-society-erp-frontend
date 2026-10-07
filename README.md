@@ -1,138 +1,140 @@
-# Housing Society Management ERP — Frontend
+# Civica — Frontend
 
-Production-grade React + Vite frontend for the Housing Society Management ERP system.
+React + Vite SPA for Civica.
 
-## Tech Stack
+## Tech stack
 
-- **Framework** — React 18 + Vite
-- **Routing** — React Router v6
-- **Styling** — Tailwind CSS v4
-- **State Management** — Zustand (auth), TanStack Query (server state)
-- **HTTP Client** — Axios (with JWT refresh interceptor)
-- **Forms** — React Hook Form + Zod validation
+- **Framework** — React 19 + Vite 8
+- **Routing** — React Router v7 (`createBrowserRouter`)
+- **Styling** — Tailwind CSS v4 with navy/gold design tokens (light/dark)
+- **State** — Zustand (auth + theme), TanStack Query (server state)
+- **HTTP** — Axios with JWT refresh interceptor (`withCredentials`)
+- **Forms** — React Hook Form + Zod (selected pages); many feature forms use local state
 - **Charts** — Recharts
 - **Icons** — Lucide React
-- **Notifications** — React Hot Toast
+- **Toasts** — React Hot Toast
+- **Tours** — react-joyride (module registry under `src/tours/`)
 
-## Folder Structure
+There is **no separate resident/guard app**. One shell; sidebar and actions come from backend RBAC (`GET /api/rbac/my-access`).
+
+## Folder structure
 
 ```
 frontend/
 ├── src/
 │   ├── app/
-│   │   ├── App.jsx           # Root app component
-│   │   ├── routes.jsx        # React Router configuration
-│   │   └── providers.jsx     # QueryClient + Toaster providers
-│   ├── pages/
-│   │   ├── LoginPage.jsx
-│   │   ├── DashboardPage.jsx
-│   │   └── NotFoundPage.jsx
+│   │   ├── App.jsx
+│   │   ├── routes.jsx          # All routes + ProtectedRoute
+│   │   ├── providers.jsx
+│   │   └── AuthInitializer.jsx
+│   ├── pages/                  # Login, Dashboard, 404
 │   ├── components/
-│   │   ├── layout/
-│   │   │   ├── DashboardLayout.jsx  # Main app shell
-│   │   │   ├── Sidebar.jsx          # Collapsible sidebar nav
-│   │   │   ├── Topbar.jsx           # Search + notifications + user menu
-│   │   │   └── Breadcrumbs.jsx
-│   │   └── ui/                      # Reusable primitives
-│   │       ├── Button.jsx
-│   │       ├── Input.jsx
-│   │       ├── Table.jsx
-│   │       ├── Modal.jsx
-│   │       ├── Card.jsx
-│   │       ├── Badge.jsx
-│   │       ├── StatusPill.jsx
-│   │       └── ConfirmDialog.jsx
-│   ├── features/              # Feature-based modules (members, plots, etc.)
-│   ├── lib/
-│   │   ├── apiClient.js       # Axios instance with JWT refresh
-│   │   └── queryClient.js     # TanStack Query config
-│   ├── store/
-│   │   └── authStore.js       # Zustand auth store (user, tokens, login/logout)
-│   ├── utils/                 # Helper functions
-│   └── styles/                # Global styles (currently in index.css)
+│   │   ├── layout/             # DashboardLayout, Sidebar, Topbar, Breadcrumbs
+│   │   ├── ui/                 # Button, Input, Table, Modal, Card, …
+│   │   └── ProtectedRoute.jsx
+│   ├── features/               # Domain pages + *Api.js
+│   ├── lib/                    # apiClient, queryClient, permissions helpers
+│   ├── store/                  # authStore, themeStore
+│   ├── hooks/useCan.js
+│   ├── tours/
+│   └── index.css               # Design tokens
 ├── .env.example
-└── vite.config.js
+├── vercel.json
+└── package.json
 ```
 
-## Design System
+## Design system
 
-Tailwind CSS is configured with custom color tokens:
+Tokens in `src/index.css` (and Tailwind `@theme`):
 
-- **Primary** — Blue (sidebar active, buttons)
-- **Secondary** — Purple (accent)
-- **Success** — Green (positive states)
-- **Warning** — Amber (pending/caution)
-- **Danger** — Red (errors/destructive actions)
-- **Neutral** — Gray scale (text, borders, backgrounds)
+- **Brand** — navy (`#0d1c42`) + gold accents on warm canvas
+- **Theme** — light/dark via `themeStore` → `document.documentElement.dataset.theme`
+- **Fonts** — Inter (body), Manrope (display)
+- **Currency** — PKR / `en-PK` conventions in UI formatting
 
-All colors adapt to dark mode via Tailwind's theme configuration.
+## Getting started
 
-## Getting Started
-
-1. **Install dependencies**
+1. **Install**
 
    ```bash
    cd frontend
    npm install
    ```
 
-2. **Configure environment**
+2. **Configure**
 
    ```bash
    cp .env.example .env
-   # Edit .env with your backend API URL
+   # VITE_API_BASE_URL=http://localhost:5000/api
    ```
 
-3. **Start the dev server**
+   If unset in development, Vite proxies `/api` → `http://localhost:5000`.
+
+3. **Run**
 
    ```bash
    npm run dev
    ```
 
-   Frontend runs on `http://localhost:3000` by default. API calls to `/api/*` are proxied to the backend (`http://localhost:5000`).
+   App: `http://localhost:3000` (login required for the dashboard shell).
 
-4. **Verify**
+4. **Build**
 
-   Navigate to `http://localhost:3000` — you'll be redirected to `/dashboard` with the full layout (sidebar, topbar, breadcrumbs) visible.
+   ```bash
+   npm run build
+   npm run preview
+   ```
 
-## NPM Scripts
+## NPM scripts
 
-| Script            | Description                      |
-| ----------------- | -------------------------------- |
-| `npm run dev`     | Start Vite dev server            |
-| `npm run build`   | Build for production             |
-| `npm run preview` | Preview production build locally |
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Vite dev server |
+| `npm run build` | Production build → `dist/` |
+| `npm run preview` | Preview production build |
+| `npm run test:tours` | Validate Joyride tour registry |
+| `npm run lint` | oxlint |
 
-## Path Aliases
+## Path aliases
 
-The `@` alias resolves to `src/`:
+`@` → `src/`:
 
 ```js
 import { Button } from "@/components/ui";
 import apiClient from "@/lib/apiClient";
 ```
 
-## API Client
+## Auth flow
 
-`src/lib/apiClient.js` is a configured Axios instance that:
+1. `LoginPage` → `authApi.login` → `authStore` (user + accessToken)
+2. `AuthInitializer` restores session via refresh cookie + `/auth/me`, then loads `/rbac/my-access`
+3. `apiClient` attaches Bearer token; on 401 tries `/auth/refresh` then retries; failure → logout
+4. `ProtectedRoute` requires auth + loaded access; optional `requiredModule` / `requiredAction` / super-admin
+5. Sidebar modules come from `access.modules` (visibility, route, group, icon)
 
-- Attaches the JWT `accessToken` from Zustand auth store to every request
-- Intercepts 401 responses and attempts to refresh the token via `/api/auth/refresh`
-- Retries the original request with the new token
-- Logs the user out if refresh fails
+`useCan(module, action)` is **UI-only**; the API `authorize` middleware is the security boundary.
 
-## Vercel Configuration
+Role dashboards use `rbacAccess.dashboardType` (`management|finance|operations|security|property`). Recovery shows admin vs agent portal based on `recovery:create`.
 
-The committed `.env.production` points the production build to:
+## API client
+
+[`src/lib/apiClient.js`](src/lib/apiClient.js):
+
+- Base URL from `VITE_API_BASE_URL`, or production backend host, or `/api` proxy
+- `withCredentials: true` for refresh cookies
+- Single-flight refresh queue on 401
+
+## Vercel configuration
+
+Committed production default (override via project env as needed):
 
 ```bash
 VITE_API_BASE_URL=https://housing-society-erp-backend.vercel.app/api
 ```
 
-The Axios client sends credentials with refresh-token requests. The backend must
-allow the frontend origin through CORS and issue its refresh cookie with
-`SameSite=None; Secure` because the frontend and backend use different Vercel
-hostnames.
+Cross-site cookies require backend `CORS_ORIGIN` allowlist and refresh cookie `SameSite=None; Secure`.
 
-For another Vercel project, set `VITE_API_BASE_URL` in the project's Production,
-Preview, and Development environment variables before rebuilding.
+## Known gaps
+
+- Procurement **PR / Quotation / PO / GRN** pages exist under `src/features/procurement` but are **not registered** in `src/app/routes.jsx` (vendors route only)
+- Inventory / dealers / finance-GL are mostly contextual or tour-only on the FE

@@ -3,6 +3,7 @@ import { ArrowLeft, Check, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCan } from "@/hooks/useCan";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import DocumentUploader from "@/components/documents/DocumentUploader";
 import DocumentList from "@/components/documents/DocumentList";
@@ -65,12 +66,7 @@ export default function BookingDetailPage() {
       toast.error(error.response?.data?.message || "Cancellation failed");
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading booking...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading booking" />;
   if (!booking) return null;
   const plan = booking.installmentPlan;
   return (

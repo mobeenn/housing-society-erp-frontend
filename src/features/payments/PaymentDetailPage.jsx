@@ -3,6 +3,7 @@ import { ArrowLeft, Printer } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "@/lib/apiClient";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { downloadReceipt } from "./paymentsApi";
 
@@ -30,12 +31,7 @@ export default function PaymentDetailPage() {
       toast.error(error.response?.data?.message || "Receipt generation failed");
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading payment...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading payment" />;
   if (!payment) return null;
   return (
     <div className="max-w-3xl space-y-6">

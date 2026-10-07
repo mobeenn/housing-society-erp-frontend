@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Card from "@/components/ui/Card";
+import { PageSkeleton } from "@/components/ui";
 import { useCan } from "@/hooks/useCan";
 import { hrPayrollApi } from "./hrPayrollApi";
 import StatutoryConfigTab from "./components/StatutoryConfigTab";
@@ -52,7 +53,7 @@ export default function HRSetupPage() {
         </div>
         <p className="mt-4 text-body text-secondary">Configure the salary components and statutory rules used when a new payroll draft is generated. Existing employees, attendance, and leave screens remain unchanged.</p>
       </Card>
-      {loading ? <Card><p className="py-10 text-center text-body text-secondary">Loading setup...</p></Card> : <StatutoryConfigTab setup={setup} onSave={save} canEdit={canEdit} isLoading={saving} />}
+      {loading ? <Card><PageSkeleton variant="form" label="Loading payroll setup" /></Card> : <StatutoryConfigTab setup={setup} onSave={save} canEdit={canEdit} isLoading={saving} />}
     </div>
   );
 }

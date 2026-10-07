@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import {
   changeComplaintStatus,
@@ -43,31 +44,19 @@ const formatSla = (complaint) => {
 
 export default function ComplaintsBoardPage() {
   const navigate = useNavigate();
-  const [complaints, setComplaints] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const load = useCallback(
-    () =>
-      getComplaints({ page: 1, limit: 200 })
-        .then((result) => setComplaints(result.data || []))
-        .catch((error) =>
-          toast.error(
-            error.response?.data?.message || "Failed to load complaints",
-          ),
-        )
-        .finally(() => setLoading(false)),
-    [],
-  );
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const queryClient = useQueryClient();
+  const { data, isLoading: loading, refetch, isError } = useQuery({
+    queryKey: ["complaints-board"],
+    queryFn: () => getComplaints({ page: 1, limit: 200 }),
+    staleTime: 60_000,
+  });
+  const complaints = data?.data || [];
 
   const act = async (handler, message) => {
     try {
       await handler();
       toast.success(message);
-      load();
+      queryClient.invalidateQueries({ queryKey: ["complaints-board"] });
     } catch (error) {
       toast.error(error.response?.data?.message || "Action failed");
     }
@@ -99,9 +88,16 @@ export default function ComplaintsBoardPage() {
     act(() => reopenComplaint(complaint._id), "Complaint reopened");
 
   if (loading) {
+    return <PageSkeleton variant="cards" cards={4} label="Loading complaints" />;
+  }
+
+  if (isError) {
     return (
       <div className="py-16 text-center text-secondary">
-        Loading complaints...
+        Failed to load complaints.{" "}
+        <button type="button" className="text-accent underline" onClick={() => refetch()}>
+          Retry
+        </button>
       </div>
     );
   }
@@ -121,7 +117,7 @@ export default function ComplaintsBoardPage() {
         <div className="flex gap-2">
           <button
             data-tour="complaints-refresh"
-            onClick={load}
+            onClick={() => refetch()}
             className="flex items-center gap-2 rounded-control border border-border-strong px-4 py-2 text-body"
           >
             <RefreshCw className="h-4 w-4" /> Refresh

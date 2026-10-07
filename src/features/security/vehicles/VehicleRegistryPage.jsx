@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Car, Filter, Package, Plus, Search, Trash2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { getMembers } from "@/features/members/membersApi";
 import {
@@ -327,8 +328,8 @@ export default function VehicleRegistryPage() {
           <tbody className="divide-y divide-border">
             {loading ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-muted">
-                  Loading vehicles...
+                <td colSpan={7} className="p-4">
+                  <PageSkeleton variant="rows" rows={6} label="Loading vehicles" />
                 </td>
               </tr>
             ) : vehicles.length === 0 ? (

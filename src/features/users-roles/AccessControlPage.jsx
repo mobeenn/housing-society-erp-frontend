@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Loader2, ShieldAlert } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getRoles } from "./usersRolesApi";
@@ -31,6 +32,6 @@ export default function AccessControlPage() {
     return () => { active = false; };
   }, [navigate]);
 
-  if (loading) return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-accent" /></div>;
+  if (loading) return <PageSkeleton variant="page" label="Loading access control" />;
   return <div className="flex min-h-[50vh] items-center justify-center"><div className="text-center text-secondary"><ShieldAlert className="mx-auto mb-3 h-8 w-8" />No role is available for access control.</div></div>;
 }

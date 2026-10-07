@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { Hash, Edit, Save, X, Loader2, RefreshCw } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { administrationApi } from "./administrationApi";
 
 const numberingRuleSchema = z.object({
@@ -86,11 +87,7 @@ export default function NumberingRulesPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent" />
-      </div>
-    );
+    return <PageSkeleton variant="list" label="Loading numbering rules" />;
   }
 
   return (

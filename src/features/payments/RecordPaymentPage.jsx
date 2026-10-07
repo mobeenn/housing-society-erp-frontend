@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { getMembers } from "@/features/members/membersApi";
 import { getPlots } from "@/features/properties/propertiesApi";
+import { PageSkeleton } from "@/components/ui";
 import { PAYMENT_METHODS, createPayment, previewPayment } from "./paymentsApi";
 
 export default function RecordPaymentPage() {
@@ -84,12 +85,7 @@ export default function RecordPaymentPage() {
       setSaving(false);
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading payment options...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="form" label="Loading payment options" />;
   return (
     <div className="max-w-5xl space-y-6">
       <div className="flex items-center gap-4">

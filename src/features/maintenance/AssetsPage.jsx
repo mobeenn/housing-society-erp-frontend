@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Plus, RefreshCw, Wrench } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { administrationApi } from "@/features/settings/administrationApi";
 import { createAsset, getAssetHistory, getAssets } from "./maintenanceApi";
@@ -113,11 +114,7 @@ export default function AssetsPage() {
   };
 
   if (loading) {
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading assets...
-      </div>
-    );
+    return <PageSkeleton variant="list" label="Loading assets" />;
   }
 
   return (
@@ -301,7 +298,7 @@ export default function AssetsPage() {
             </p>
           )}
           {selectedId && historyLoading && (
-            <p className="text-body text-secondary">Loading history...</p>
+            <PageSkeleton variant="rows" rows={4} label="Loading maintenance history" />
           )}
           {selectedId && !historyLoading && history && (
             <div className="space-y-4">

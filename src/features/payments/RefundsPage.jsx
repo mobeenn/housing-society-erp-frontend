@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { useCan } from "@/hooks/useCan";
 import {
@@ -34,12 +35,7 @@ export default function RefundsPage() {
       toast.error(error.response?.data?.message || "Refund action failed");
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading refunds...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="list" label="Loading refunds" />;
   return (
     <div className="space-y-6">
       <div>

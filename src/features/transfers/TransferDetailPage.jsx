@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Download } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import ApprovalStageTracker from "@/components/workflow/ApprovalStageTracker";
 import DocumentUploader from "@/components/documents/DocumentUploader";
 import DocumentList from "@/components/documents/DocumentList";
@@ -59,12 +60,7 @@ export default function TransferDetailPage() {
       );
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading transfer...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading transfer" />;
   if (!transfer) return null;
   return (
     <div className="space-y-6" data-tour="transfers-detail-page">

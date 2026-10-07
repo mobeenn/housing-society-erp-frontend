@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Bell, CalendarDays, Megaphone, Plus, RefreshCw } from "lucide-react";
-import { Button, Card, StatusPill } from "@/components/ui";
+import { Button, Card, PageSkeleton, StatusPill } from "@/components/ui";
 import { useCan } from "@/hooks/useCan";
 import { noticesApi } from "./noticesApi";
+import useVisibilityRefetchInterval from "@/hooks/useVisibilityRefetchInterval";
 
 const formatDate = (value) =>
   value
@@ -12,10 +13,13 @@ const formatDate = (value) =>
 
 export default function NoticeBoardPage() {
   const canCreate = useCan("notices", "create");
+  const poll = useVisibilityRefetchInterval(120_000);
   const { data, isLoading, isFetching, refetch, isError } = useQuery({
     queryKey: ["notices"],
     queryFn: noticesApi.list,
-    refetchInterval: 30000,
+    refetchInterval: poll,
+    refetchIntervalInBackground: false,
+    staleTime: 60_000,
   });
 
   const notices = data?.data || [];
@@ -45,8 +49,8 @@ export default function NoticeBoardPage() {
       </div>
 
       {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-2" data-tour="notices-list">
-          {Array.from({ length: 4 }, (_, index) => <div key={index} className="h-48 animate-pulse rounded-card bg-surface" />)}
+        <div data-tour="notices-list">
+          <PageSkeleton variant="cards" label="Loading notices" />
         </div>
       ) : isError ? (
         <Card><p className="py-8 text-center text-danger">Unable to load notices.</p></Card>

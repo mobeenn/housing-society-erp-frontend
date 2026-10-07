@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import {
   getUserById,
   createUser,
@@ -108,11 +109,7 @@ export default function UserFormPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 text-info animate-spin" />
-      </div>
-    );
+    return <PageSkeleton variant="form" label="Loading user" />;
   }
 
   return (

@@ -3,6 +3,7 @@ import { ArrowLeft, Download } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import ApprovalStageTracker from "@/components/workflow/ApprovalStageTracker";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import {
   addInspection,
@@ -96,12 +97,7 @@ export default function ConstructionDetailPage() {
       );
     }
   };
-  if (loading)
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading construction application...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="detail" label="Loading construction application" />;
   if (!application) return null;
   return (
     <div className="space-y-6" data-tour="construction-detail-page">

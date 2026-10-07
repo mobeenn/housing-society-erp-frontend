@@ -2,19 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="application-name" content="Civica" />
+    <meta name="theme-color" content="#0369A1" />
+    <meta name="msapplication-TileColor" content="#0369A1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <script>
       try {
-        const saved = localStorage.getItem("kceb-theme");
-        const preferred = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.documentElement.dataset.theme = saved === "light" || saved === "dark" ? saved : preferred;
-        document.documentElement.style.colorScheme = document.documentElement.dataset.theme;
+        document.documentElement.removeAttribute("data-theme");
+        document.documentElement.style.colorScheme = "light";
+        localStorage.removeItem("kceb-theme");
+        localStorage.removeItem("civica-theme");
       } catch {
-        document.documentElement.dataset.theme = "light";
+        document.documentElement.style.colorScheme = "light";
       }
     </script>
-    <title>Housing Society ERP</title>
+    <title>Civica</title>
   </head>
   <body>
     <div id="root"></div>

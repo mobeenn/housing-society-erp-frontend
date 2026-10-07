@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Boxes, Plus, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { getWorkOrders } from "./maintenanceApi";
 
@@ -40,11 +41,7 @@ export default function WorkOrdersListPage() {
   }, [load]);
 
   if (loading) {
-    return (
-      <div className="py-16 text-center text-secondary">
-        Loading work orders...
-      </div>
-    );
+    return <PageSkeleton variant="list" label="Loading work orders" />;
   }
 
   return (

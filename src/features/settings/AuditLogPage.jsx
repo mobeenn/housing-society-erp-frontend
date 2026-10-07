@@ -5,13 +5,13 @@ import {
   Search,
   Filter,
   X,
-  Loader2,
   Eye,
   Calendar,
   User,
   FileText,
   Activity,
 } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { administrationApi } from "./administrationApi";
 
 const ACTION_LABELS = {
@@ -58,16 +58,23 @@ export default function AuditLogPage() {
   });
 
   const filters = watch();
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(filters.search || ""), 300);
+    return () => window.clearTimeout(timer);
+  }, [filters.search]);
 
   useEffect(() => {
     loadLogs();
-  }, [filters.search, filters.entityType, filters.action, filters.startDate, filters.endDate, filters.page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload when filter inputs change
+  }, [debouncedSearch, filters.entityType, filters.action, filters.startDate, filters.endDate, filters.page]);
 
   const loadLogs = async () => {
     try {
       setLoading(true);
       const params = {
-        search: filters.search || undefined,
+        search: debouncedSearch || undefined,
         entityType: filters.entityType || undefined,
         action: filters.action || undefined,
         startDate: filters.startDate || undefined,
@@ -217,9 +224,7 @@ export default function AuditLogPage() {
       {/* Logs Table */}
       <div data-tour="audit-log-table" className="rounded-card border border-border bg-surface shadow-none">
         {loading ? (
-          <div className="flex h-96 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-accent" />
-          </div>
+          <PageSkeleton variant="list" rows={8} label="Loading audit logs" />
         ) : logs.length === 0 ? (
           <div className="flex h-96 flex-col items-center justify-center text-secondary">
             <Activity className="mb-2 h-12 w-12 text-muted" />

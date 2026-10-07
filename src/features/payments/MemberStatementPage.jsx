@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { getMemberStatement } from "./paymentsApi";
 
@@ -18,12 +19,7 @@ export default function MemberStatementPage({ embedded = false }) {
       )
       .finally(() => setLoading(false));
   }, [id]);
-  if (loading)
-    return (
-      <div className="py-8 text-center text-body text-secondary">
-        Loading statement...
-      </div>
-    );
+  if (loading) return <PageSkeleton variant="list" label="Loading statement" />;
   if (!statement) return null;
   return (
     <div className={embedded ? "space-y-5" : "space-y-6"}>

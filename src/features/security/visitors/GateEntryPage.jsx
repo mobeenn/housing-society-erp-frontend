@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { UserCheck, Car, AlertTriangle } from "lucide-react";
+import AsyncMemberSelect from "@/components/common/AsyncMemberSelect";
 import { createVisitorEntry } from "./visitorsApi";
-import { listMembers } from "../../members/membersApi";
 import { listPasses } from "./visitorsApi";
 
 export default function GateEntryPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [members, setMembers] = useState([]);
   const [passes, setPasses] = useState([]);
   const [formData, setFormData] = useState({
     visitorName: "",
@@ -24,18 +23,8 @@ export default function GateEntryPage() {
   });
 
   useEffect(() => {
-    fetchMembers();
     fetchActivePasses();
   }, []);
-
-  const fetchMembers = async () => {
-    try {
-      const result = await listMembers({ status: "Active", limit: 500 });
-      setMembers(result.members || result.data || []);
-    } catch (error) {
-      console.error("Failed to fetch members:", error);
-    }
-  };
 
   const fetchActivePasses = async () => {
     try {
@@ -154,19 +143,12 @@ export default function GateEntryPage() {
         {/* Host Member */}
         <div data-tour="visitors-host">
           <label className="block text-h2 font-semibold text-primary mb-2">Host Member</label>
-          <select
-            name="hostMember"
+          <AsyncMemberSelect
             value={formData.hostMember}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-          >
-            <option value="">-- Select Host --</option>
-            {members.map((m) => (
-              <option key={m._id} value={m._id}>
-                {m.name} ({m.membershipNumber})
-              </option>
-            ))}
-          </select>
+            onChange={(memberId) => setFormData((prev) => ({ ...prev, hostMember: memberId || "" }))}
+            emptyLabel="-- Select Host --"
+            placeholder="Search host member…"
+          />
         </div>
 
         {/* Purpose */}

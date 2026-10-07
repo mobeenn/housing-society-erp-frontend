@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, Download, FileText, Loader2 } from "lucide-react";
+import { CheckCircle2, Download, FileText } from "lucide-react";
+import { PageSkeleton } from "@/components/ui";
 import { toast } from "react-hot-toast";
 import { useCan } from "@/hooks/useCan";
 import {
@@ -60,8 +61,8 @@ export default function DocumentList({
   };
   if (loading)
     return (
-      <div data-tour="documents-list" className="flex items-center gap-2 py-6 text-body text-secondary">
-        <Loader2 className="h-4 w-4 animate-spin" /> Loading documents...
+      <div data-tour="documents-list">
+        <PageSkeleton variant="rows" rows={3} label="Loading documents" />
       </div>
     );
   return (

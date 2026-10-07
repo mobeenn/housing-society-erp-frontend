@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Banknote, CheckCircle2, FileText, Play, RefreshCw, UserRound } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button } from "@/components/ui";
+import { Button, PageSkeleton } from "@/components/ui";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import { useCan } from "@/hooks/useCan";
@@ -144,7 +144,7 @@ export default function PayrollPage() {
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <Card title="Payroll History">
-          {loading ? <p className="py-8 text-center text-body text-secondary">Loading payroll runs...</p> : runs.length === 0 ? <p className="py-8 text-center text-body text-secondary">No payroll runs for {period.year}.</p> : <div className="space-y-2" data-tour="hr-payroll-history">{runs.map((run) => <button key={run._id} onClick={() => selectRun(run)} className={`w-full rounded-control border p-3 text-left transition-colors ${selectedRun?._id === run._id ? "border-gold bg-gold-soft" : "border-border hover:bg-canvas"}`}><div className="flex items-center justify-between gap-2"><span className="font-medium text-primary">{periodLabel(run)}</span><span className={`rounded-full px-2 py-0.5 text-small font-medium ${statusClass(run.status)}`}>{run.status}</span></div><div className="mt-2 flex justify-between text-small text-secondary"><span>{run.entries?.length || 0} employees</span><span>Net {money(run.totals?.netPay)}</span></div></button>)}</div>}
+          {loading ? <PageSkeleton variant="list" rows={5} label="Loading payroll runs" /> : runs.length === 0 ? <p className="py-8 text-center text-body text-secondary">No payroll runs for {period.year}.</p> : <div className="space-y-2" data-tour="hr-payroll-history">{runs.map((run) => <button key={run._id} onClick={() => selectRun(run)} className={`w-full rounded-control border p-3 text-left transition-colors ${selectedRun?._id === run._id ? "border-gold bg-gold-soft" : "border-border hover:bg-canvas"}`}><div className="flex items-center justify-between gap-2"><span className="font-medium text-primary">{periodLabel(run)}</span><span className={`rounded-full px-2 py-0.5 text-small font-medium ${statusClass(run.status)}`}>{run.status}</span></div><div className="mt-2 flex justify-between text-small text-secondary"><span>{run.entries?.length || 0} employees</span><span>Net {money(run.totals?.netPay)}</span></div></button>)}</div>}
         </Card>
 
         <Card title={selectedRun ? `Review — ${periodLabel(selectedRun)}` : "Payroll Review"} actions={selectedRun && <span className={`rounded-full px-2.5 py-1 text-small font-medium ${statusClass(selectedRun.status)}`}>{selectedRun.status}</span>}>

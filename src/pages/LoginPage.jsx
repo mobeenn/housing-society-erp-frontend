@@ -4,7 +4,8 @@ import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Building2, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import CivicaLogo from "@/components/brand/CivicaLogo";
 import { Button, Input } from "@/components/ui";
 import { useAuthStore } from "@/store/authStore";
 import { authApi } from "@/features/auth/authApi";
@@ -109,21 +110,16 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-canvas px-4">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-card bg-accent">
-            <Building2 className="h-7 w-7 text-on-accent" />
+          <div className="mb-5 flex justify-center">
+            <CivicaLogo variant="logo" height={48} />
           </div>
-          <h1 className="text-h1 font-semibold text-primary">
-            Housing Society ERP
-          </h1>
-          <p className="mt-2 text-body text-secondary">
+          <p className="text-body text-secondary">
             Sign in to manage your society
           </p>
         </div>
 
-        {/* Login Form */}
-        <div className="rounded-card border border-border bg-surface px-8 py-8 shadow-none">
+        <div className="erp-shell-island px-8 py-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>

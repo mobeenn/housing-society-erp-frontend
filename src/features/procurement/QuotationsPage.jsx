@@ -19,6 +19,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { PageSkeleton } from "@/components/ui";
 import Table from "../../components/common/Table";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
 import { quotationApi, purchaseRequestApi, vendorApi, purchaseOrderApi } from "./procurementApi";
@@ -476,7 +477,7 @@ export default function QuotationsPage() {
       {viewMode === "compare" && selectedPrFilter ? (
         <div data-tour="procurement-quotation-compare">
           {loadingCompare ? (
-            <div className="text-center py-12 text-secondary">Loading quotation bids...</div>
+            <PageSkeleton variant="list" rows={6} label="Loading quotation bids" />
           ) : quotationsForPr.length === 0 ? (
             <div className="bg-surface rounded-control border p-12 text-center">
               <FileSpreadsheet className="w-12 h-12 text-muted mx-auto mb-3" />
