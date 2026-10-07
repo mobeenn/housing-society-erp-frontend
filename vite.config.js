@@ -14,10 +14,21 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          recharts: ["recharts"],
-          joyride: ["react-joyride"],
-          vendor: ["react", "react-dom", "react-router-dom", "@tanstack/react-query", "zustand", "axios"],
+        // Vite 8 / Rolldown requires a function (object form throws at build).
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (id.includes("recharts")) return "recharts";
+          if (id.includes("react-joyride") || id.includes("@gilbarbara")) return "joyride";
+          if (
+            id.includes("react-dom")
+            || id.includes("/react/")
+            || id.includes("react-router")
+            || id.includes("@tanstack")
+            || id.includes("zustand")
+            || id.includes("axios")
+          ) {
+            return "vendor";
+          }
         },
       },
     },
