@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { PageSkeleton } from "@/components/ui";
+import { PageSkeleton, Tabs } from "@/components/ui";
 import {
   Plus,
   Edit,
@@ -155,28 +155,12 @@ export default function MasterDataPage() {
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-border">
-        <nav className="-mb-px flex gap-6">
-          {MASTER_DATA_TYPES.map((type) => {
-            const Icon = type.icon;
-            return (
-              <button
-                key={type.key}
-                onClick={() => setActiveTab(type.key)}
-                className={`flex items-center gap-2 border-b-2 px-1 py-3 text-body font-medium transition-colors ${
-                  activeTab === type.key
-                    ? "border-accent text-accent"
-                    : "border-transparent text-secondary hover:border-border-strong hover:text-primary"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {type.label}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
+      <Tabs
+        value={activeTab}
+        onChange={setActiveTab}
+        selectBelowCount={4}
+        tabs={MASTER_DATA_TYPES.map((type) => ({ id: type.key, label: type.label }))}
+      />
 
       {/* Show Archived Toggle */}
       <div className="flex items-center gap-2">

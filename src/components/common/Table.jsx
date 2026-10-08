@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
+import useBreakpoint from "@/hooks/useBreakpoint";
 
 /**
- * Generic reusable server-side table component.
- * The data-fetching contract remains unchanged; this file only owns its
- * presentation, loading, sorting, and pagination UI.
+ * Server-side table with hybrid responsive presentation:
+ * - < sm: stacked cards
+ * - sm–md: horizontal scroll + sticky first column
+ * - lg+: full table
+ *
+ * Column options: hideBelow ("sm"|"md"|"lg"), cardLabel, priority
  */
 export default function Table({
   columns,
@@ -15,6 +19,7 @@ export default function Table({
   searchPlaceholder = "Search...",
   emptyMessage = "No data found",
 }) {
+  const { sm, lg } = useBreakpoint();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -84,19 +89,33 @@ export default function Table({
 
   const handlePageChange = (newPage) => setPagination((previous) => ({ ...previous, page: newPage }));
 
+  const visibleColumns = useMemo(() => {
+    if (lg) return columns;
+    return columns.filter((column) => {
+      if (!column.hideBelow) return true;
+      if (column.hideBelow === "lg") return false;
+      if (column.hideBelow === "md" && !lg) return false;
+      return true;
+    });
+  }, [columns, lg]);
+
+  const cellValue = (column, row) => (column.render ? column.render(row) : row[column.key]);
+
   if (error) {
     return (
       <div className="rounded-card border border-danger bg-danger-soft p-4 text-center">
         <p className="text-small text-danger">{error}</p>
-        <button onClick={fetchData} className="mt-2 text-small font-semibold text-danger underline hover:no-underline">
+        <button type="button" onClick={fetchData} className="mt-2 min-h-11 text-small font-semibold text-danger underline hover:no-underline">
           Retry
         </button>
       </div>
     );
   }
 
+  const useCards = !sm;
+
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden="true" />
         <input
@@ -104,29 +123,87 @@ export default function Table({
           placeholder={searchPlaceholder}
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
-          className="w-full rounded-control border border-border-strong bg-surface-raised py-2 pl-10 pr-4 text-body text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
+          className="min-h-11 w-full rounded-control border border-border-strong bg-surface-raised py-2.5 pl-10 pr-4 text-body text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
         />
       </div>
 
-      <div className="overflow-hidden rounded-card border border-border bg-surface">
-        {loading && data.length === 0 ? (
-          <div className="space-y-3 p-4" aria-label="Loading records" role="status">
-            {Array.from({ length: 6 }, (_, index) => (
-              <div key={index} className="erp-skeleton h-10 rounded-control" />
-            ))}
-          </div>
-        ) : data.length === 0 ? (
-          <div className="py-12 text-center text-small text-muted"><p>{emptyMessage}</p></div>
-        ) : (
+      {loading && data.length === 0 ? (
+        <div className="space-y-3 rounded-card border border-border bg-surface p-4" aria-label="Loading records" role="status">
+          {Array.from({ length: 6 }, (_, index) => (
+            <div key={index} className="erp-skeleton h-10 rounded-control" />
+          ))}
+        </div>
+      ) : data.length === 0 ? (
+        <div className="rounded-card border border-border bg-surface py-12 text-center text-small text-muted">
+          <p>{emptyMessage}</p>
+        </div>
+      ) : useCards ? (
+        <div className="space-y-3">
+          {data.map((row, index) => {
+            const primaryCol = columns[0];
+            const restCols = columns.slice(1);
+            return (
+              <article
+                key={row._id || index}
+                className={`rounded-card border border-border bg-surface p-4 shadow-sm ${
+                  onRowClick ? "cursor-pointer transition-shadow hover:shadow-md" : ""
+                }`}
+                onClick={() => onRowClick?.(row)}
+                onKeyDown={(event) => {
+                  if (onRowClick && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    onRowClick(row);
+                  }
+                }}
+                role={onRowClick ? "button" : undefined}
+                tabIndex={onRowClick ? 0 : undefined}
+              >
+                {primaryCol && (
+                  <div className="mb-3 border-b border-slate-100 pb-3">
+                    <p className="text-label font-medium uppercase tracking-wide text-muted">
+                      {primaryCol.cardLabel || primaryCol.label}
+                    </p>
+                    <div className="mt-1 text-body font-semibold text-primary">
+                      {cellValue(primaryCol, row)}
+                    </div>
+                  </div>
+                )}
+                <dl className="grid grid-cols-1 gap-3">
+                  {restCols.map((column) => (
+                    <div
+                      key={column.key}
+                      className="flex items-start justify-between gap-3 border-b border-slate-50 pb-2 last:border-0 last:pb-0"
+                    >
+                      <dt className="shrink-0 text-label font-medium text-muted">
+                        {column.cardLabel || column.label}
+                      </dt>
+                      <dd
+                        className={`min-w-0 text-right text-body text-primary ${
+                          column.numeric ? "font-tabular" : ""
+                        }`}
+                      >
+                        {cellValue(column, row)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="overflow-hidden rounded-card border border-border bg-surface">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[36rem]">
               <thead className="border-b border-border bg-surface-muted">
                 <tr>
-                  {columns.map((column) => (
+                  {visibleColumns.map((column, colIndex) => (
                     <th
                       key={column.key}
                       scope="col"
-                      className={`px-6 py-3 text-left text-label font-semibold text-secondary ${column.sortable !== false ? "cursor-pointer select-none" : ""}`}
+                      className={`px-4 py-3 text-left text-label font-semibold text-secondary lg:px-6 ${
+                        column.sortable !== false ? "cursor-pointer select-none" : ""
+                      } ${colIndex === 0 ? "sticky left-0 z-10 bg-surface-muted shadow-[2px_0_6px_-2px_rgba(15,23,42,0.08)] lg:static lg:shadow-none" : ""}`}
                       onClick={() => column.sortable !== false && handleSort(column.key)}
                     >
                       <div className="flex items-center gap-2">
@@ -143,12 +220,17 @@ export default function Table({
                 {data.map((row, index) => (
                   <tr
                     key={row._id || index}
-                    className={`erp-table-row ${onRowClick ? "cursor-pointer" : ""}`}
+                    className={`erp-table-row group ${onRowClick ? "cursor-pointer" : ""}`}
                     onClick={() => onRowClick?.(row)}
                   >
-                    {columns.map((column) => (
-                      <td key={column.key} className={`whitespace-nowrap px-6 py-4 text-body text-secondary ${column.numeric ? "text-right font-tabular" : ""}`}>
-                        {column.render ? column.render(row) : row[column.key]}
+                    {visibleColumns.map((column, colIndex) => (
+                      <td
+                        key={column.key}
+                        className={`whitespace-nowrap px-4 py-3 text-body text-secondary lg:px-6 lg:py-4 ${
+                          column.numeric ? "text-right font-tabular" : ""
+                        } ${colIndex === 0 ? "sticky left-0 z-10 bg-surface group-hover:bg-surface-muted shadow-[2px_0_6px_-2px_rgba(15,23,42,0.08)] lg:static lg:bg-transparent lg:shadow-none" : ""}`}
+                      >
+                        {cellValue(column, row)}
                       </td>
                     ))}
                   </tr>
@@ -156,34 +238,35 @@ export default function Table({
               </tbody>
             </table>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {pagination.pages > 1 && (
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-secondary">
             Showing {(pagination.page - 1) * pagination.limit + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} results
           </p>
-          <div className="flex gap-2">
-            <button onClick={() => handlePageChange(pagination.page - 1)} disabled={pagination.page === 1 || loading} className="rounded-control border border-border px-3 py-1 text-small text-primary hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-50">
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={() => handlePageChange(pagination.page - 1)} disabled={pagination.page === 1 || loading} className="min-h-11 rounded-control border border-border px-3 py-2 text-small text-primary hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-50">
               Previous
             </button>
             {Array.from({ length: pagination.pages }, (_, index) => index + 1)
               .filter((page) => page === 1 || page === pagination.pages || Math.abs(page - pagination.page) <= 1)
               .map((page, index, array) => {
-                if (index > 0 && page - array[index - 1] > 1) return <span key={`ellipsis-${page}`} className="px-3 py-1 text-muted">...</span>;
+                if (index > 0 && page - array[index - 1] > 1) return <span key={`ellipsis-${page}`} className="px-2 py-2 text-muted">...</span>;
                 return (
                   <button
                     key={page}
+                    type="button"
                     onClick={() => handlePageChange(page)}
                     disabled={loading}
-                    className={`rounded-control border px-3 py-1 text-small ${page === pagination.page ? "border-accent bg-accent text-on-accent" : "border-border text-primary hover:bg-surface-muted"} disabled:cursor-not-allowed disabled:opacity-50`}
+                    className={`min-h-11 min-w-11 rounded-control border px-3 py-2 text-small ${page === pagination.page ? "border-accent bg-accent text-on-accent" : "border-border text-primary hover:bg-surface-muted"} disabled:cursor-not-allowed disabled:opacity-50`}
                   >
                     {page}
                   </button>
                 );
               })}
-            <button onClick={() => handlePageChange(pagination.page + 1)} disabled={pagination.page === pagination.pages || loading} className="rounded-control border border-border px-3 py-1 text-small text-primary hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-50">
+            <button type="button" onClick={() => handlePageChange(pagination.page + 1)} disabled={pagination.page === pagination.pages || loading} className="min-h-11 rounded-control border border-border px-3 py-2 text-small text-primary hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-50">
               Next
             </button>
           </div>

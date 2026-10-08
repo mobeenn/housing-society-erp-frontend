@@ -219,9 +219,9 @@ export default function DashboardPage() {
           <StatCard key={stat.key} stat={stat} />
         ))}
       </div>
-      <div className="grid gap-5 lg:grid-cols-3" data-tour="dashboards-charts">
-        <Card title="Trend" className="lg:col-span-2">
-          <Suspense fallback={<div className="erp-skeleton h-72 rounded-control" />}>
+      <div className="grid min-w-0 gap-5 lg:grid-cols-3" data-tour="dashboards-charts">
+        <Card title="Trend" className="min-w-0 lg:col-span-2">
+          <Suspense fallback={<div className="erp-skeleton h-64 rounded-control sm:h-72" />}>
             <TrendChart
               data={trendData}
               xKey={trend.x}
@@ -232,8 +232,8 @@ export default function DashboardPage() {
             />
           </Suspense>
         </Card>
-        <Card title="Distribution">
-          <Suspense fallback={<div className="erp-skeleton h-72 rounded-control" />}>
+        <Card title="Distribution" className="min-w-0">
+          <Suspense fallback={<div className="erp-skeleton h-64 rounded-control sm:h-72" />}>
             <DistributionChart data={distribution} />
           </Suspense>
         </Card>

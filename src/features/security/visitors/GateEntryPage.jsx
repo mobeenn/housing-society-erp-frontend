@@ -1,48 +1,42 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { UserCheck, Car, AlertTriangle } from "lucide-react";
+import { AlertTriangle, Car } from "lucide-react";
 import AsyncMemberSelect from "@/components/common/AsyncMemberSelect";
-import { createVisitorEntry } from "./visitorsApi";
-import { listPasses } from "./visitorsApi";
+import { Button, Card, FormGrid, Input } from "@/components/ui";
+import { createVisitorEntry, listPasses } from "./visitorsApi";
+
+const emptyForm = {
+  visitorName: "",
+  phone: "",
+  cnic: "",
+  hostMember: "",
+  purpose: "",
+  gate: "Main Gate",
+  vehicleNumber: "",
+  remarks: "",
+  passId: "",
+};
 
 export default function GateEntryPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [passes, setPasses] = useState([]);
-  const [formData, setFormData] = useState({
-    visitorName: "",
-    phone: "",
-    cnic: "",
-    hostMember: "",
-    purpose: "",
-    gate: "Main Gate",
-    vehicleNumber: "",
-    remarks: "",
-    passId: "",
-  });
+  const [formData, setFormData] = useState(emptyForm);
 
   useEffect(() => {
-    fetchActivePasses();
+    listPasses({ status: "Active", limit: 100 })
+      .then((result) => setPasses(Array.isArray(result?.data) ? result.data : []))
+      .catch((error) => console.error("Failed to fetch passes:", error));
   }, []);
 
-  const fetchActivePasses = async () => {
-    try {
-      const result = await listPasses({ status: "Active", limit: 100 });
-      setPasses(Array.isArray(result?.data) ? result.data : []);
-    } catch (error) {
-      console.error("Failed to fetch passes:", error);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (!formData.visitorName.trim()) {
       toast.error("Visitor name is required");
       return;
@@ -59,27 +53,16 @@ export default function GateEntryPage() {
         vehicleNumber: formData.vehicleNumber || null,
         remarks: formData.remarks || null,
       };
-
       const result = await createVisitorEntry(payload);
-
       if (result.data?.blacklistWarning) {
-        toast.error(result.data.blacklistWarning, { duration: 6000, icon: <AlertTriangle className="text-warning" /> });
+        toast.error(result.data.blacklistWarning, {
+          duration: 6000,
+          icon: <AlertTriangle className="text-warning" />,
+        });
       } else {
         toast.success(result.message || "Visitor entry created");
       }
-
-      // Reset form
-      setFormData({
-        visitorName: "",
-        phone: "",
-        cnic: "",
-        hostMember: "",
-        purpose: "",
-        gate: "Main Gate",
-        vehicleNumber: "",
-        remarks: "",
-        passId: "",
-      });
+      setFormData(emptyForm);
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to create entry");
     } finally {
@@ -88,162 +71,111 @@ export default function GateEntryPage() {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto" data-tour="visitors-page">
-      <div className="mb-6">
-        <h1 className="text-display font-bold text-primary flex items-center gap-2" data-tour="visitors-page-heading">
-          <UserCheck className="w-8 h-8" />
+    <div className="mx-auto max-w-3xl space-y-6" data-tour="visitors-page">
+      <div>
+        <h1 className="text-h1 font-bold text-primary" data-tour="visitors-page-heading">
           Gate Entry
         </h1>
-        <p className="text-secondary mt-1">Quick visitor entry form for security guards</p>
+        <p className="mt-1 text-body text-secondary">Quick visitor entry form for security guards</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-surface rounded-control shadow-none p-6 space-y-6" data-tour="visitors-form">
-        {/* Visitor Name */}
-        <div data-tour="visitors-name">
-          <label className="block text-h2 font-semibold text-primary mb-2">
-            Visitor Name <span className="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            name="visitorName"
-            value={formData.visitorName}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-            placeholder="Enter visitor name"
-            required
-          />
-        </div>
-
-        {/* Phone & CNIC */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-h2 font-semibold text-primary mb-2">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
+      <Card>
+        <form onSubmit={handleSubmit} className="space-y-5" data-tour="visitors-form">
+          <div data-tour="visitors-name">
+            <Input
+              label="Visitor name *"
+              name="visitorName"
+              value={formData.visitorName}
               onChange={handleChange}
-              className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-              placeholder="Phone number"
+              placeholder="Enter visitor name"
+              required
             />
           </div>
-          <div>
-            <label className="block text-h2 font-semibold text-primary mb-2">CNIC</label>
-            <input
-              type="text"
-              name="cnic"
-              value={formData.cnic}
-              onChange={handleChange}
-              className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-              placeholder="XXXXX-XXXXXXX-X"
+
+          <FormGrid cols={2}>
+            <Input label="Phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone number" />
+            <Input label="CNIC" name="cnic" value={formData.cnic} onChange={handleChange} placeholder="XXXXX-XXXXXXX-X" />
+          </FormGrid>
+
+          <div data-tour="visitors-host">
+            <label className="mb-1.5 block text-label text-secondary">Host member</label>
+            <AsyncMemberSelect
+              value={formData.hostMember}
+              onChange={(memberId) => setFormData((prev) => ({ ...prev, hostMember: memberId || "" }))}
+              emptyLabel="-- Select Host --"
+              placeholder="Search host member…"
             />
           </div>
-        </div>
 
-        {/* Host Member */}
-        <div data-tour="visitors-host">
-          <label className="block text-h2 font-semibold text-primary mb-2">Host Member</label>
-          <AsyncMemberSelect
-            value={formData.hostMember}
-            onChange={(memberId) => setFormData((prev) => ({ ...prev, hostMember: memberId || "" }))}
-            emptyLabel="-- Select Host --"
-            placeholder="Search host member…"
-          />
-        </div>
-
-        {/* Purpose */}
-        <div>
-          <label className="block text-h2 font-semibold text-primary mb-2">Purpose</label>
-          <input
-            type="text"
+          <Input
+            label="Purpose"
             name="purpose"
             value={formData.purpose}
             onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
             placeholder="e.g., Personal visit, Delivery, Contractor"
           />
-        </div>
 
-        {/* Gate */}
-        <div>
-          <label className="block text-h2 font-semibold text-primary mb-2">Gate</label>
-          <input
-            type="text"
-            name="gate"
-            value={formData.gate}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-            placeholder="Gate name"
-          />
-        </div>
+          <FormGrid cols={2}>
+            <Input label="Gate" name="gate" value={formData.gate} onChange={handleChange} placeholder="Gate name" />
+            <div>
+              <Input
+                label="Vehicle number"
+                name="vehicleNumber"
+                value={formData.vehicleNumber}
+                onChange={handleChange}
+                placeholder="ABC-123"
+              />
+              <p className="mt-1 flex items-center gap-1 text-small text-muted">
+                <Car className="h-3.5 w-3.5" /> Optional
+              </p>
+            </div>
+          </FormGrid>
 
-        {/* Vehicle */}
-        <div>
-          <label className="block text-h2 font-semibold text-primary mb-2 flex items-center gap-2">
-            <Car className="w-5 h-5" />
-            Vehicle Number
-          </label>
-          <input
-            type="text"
-            name="vehicleNumber"
-            value={formData.vehicleNumber}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-            placeholder="ABC-123"
-          />
-        </div>
+          <div>
+            <label className="mb-1.5 block text-label text-secondary">Pass (if any)</label>
+            <select
+              name="passId"
+              value={formData.passId}
+              onChange={handleChange}
+              className="min-h-11 w-full rounded-control border border-border-strong bg-surface-raised px-3 py-2.5 text-body text-primary focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
+            >
+              <option value="">-- No Pass --</option>
+              {passes.map((pass) => (
+                <option key={pass._id} value={pass._id}>
+                  {pass.passNumber} - {pass.holderName} ({pass.type})
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Pass (Optional) */}
-        <div>
-          <label className="block text-h2 font-semibold text-primary mb-2">Pass (if any)</label>
-          <select
-            name="passId"
-            value={formData.passId}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-          >
-            <option value="">-- No Pass --</option>
-            {passes.map((p) => (
-              <option key={p._id} value={p._id}>
-                {p.passNumber} - {p.holderName} ({p.type})
-              </option>
-            ))}
-          </select>
-        </div>
+          <div>
+            <label className="mb-1.5 block text-label text-secondary">Remarks</label>
+            <textarea
+              name="remarks"
+              value={formData.remarks}
+              onChange={handleChange}
+              rows={2}
+              className="w-full rounded-control border border-border-strong bg-surface-raised px-3 py-2.5 text-body text-primary focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
+              placeholder="Optional notes"
+            />
+          </div>
 
-        {/* Remarks */}
-        <div>
-          <label className="block text-h2 font-semibold text-primary mb-2">Remarks</label>
-          <textarea
-            name="remarks"
-            value={formData.remarks}
-            onChange={handleChange}
-            rows={2}
-            className="w-full px-4 py-3 text-h2 border rounded-control focus:ring-2 focus:ring-info"
-            placeholder="Optional notes"
-          />
-        </div>
-
-        {/* Actions */}
-        <div className="flex gap-3 pt-4">
-          <button
-            data-tour="visitors-submit"
-            type="submit"
-            disabled={loading}
-            className="flex-1 bg-accent text-on-accent px-6 py-4 text-h2 font-semibold rounded-control hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? "Creating..." : "Log Entry"}
-          </button>
-          <button
-            data-tour="visitors-active-link"
-            type="button"
-            onClick={() => navigate("/security/visitors/active")}
-            className="flex-1 bg-surface-muted text-primary px-6 py-4 text-h2 font-semibold rounded-control hover:bg-surface-muted"
-          >
-            View Active
-          </button>
-        </div>
-      </form>
+          <div className="flex flex-col gap-2 pt-2 sm:flex-row">
+            <Button data-tour="visitors-submit" type="submit" className="w-full sm:flex-1" isLoading={loading}>
+              Log Entry
+            </Button>
+            <Button
+              data-tour="visitors-active-link"
+              type="button"
+              variant="secondary"
+              className="w-full sm:flex-1"
+              onClick={() => navigate("/security/visitors/active")}
+            >
+              View Active
+            </Button>
+          </div>
+        </form>
+      </Card>
     </div>
   );
 }

@@ -12,7 +12,7 @@ const Input = forwardRef(
         <input
           ref={ref}
           aria-invalid={Boolean(error) || undefined}
-          className={`w-full rounded-control border bg-surface-raised px-3 py-2 text-body text-primary
+          className={`min-h-11 w-full rounded-control border bg-surface-raised px-3 py-2.5 text-body text-primary
             placeholder:text-muted transition-colors duration-fast
             focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25
             disabled:cursor-not-allowed disabled:opacity-60

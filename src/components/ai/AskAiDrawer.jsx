@@ -32,12 +32,12 @@ export default function AskAiDrawer() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="erp-ask-ai-fab fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-body font-semibold transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:ring-offset-2"
+        className="erp-ask-ai-fab fixed bottom-4 right-4 z-40 inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2.5 text-body font-semibold transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:ring-offset-2 sm:bottom-6 sm:right-6 sm:px-4 sm:py-3"
         aria-haspopup="dialog"
         aria-expanded={open}
       >
         <Bot className="h-5 w-5" aria-hidden="true" />
-        Ask AI
+        <span className="hidden sm:inline">Ask AI</span>
       </button>
 
       {open && (

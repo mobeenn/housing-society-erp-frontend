@@ -1,17 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { UserCheck, LogOut, Search, RefreshCw } from "lucide-react";
-import { PageSkeleton } from "@/components/ui";
+import { LogOut, RefreshCw, Search, UserCheck } from "lucide-react";
+import { Button, Card, ConfirmDialog, Input, PageSkeleton } from "@/components/ui";
 import { listVisitorEntries, markExit } from "./visitorsApi";
+
+const formatTime = (iso) => {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleString("en-PK", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 export default function ActiveVisitorsPage() {
   const [visitors, setVisitors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    fetchActiveVisitors();
-  }, []);
+  const [confirm, setConfirm] = useState({ isOpen: false, visitor: null, loading: false });
 
   const fetchActiveVisitors = async () => {
     setLoading(true);
@@ -26,128 +33,126 @@ export default function ActiveVisitorsPage() {
     }
   };
 
-  const handleMarkExit = async (id, visitorName) => {
-    if (!confirm(`Mark exit for ${visitorName}?`)) return;
+  useEffect(() => {
+    fetchActiveVisitors();
+  }, []);
 
+  const handleConfirmExit = async () => {
+    if (!confirm.visitor) return;
+    setConfirm((prev) => ({ ...prev, loading: true }));
     try {
-      await markExit(id, {});
+      await markExit(confirm.visitor._id, {});
       toast.success("Exit marked");
+      setConfirm({ isOpen: false, visitor: null, loading: false });
       fetchActiveVisitors();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to mark exit");
+      setConfirm((prev) => ({ ...prev, loading: false }));
     }
   };
 
-  const filteredVisitors = visitors.filter((v) => {
+  const filteredVisitors = visitors.filter((visitor) => {
     const q = search.toLowerCase();
     return (
-      v.visitorName?.toLowerCase().includes(q) ||
-      v.phone?.toLowerCase().includes(q) ||
-      v.cnic?.toLowerCase().includes(q) ||
-      v.vehicleNumber?.toLowerCase().includes(q) ||
-      v.hostMemberRef?.name?.toLowerCase().includes(q)
+      visitor.visitorName?.toLowerCase().includes(q)
+      || visitor.phone?.toLowerCase().includes(q)
+      || visitor.cnic?.toLowerCase().includes(q)
+      || visitor.vehicleNumber?.toLowerCase().includes(q)
+      || visitor.hostMemberRef?.name?.toLowerCase().includes(q)
     );
   });
 
-  const formatTime = (iso) => {
-    if (!iso) return "—";
-    const date = new Date(iso);
-    return date.toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
-    <div className="p-6" data-tour="visitors-active-page">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="space-y-6" data-tour="visitors-active-page">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-display font-bold text-primary flex items-center gap-2" data-tour="visitors-active-heading">
-            <UserCheck className="w-8 h-8" />
+          <h1 className="text-h1 font-bold text-primary" data-tour="visitors-active-heading">
             Active Visitors
           </h1>
-          <p className="text-secondary mt-1">Currently inside the society</p>
+          <p className="mt-1 text-body text-secondary">Currently inside the society</p>
         </div>
-        <button
-          data-tour="visitors-active-refresh"
-          onClick={fetchActiveVisitors}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
-        >
-          <RefreshCw className="w-4 h-4" />
+        <Button data-tour="visitors-active-refresh" variant="outline" onClick={fetchActiveVisitors}>
+          <RefreshCw className="h-4 w-4" />
           Refresh
-        </button>
+        </Button>
       </div>
 
-      {/* Search */}
-      <div className="mb-4" data-tour="visitors-active-search">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name, phone, CNIC, vehicle..."
-            className="w-full pl-10 pr-4 py-2 border rounded-control focus:ring-2 focus:ring-info"
-          />
-        </div>
+      <div className="relative" data-tour="visitors-active-search">
+        <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden="true" />
+        <Input
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Search by name, phone, CNIC, vehicle..."
+          className="pl-10"
+        />
       </div>
 
-      {/* Visitors List */}
       {loading ? (
         <PageSkeleton variant="list" label="Loading active visitors" />
       ) : filteredVisitors.length === 0 ? (
-        <div className="bg-surface rounded-control shadow-none p-12 text-center">
-          <UserCheck className="w-16 h-16 text-muted mx-auto mb-4" />
-          <p className="text-secondary text-h2">
-            {search ? "No matching visitors" : "No active visitors"}
-          </p>
-        </div>
+        <Card>
+          <div className="py-10 text-center">
+            <UserCheck className="mx-auto mb-3 h-10 w-10 text-muted" />
+            <p className="text-body text-secondary">
+              {search ? "No matching visitors" : "No active visitors"}
+            </p>
+          </div>
+        </Card>
       ) : (
         <div className="grid gap-4" data-tour="visitors-active-list">
           {filteredVisitors.map((visitor) => (
-            <div key={visitor._id} className="bg-surface rounded-control shadow-none p-4 flex items-center justify-between">
-              <div className="flex-1">
-                <h3 className="text-h2 font-semibold text-primary">{visitor.visitorName}</h3>
-                <div className="mt-1 space-y-1 text-body text-secondary">
-                  {visitor.hostMemberRef && (
-                    <p>
-                      <span className="font-medium">Host:</span> {visitor.hostMemberRef.name}
-                    </p>
-                  )}
+            <Card key={visitor._id}>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 space-y-1">
+                  <h3 className="text-h2 font-semibold text-primary">{visitor.visitorName}</h3>
+                  <p className="text-body text-secondary">
+                    <span className="font-medium text-primary">Host:</span>{" "}
+                    {visitor.hostMemberRef?.name || "—"}
+                  </p>
                   {visitor.purpose && (
-                    <p>
-                      <span className="font-medium">Purpose:</span> {visitor.purpose}
+                    <p className="text-body text-secondary">
+                      <span className="font-medium text-primary">Purpose:</span> {visitor.purpose}
                     </p>
                   )}
                   {visitor.vehicleNumber && (
-                    <p>
-                      <span className="font-medium">Vehicle:</span> {visitor.vehicleNumber}
+                    <p className="text-body text-secondary">
+                      <span className="font-medium text-primary">Vehicle:</span> {visitor.vehicleNumber}
                     </p>
                   )}
                   {visitor.phone && (
-                    <p>
-                      <span className="font-medium">Phone:</span> {visitor.phone}
+                    <p className="text-body text-secondary">
+                      <span className="font-medium text-primary">Phone:</span> {visitor.phone}
                     </p>
                   )}
-                  <p>
-                    <span className="font-medium">Entry:</span> {formatTime(visitor.entryTime)} at {visitor.gate}
+                  <p className="text-body text-secondary">
+                    <span className="font-medium text-primary">Entry:</span>{" "}
+                    {formatTime(visitor.entryTime)} at {visitor.gate}
                   </p>
                 </div>
+                <Button
+                  data-tour="visitors-mark-exit"
+                  variant="danger"
+                  className="w-full shrink-0 sm:w-auto"
+                  onClick={() => setConfirm({ isOpen: true, visitor, loading: false })}
+                >
+                  <LogOut className="h-4 w-4" />
+                  Mark Exit
+                </Button>
               </div>
-              <button
-                data-tour="visitors-mark-exit"
-                onClick={() => handleMarkExit(visitor._id, visitor.visitorName)}
-                className="ml-4 flex items-center gap-2 px-6 py-3 bg-danger text-on-accent font-semibold rounded-control hover:bg-danger"
-              >
-                <LogOut className="w-5 h-5" />
-                Mark Exit
-              </button>
-            </div>
+            </Card>
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={confirm.isOpen}
+        onClose={() => !confirm.loading && setConfirm({ isOpen: false, visitor: null, loading: false })}
+        onConfirm={handleConfirmExit}
+        title="Mark visitor exit?"
+        message={`Mark exit for ${confirm.visitor?.visitorName || "this visitor"}?`}
+        confirmLabel="Mark Exit"
+        isLoading={confirm.loading}
+      />
     </div>
   );
 }

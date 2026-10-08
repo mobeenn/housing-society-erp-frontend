@@ -13,7 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { PageSkeleton } from "@/components/ui";
+import { PageSkeleton, Tabs } from "@/components/ui";
 import StatusPill from "@/components/ui/StatusPill";
 import { getUsers } from "@/features/users-roles/usersRolesApi";
 import {
@@ -295,30 +295,16 @@ export default function GuardRosterPage() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex border-b border-border" data-tour="security-guards-tabs">
-        <button
-          onClick={() => setActiveTab("roster")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-body font-medium transition-colors duration-base ${
-            activeTab === "roster"
-              ? "border-accent text-accent"
-              : "border-transparent text-secondary hover:text-primary hover:border-border-strong"
-          }`}
-        >
-          <Calendar className="h-4 w-4" />
-          Duty Roster & Attendance
-        </button>
-        <button
-          onClick={() => setActiveTab("guards")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-body font-medium transition-colors duration-base ${
-            activeTab === "guards"
-              ? "border-accent text-accent"
-              : "border-transparent text-secondary hover:text-primary hover:border-border-strong"
-          }`}
-        >
-          <Users className="h-4 w-4" />
-          Guard Directory ({guards.length})
-        </button>
+      <div data-tour="security-guards-tabs">
+        <Tabs
+          value={activeTab}
+          onChange={setActiveTab}
+          selectBelowCount={4}
+          tabs={[
+            { id: "roster", label: "Duty Roster & Attendance" },
+            { id: "guards", label: `Guard Directory (${guards.length})` },
+          ]}
+        />
       </div>
 
       {/* ==================== TAB 1: DUTY ROSTER & ATTENDANCE ==================== */}

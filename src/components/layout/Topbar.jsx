@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Bell, ChevronDown, LogOut, Search, Settings, X } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Menu, Search, Settings, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import { authApi } from "@/features/auth/authApi";
@@ -36,13 +36,14 @@ const notificationRoute = (notification) => {
 const initials = (name) =>
   name?.split(" ").map((part) => part[0]).join("").toUpperCase().slice(0, 2) || "?";
 
-export default function Topbar() {
+export default function Topbar({ onMenuClick, showMenuButton = false }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, logout } = useAuthStore();
   const canViewSettings = useCan("settings", "view");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const searchRef = useRef(null);
@@ -56,13 +57,15 @@ export default function Topbar() {
 
   useEffect(() => {
     const close = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) setSearch("");
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        if (!search) setSearchOpen(false);
+      }
       if (notificationRef.current && !notificationRef.current.contains(event.target)) setShowNotifications(false);
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) setShowUserMenu(false);
     };
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
-  }, []);
+  }, [search]);
 
   const notificationPoll = useVisibilityRefetchInterval(90_000);
   const notifications = useQuery({
@@ -83,6 +86,7 @@ export default function Topbar() {
   const openResult = (result) => {
     setSearch("");
     setDebouncedSearch("");
+    setSearchOpen(false);
     navigate(result.route);
   };
 
@@ -108,30 +112,56 @@ export default function Topbar() {
   };
 
   return (
-    <header className="erp-gradient-header sticky top-0 z-30 flex h-16 items-center justify-between gap-4 rounded-shell px-6 shadow-overlay">
-      <div className="hidden shrink-0 sm:block">
+    <header className="erp-gradient-header sticky top-0 z-30 flex h-14 min-h-11 items-center gap-2 rounded-shell px-3 shadow-overlay sm:h-16 sm:gap-3 sm:px-4 lg:px-6">
+      {showMenuButton && (
+        <button
+          type="button"
+          onClick={onMenuClick}
+          className="shrink-0 rounded-lg p-2 text-white hover:bg-white/15 lg:hidden"
+          aria-label="Open navigation"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      )}
+
+      <div className="hidden shrink-0 md:block">
         <CivicaLogo variant="icon" height={36} className="drop-shadow-sm" />
       </div>
-      <div ref={searchRef} className="relative w-full max-w-lg">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80" aria-hidden="true" />
-        <input
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search members, plots, receipts..."
-          className="w-full rounded-lg border border-white/25 bg-white/15 py-2 pl-10 pr-9 text-body text-white placeholder:text-white/70 focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-        />
-        {search && (
-          <button
-            type="button"
-            onClick={() => setSearch("")}
-            aria-label="Clear search"
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1 text-white/80 hover:bg-white/15 hover:text-white"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        )}
+
+      <div ref={searchRef} className="relative min-w-0 flex-1 md:max-w-lg">
+        <button
+          type="button"
+          className={`rounded-lg p-2 text-white hover:bg-white/15 md:hidden ${searchOpen ? "hidden" : ""}`}
+          aria-label="Open search"
+          onClick={() => setSearchOpen(true)}
+        >
+          <Search className="h-5 w-5" />
+        </button>
+        <div className={`${searchOpen ? "block" : "hidden"} md:block`}>
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80" aria-hidden="true" />
+          <input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            onFocus={() => setSearchOpen(true)}
+            placeholder="Search members, plots, receipts..."
+            className="min-h-11 w-full rounded-lg border border-white/25 bg-white/15 py-2 pl-10 pr-9 text-body text-white placeholder:text-white/70 focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+          />
+          {(search || searchOpen) && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearch("");
+                setSearchOpen(false);
+              }}
+              aria-label="Clear search"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1 text-white/80 hover:bg-white/15 hover:text-white"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
         {debouncedSearch.length >= 2 && (
-          <div className="erp-overlay-panel absolute left-0 right-0 top-12 z-50 max-h-96 overflow-y-auto rounded-card border border-slate-100 bg-white p-2 text-primary shadow-overlay">
+          <div className="erp-overlay-panel absolute left-0 right-0 top-12 z-50 max-h-80 overflow-y-auto rounded-card border border-slate-100 bg-white p-2 text-primary shadow-overlay sm:max-h-96">
             {searchResults.isFetching && <p className="px-3 py-4 text-body text-muted">Searching…</p>}
             {!searchResults.isFetching && searchResults.data?.groups?.length === 0 && (
               <p className="px-3 py-4 text-body text-muted">No results found.</p>
@@ -143,14 +173,11 @@ export default function Topbar() {
                   <button
                     key={`${item.type}-${item._id}`}
                     onClick={() => openResult(item)}
-                    className="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left hover:bg-slate-50"
+                    className="flex min-h-11 w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left hover:bg-slate-50"
                   >
                     <span className="min-w-0">
                       <span className="block truncate text-body font-medium text-primary">{item.title}</span>
                       <span className="block truncate text-small text-muted">{item.subtitle}</span>
-                    </span>
-                    <span className="text-small text-muted" aria-hidden="true">
-                      →
                     </span>
                   </button>
                 ))}
@@ -160,13 +187,15 @@ export default function Topbar() {
         )}
       </div>
 
-      <div className="flex shrink-0 items-center gap-2 text-white sm:gap-3">
-        <TourLauncherButton headerTone="light" />
+      <div className="ml-auto flex shrink-0 items-center gap-1 text-white sm:gap-2">
+        <div className="hidden sm:block">
+          <TourLauncherButton headerTone="light" />
+        </div>
         <div ref={notificationRef} className="relative">
           <button
             type="button"
             onClick={() => setShowNotifications((value) => !value)}
-            className="relative rounded-lg p-2 text-white transition-colors duration-fast hover:bg-white/15"
+            className="relative min-h-11 min-w-11 rounded-lg p-2 text-white transition-colors duration-fast hover:bg-white/15"
             aria-label="Notifications"
           >
             <Bell className="h-5 w-5" />
@@ -177,7 +206,7 @@ export default function Topbar() {
             )}
           </button>
           {showNotifications && (
-            <div className="erp-overlay-panel absolute right-0 top-12 z-50 w-80 rounded-card border border-slate-100 bg-white text-primary shadow-overlay">
+            <div className="erp-overlay-panel absolute right-0 top-12 z-50 w-[min(20rem,calc(100vw-1.5rem))] rounded-card border border-slate-100 bg-white text-primary shadow-overlay">
               <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                 <p className="text-body font-semibold text-primary">Notifications</p>
                 <button
@@ -199,16 +228,12 @@ export default function Topbar() {
                     <button
                       key={notification._id}
                       onClick={() => openNotification(notification)}
-                      className={`flex w-full gap-3 border-b border-slate-100 px-4 py-3 text-left hover:bg-slate-50 ${!notification.isRead ? "bg-[#ECFDF5]/60" : ""}`}
+                      className={`flex w-full gap-3 border-b border-slate-100 px-4 py-3 text-left hover:bg-slate-50 ${!notification.isRead ? "bg-gold-soft/60" : ""}`}
                     >
-                      <span
-                        className={`mt-1 h-2 w-2 rounded-full ${notification.isRead ? "bg-transparent" : "bg-accent"}`}
-                      />
+                      <span className={`mt-1 h-2 w-2 rounded-full ${notification.isRead ? "bg-transparent" : "bg-accent"}`} />
                       <span className="min-w-0">
                         <span className="block text-body font-medium text-primary">{notification.title}</span>
-                        <span className="mt-0.5 block line-clamp-2 text-small text-secondary">
-                          {notification.message}
-                        </span>
+                        <span className="mt-0.5 block line-clamp-2 text-small text-secondary">{notification.message}</span>
                       </span>
                     </button>
                   ))
@@ -222,22 +247,22 @@ export default function Topbar() {
           <button
             type="button"
             onClick={() => setShowUserMenu((value) => !value)}
-            className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors duration-fast hover:bg-white/15"
+            className="flex min-h-11 items-center gap-2 rounded-lg px-2 py-1.5 transition-colors duration-fast hover:bg-white/15"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-small font-semibold text-white ring-1 ring-white/40">
               {initials(user?.name)}
             </span>
-            <span className="hidden text-left sm:block">
+            <span className="hidden text-left md:block">
               <span className="block text-body font-medium text-white">{user?.name || "User"}</span>
               <span className="block text-small text-white/80">{roleLabel(user)}</span>
             </span>
-            <ChevronDown className="h-4 w-4 text-white/80" />
+            <ChevronDown className="hidden h-4 w-4 text-white/80 sm:block" />
           </button>
           {showUserMenu && (
-            <div className="erp-overlay-panel absolute right-0 top-12 z-50 w-56 rounded-card border border-slate-100 bg-white text-primary shadow-overlay">
+            <div className="erp-overlay-panel absolute right-0 top-12 z-50 w-[min(14rem,calc(100vw-1.5rem))] rounded-card border border-slate-100 bg-white text-primary shadow-overlay">
               <div className="border-b border-slate-100 px-4 py-3">
                 <p className="text-body font-medium text-primary">{user?.name}</p>
-                <p className="text-small text-muted">{user?.email}</p>
+                <p className="truncate text-small text-muted">{user?.email}</p>
               </div>
               <div className="py-1">
                 {canViewSettings && (
@@ -247,7 +272,7 @@ export default function Topbar() {
                       setShowUserMenu(false);
                       navigate("/settings/profile");
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-2 text-left text-body text-secondary hover:bg-slate-50 hover:text-primary"
+                    className="flex min-h-11 w-full items-center gap-3 px-4 py-2 text-left text-body text-secondary hover:bg-slate-50 hover:text-primary"
                   >
                     <Settings className="h-4 w-4" /> Settings
                   </button>
@@ -255,7 +280,7 @@ export default function Topbar() {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-3 px-4 py-2 text-left text-body text-danger hover:bg-danger-soft"
+                  className="flex min-h-11 w-full items-center gap-3 px-4 py-2 text-left text-body text-danger hover:bg-danger-soft"
                 >
                   <LogOut className="h-4 w-4" /> Logout
                 </button>

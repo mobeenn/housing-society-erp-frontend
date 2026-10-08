@@ -15,7 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { PageSkeleton } from "@/components/ui";
+import { PageSkeleton, Tabs } from "@/components/ui";
 import { getMember360 } from "./membersApi";
 import DocumentUploader from "@/components/documents/DocumentUploader";
 import DocumentList from "@/components/documents/DocumentList";
@@ -193,33 +193,18 @@ export default function Member360Page() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-border">
-        <nav className="flex gap-6">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 pb-3 border-b-2 transition-colors ${
-                  activeTab === tab.id
-                    ? "border-info text-info"
-                    : "border-transparent text-secondary hover:text-primary"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="font-medium">{tab.label}</span>
-                {tab.count !== undefined && tab.count > 0 && (
-                  <span className="px-2 py-0.5 text-small bg-surface-muted text-primary rounded-full">
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
+      <Tabs
+        value={activeTab}
+        onChange={setActiveTab}
+        selectBelowCount={5}
+        tabs={tabs.map((tab) => ({
+          id: tab.id,
+          label:
+            tab.count !== undefined && tab.count > 0
+              ? `${tab.label} (${tab.count})`
+              : tab.label,
+        }))}
+      />
 
       {/* Tab Content */}
       <div className="bg-surface shadow-none rounded-control">

@@ -83,6 +83,13 @@
 }
 
 @theme inline {
+  /* Keep in sync with tailwind.config.js screens + src/lib/breakpoints.js */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
 
@@ -201,11 +208,13 @@
     min-width: 320px;
     background: var(--ds-color-bg-canvas);
     color-scheme: light;
+    overflow-x: hidden;
   }
 
   body {
     min-width: 320px;
     margin: 0;
+    overflow-x: hidden;
     background: var(--ds-color-bg-canvas);
     color: var(--ds-color-text-primary);
     font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -213,6 +222,11 @@
     line-height: 1.5;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-width: 0;
+    overflow-x: hidden;
   }
 
   h1,

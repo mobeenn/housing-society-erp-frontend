@@ -1,31 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { CreditCard, Plus, X, Edit2 } from "lucide-react";
-import { PageSkeleton } from "@/components/ui";
+import { CreditCard, Edit2, Plus, Trash2 } from "lucide-react";
 import AsyncMemberSelect from "@/components/common/AsyncMemberSelect";
-import { listPasses, createPass, updatePass, deletePass } from "./visitorsApi";
+import {
+  Button,
+  Card,
+  ConfirmDialog,
+  FormGrid,
+  Input,
+  Modal,
+  PageSkeleton,
+  StatusPill,
+} from "@/components/ui";
+import { createPass, deletePass, listPasses, updatePass } from "./visitorsApi";
+
+const emptyForm = {
+  passNumber: "",
+  type: "Visitor",
+  holderName: "",
+  phone: "",
+  cnic: "",
+  validFrom: "",
+  validTo: "",
+  relatedMember: "",
+  purpose: "",
+  notes: "",
+  status: "Active",
+};
 
 export default function PassesPage() {
   const [passes, setPasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingPass, setEditingPass] = useState(null);
-  const [formData, setFormData] = useState({
-    passNumber: "",
-    type: "Visitor",
-    holderName: "",
-    phone: "",
-    cnic: "",
-    validFrom: "",
-    validTo: "",
-    relatedMember: "",
-    purpose: "",
-    notes: "",
-  });
-
-  useEffect(() => {
-    fetchPasses();
-  }, []);
+  const [formData, setFormData] = useState(emptyForm);
+  const [confirm, setConfirm] = useState({ isOpen: false, type: null, pass: null, loading: false });
 
   const fetchPasses = async () => {
     setLoading(true);
@@ -40,31 +49,23 @@ export default function PassesPage() {
     }
   };
 
+  useEffect(() => {
+    fetchPasses();
+  }, []);
+
   const resetForm = () => {
-    setFormData({
-      passNumber: "",
-      type: "Visitor",
-      holderName: "",
-      phone: "",
-      cnic: "",
-      validFrom: "",
-      validTo: "",
-      relatedMember: "",
-      purpose: "",
-      notes: "",
-    });
+    setFormData(emptyForm);
     setEditingPass(null);
     setShowForm(false);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       if (editingPass) {
         await updatePass(editingPass._id, {
@@ -109,306 +110,243 @@ export default function PassesPage() {
     setShowForm(true);
   };
 
-  const handleRevoke = async (id, passNumber) => {
-    if (!confirm(`Revoke pass ${passNumber}?`)) return;
-
+  const runConfirm = async () => {
+    if (!confirm.pass) return;
+    setConfirm((prev) => ({ ...prev, loading: true }));
     try {
-      await updatePass(id, { status: "Revoked" });
-      toast.success("Pass revoked");
+      if (confirm.type === "revoke") {
+        await updatePass(confirm.pass._id, { status: "Revoked" });
+        toast.success("Pass revoked");
+      } else {
+        await deletePass(confirm.pass._id);
+        toast.success("Pass deleted");
+      }
+      setConfirm({ isOpen: false, type: null, pass: null, loading: false });
       fetchPasses();
-    } catch (error) {
-      toast.error("Failed to revoke pass");
-    }
-  };
-
-  const handleDelete = async (id, passNumber) => {
-    if (!confirm(`Permanently delete pass ${passNumber}?`)) return;
-
-    try {
-      await deletePass(id);
-      toast.success("Pass deleted");
-      fetchPasses();
-    } catch (error) {
-      toast.error("Failed to delete pass");
+    } catch {
+      toast.error(confirm.type === "revoke" ? "Failed to revoke pass" : "Failed to delete pass");
+      setConfirm((prev) => ({ ...prev, loading: false }));
     }
   };
 
   return (
-    <div className="p-6" data-tour="visitors-passes-page">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="space-y-6" data-tour="visitors-passes-page">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-display font-bold text-primary flex items-center gap-2" data-tour="visitors-passes-heading">
-            <CreditCard className="w-8 h-8" />
+          <h1 className="text-h1 font-bold text-primary" data-tour="visitors-passes-heading">
             Passes
           </h1>
-          <p className="text-secondary mt-1">Issue and manage visitor, contractor, and temporary passes</p>
+          <p className="mt-1 text-body text-secondary">
+            Issue and manage visitor, contractor, and temporary passes
+          </p>
         </div>
-        <button
-          data-tour="visitors-new-pass"
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-on-accent rounded-control hover:bg-accent-hover"
-        >
-          <Plus className="w-5 h-5" />
+        <Button data-tour="visitors-new-pass" onClick={() => setShowForm(true)}>
+          <Plus className="h-4 w-4" />
           New Pass
-        </button>
+        </Button>
       </div>
 
-      {/* Form Modal */}
-      {showForm && (
-        <div className="fixed inset-0 bg-overlay flex items-center justify-center p-4 z-50">
-          <div className="bg-surface rounded-control shadow-overlay max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-surface border-b px-6 py-4 flex items-center justify-between">
-              <h2 className="text-h2 font-bold">
-                {editingPass ? "Edit Pass" : "Create New Pass"}
-              </h2>
-              <button onClick={resetForm} className="text-muted hover:text-secondary">
-                <X className="w-6 h-6" />
-              </button>
+      <Modal
+        isOpen={showForm}
+        onClose={resetForm}
+        title={editingPass ? "Edit Pass" : "Create New Pass"}
+        size="lg"
+      >
+        <form onSubmit={handleSubmit} className="space-y-4" data-tour="visitors-pass-form">
+          <FormGrid cols={2}>
+            <Input
+              label="Pass number *"
+              name="passNumber"
+              value={formData.passNumber}
+              onChange={handleChange}
+              required
+              disabled={Boolean(editingPass)}
+            />
+            <div>
+              <label className="mb-1.5 block text-label text-secondary">Type *</label>
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                required
+                disabled={Boolean(editingPass)}
+                className="min-h-11 w-full rounded-control border border-border-strong bg-surface-raised px-3 py-2.5 text-body disabled:opacity-60"
+              >
+                <option value="Visitor">Visitor</option>
+                <option value="Contractor">Contractor</option>
+                <option value="Temporary">Temporary</option>
+              </select>
             </div>
-            <form onSubmit={handleSubmit} className="p-6 space-y-4" data-tour="visitors-pass-form">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">
-                    Pass Number <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="passNumber"
-                    value={formData.passNumber}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    required
-                    disabled={!!editingPass}
-                  />
-                </div>
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">
-                    Type <span className="text-danger">*</span>
-                  </label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    required
-                    disabled={!!editingPass}
-                  >
-                    <option value="Visitor">Visitor</option>
-                    <option value="Contractor">Contractor</option>
-                    <option value="Temporary">Temporary</option>
-                  </select>
-                </div>
-              </div>
+          </FormGrid>
 
-              <div>
-                <label className="block text-body font-medium text-primary mb-1">
-                  Holder Name <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="holderName"
-                  value={formData.holderName}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                  required
-                  disabled={!!editingPass}
-                />
-              </div>
+          <Input
+            label="Holder name *"
+            name="holderName"
+            value={formData.holderName}
+            onChange={handleChange}
+            required
+            disabled={Boolean(editingPass)}
+          />
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">Phone</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    disabled={!!editingPass}
-                  />
-                </div>
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">CNIC</label>
-                  <input
-                    type="text"
-                    name="cnic"
-                    value={formData.cnic}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    disabled={!!editingPass}
-                  />
-                </div>
-              </div>
+          <FormGrid cols={2}>
+            <Input label="Phone" name="phone" value={formData.phone} onChange={handleChange} disabled={Boolean(editingPass)} />
+            <Input label="CNIC" name="cnic" value={formData.cnic} onChange={handleChange} disabled={Boolean(editingPass)} />
+          </FormGrid>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">
-                    Valid From <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="validFrom"
-                    value={formData.validFrom}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    required
-                    disabled={!!editingPass}
-                  />
-                </div>
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">
-                    Valid To <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="validTo"
-                    value={formData.validTo}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                    required
-                  />
-                </div>
-              </div>
+          <FormGrid cols={2}>
+            <Input
+              label="Valid from *"
+              type="date"
+              name="validFrom"
+              value={formData.validFrom}
+              onChange={handleChange}
+              required
+              disabled={Boolean(editingPass)}
+            />
+            <Input
+              label="Valid to *"
+              type="date"
+              name="validTo"
+              value={formData.validTo}
+              onChange={handleChange}
+              required
+            />
+          </FormGrid>
 
-              <div>
-                <label className="block text-body font-medium text-primary mb-1">Related Member</label>
-                <AsyncMemberSelect
-                  value={formData.relatedMember}
-                  onChange={(memberId) => setFormData((prev) => ({ ...prev, relatedMember: memberId || "" }))}
-                  emptyLabel="-- None --"
-                  disabled={!!editingPass}
-                />
-              </div>
-
-              {editingPass && (
-                <div>
-                  <label className="block text-body font-medium text-primary mb-1">Status</label>
-                  <select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Expired">Expired</option>
-                    <option value="Revoked">Revoked</option>
-                  </select>
-                </div>
-              )}
-
-              <div>
-                <label className="block text-body font-medium text-primary mb-1">Purpose</label>
-                <input
-                  type="text"
-                  name="purpose"
-                  value={formData.purpose}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                  disabled={!!editingPass}
-                />
-              </div>
-
-              <div>
-                <label className="block text-body font-medium text-primary mb-1">Notes</label>
-                <textarea
-                  name="notes"
-                  value={formData.notes}
-                  onChange={handleChange}
-                  rows={2}
-                  className="w-full px-3 py-2 border rounded-control focus:ring-2 focus:ring-info"
-                />
-              </div>
-
-              <div className="flex gap-2 pt-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-accent text-on-accent px-4 py-2 rounded-control hover:bg-accent-hover"
-                >
-                  {editingPass ? "Update Pass" : "Create Pass"}
-                </button>
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="flex-1 bg-surface-muted text-primary px-4 py-2 rounded-control hover:bg-surface-muted"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+          <div>
+            <label className="mb-1.5 block text-label text-secondary">Related member</label>
+            <AsyncMemberSelect
+              value={formData.relatedMember}
+              onChange={(memberId) => setFormData((prev) => ({ ...prev, relatedMember: memberId || "" }))}
+              emptyLabel="-- None --"
+              disabled={Boolean(editingPass)}
+            />
           </div>
-        </div>
-      )}
 
-      {/* Passes List */}
+          {editingPass && (
+            <div>
+              <label className="mb-1.5 block text-label text-secondary">Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="min-h-11 w-full rounded-control border border-border-strong bg-surface-raised px-3 py-2.5 text-body"
+              >
+                <option value="Active">Active</option>
+                <option value="Expired">Expired</option>
+                <option value="Revoked">Revoked</option>
+              </select>
+            </div>
+          )}
+
+          <Input
+            label="Purpose"
+            name="purpose"
+            value={formData.purpose}
+            onChange={handleChange}
+            disabled={Boolean(editingPass)}
+          />
+
+          <div>
+            <label className="mb-1.5 block text-label text-secondary">Notes</label>
+            <textarea
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              rows={2}
+              className="w-full rounded-control border border-border-strong bg-surface-raised px-3 py-2.5 text-body"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
+            <Button type="button" variant="secondary" onClick={resetForm} className="w-full sm:w-auto">
+              Cancel
+            </Button>
+            <Button type="submit" className="w-full sm:w-auto">
+              {editingPass ? "Update Pass" : "Create Pass"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
       {loading ? (
         <PageSkeleton variant="list" label="Loading passes" />
       ) : passes.length === 0 ? (
-        <div className="bg-surface rounded-control shadow-none p-12 text-center">
-          <CreditCard className="w-16 h-16 text-muted mx-auto mb-4" />
-          <p className="text-secondary text-h2">No passes issued yet</p>
-        </div>
+        <Card>
+          <div className="py-10 text-center">
+            <CreditCard className="mx-auto mb-3 h-10 w-10 text-muted" />
+            <p className="text-body text-secondary">No passes issued yet</p>
+          </div>
+        </Card>
       ) : (
         <div className="grid gap-4" data-tour="visitors-passes-list">
           {passes.map((pass) => {
             const isExpired = pass.validTo < new Date().toISOString().split("T")[0];
-            const statusColor =
-              pass.status === "Active"
-                ? isExpired
-                  ? "bg-warning-soft text-warning"
-                  : "bg-success-soft text-success"
-                : pass.status === "Revoked"
-                ? "bg-danger-soft text-danger"
-                : "bg-surface-muted text-primary";
-
+            const displayStatus = isExpired && pass.status === "Active" ? "Expired" : pass.status;
             return (
-              <div key={pass._id} className="bg-surface rounded-control shadow-none p-4 flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-h2 font-semibold text-primary">{pass.passNumber}</h3>
-                    <span className={`px-2 py-1 text-small font-medium rounded-control ${statusColor}`}>
-                      {isExpired && pass.status === "Active" ? "Expired" : pass.status}
-                    </span>
-                    <span className="px-2 py-1 text-small font-medium bg-info-soft text-info rounded-control">
-                      {pass.type}
-                    </span>
-                  </div>
-                  <p className="text-body text-primary mt-1">{pass.holderName}</p>
-                  <div className="mt-1 text-body text-secondary">
-                    <p>
+              <Card key={pass._id}>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0 space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-h2 font-semibold text-primary">{pass.passNumber}</h3>
+                      <StatusPill status={displayStatus} />
+                      <span className="rounded-control bg-info-soft px-2 py-1 text-small font-medium text-info">
+                        {pass.type}
+                      </span>
+                    </div>
+                    <p className="text-body text-primary">{pass.holderName}</p>
+                    <p className="text-body text-secondary">
                       Valid: {pass.validFrom} to {pass.validTo}
                     </p>
                     {pass.relatedMemberRef && (
-                      <p>Related to: {pass.relatedMemberRef.name}</p>
+                      <p className="text-body text-secondary">Related to: {pass.relatedMemberRef.name}</p>
                     )}
                   </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(pass)}
-                    className="p-2 text-info hover:bg-info-soft rounded-control"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </button>
-                  {pass.status === "Active" && (
-                    <button
-                      onClick={() => handleRevoke(pass._id, pass.passNumber)}
-                      className="px-3 py-1 bg-warning text-on-accent text-body rounded-control hover:bg-warning"
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" variant="ghost" size="sm" onClick={() => handleEdit(pass)}>
+                      <Edit2 className="h-4 w-4" />
+                      Edit
+                    </Button>
+                    {pass.status === "Active" && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setConfirm({ isOpen: true, type: "revoke", pass, loading: false })}
+                      >
+                        Revoke
+                      </Button>
+                    )}
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-danger"
+                      onClick={() => setConfirm({ isOpen: true, type: "delete", pass, loading: false })}
                     >
-                      Revoke
-                    </button>
-                  )}
-                  <button
-                    onClick={() => handleDelete(pass._id, pass.passNumber)}
-                    className="p-2 text-danger hover:bg-danger-soft rounded-control"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={confirm.isOpen}
+        onClose={() => !confirm.loading && setConfirm({ isOpen: false, type: null, pass: null, loading: false })}
+        onConfirm={runConfirm}
+        title={confirm.type === "revoke" ? "Revoke pass?" : "Delete pass?"}
+        message={
+          confirm.type === "revoke"
+            ? `Revoke pass ${confirm.pass?.passNumber}?`
+            : `Permanently delete pass ${confirm.pass?.passNumber}?`
+        }
+        confirmLabel={confirm.type === "revoke" ? "Revoke" : "Delete"}
+        isLoading={confirm.loading}
+      />
     </div>
   );
 }

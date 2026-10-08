@@ -7,6 +7,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
+    // Mobile-first; base styles = xs (< 480). Keep in sync with src/lib/breakpoints.js
+    screens: {
+      sm: "480px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         canvas: "var(--color-bg-canvas)",
